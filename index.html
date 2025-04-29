@@ -1,0 +1,1175 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Custom Data Cleaning Solutions for Businesses</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Shantell+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 0; /* Remove padding if not using fixed navbar */
+            background-color: #ffffff; /* Cleaner background */
+            font-family: "Plus Jakarta Sans", sans-serif;
+        }
+        .text-info {
+            color: #7612fa !important;
+        }
+        .btn-primary {
+            padding: 12px 24px;
+            font-size: large;
+            background: linear-gradient(100deg, #40ddff -6.08%, #7612fa 25.08%, #fa12e3) !important;
+            border: none;
+        }
+        .btn-theme {
+            border-radius: 0.5625rem;
+            border: none;
+            background-color: #fff;
+            color: #24223e;
+            margin: none !important;
+        }
+        .btn-theme:hover, .btn-theme:active, .btn-theme:focus {
+            background-color: #f1f1f9 !important;
+            color: #24223e !important;
+        }
+        .btn-theme:focus-visible {
+            background-color: #f1f1f9 !important;
+            color: #24223e !important;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+
+        .sub-head {
+            font-family: "Shantell Sans", cursive !important;
+            font-weight: 500 !important;
+        }
+
+
+        .problem-box {
+            background-color: #f8f8fc;
+            border-radius: 18px !important;
+            border: none !important;
+            padding: 50px !important;
+        }
+        .solution-box {
+            background-color: #000;
+            border-radius: 18px !important;
+            border: none !important;
+            padding: 50px !important;
+        }
+
+
+        .navbar {
+            width: max-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .container-border {
+            padding: .3125rem;
+            border: 1px solid #ceceea;
+            border-radius: 14px;
+            background-color: #FFF;
+        }
+        
+
+        .navbar-brand strong { /* Optional: Make brand stand out */
+            color: #000;
+            font-size: medium;
+        }
+
+        .container-background {
+            background-image: url('hero-section-bg.jpg');
+            background-size: cover;
+        }
+
+        .hero-section {
+             /* Slightly softer gradient or solid color */
+            background: none; /* Light background */
+            color: #343a40; /* Darker text for light background */
+            padding: 6rem 1rem;
+            text-align: center;
+        }
+        .hero-section h1 {
+            font-size: 3rem; /* Slightly smaller for B2B */
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .hero-section .lead {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 800px; /* Constrain width */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .section {
+            padding: 4rem 1rem;
+        }
+        .section-heading {
+             text-align: center;
+             margin-bottom: 3.5rem;
+             font-weight: 600;
+        }
+        .section-heading::after { /* Optional subtle underline */
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background-color: #7612fa;
+            margin: 0.5rem auto 0;
+        }
+
+        .service-card {
+            text-align: center;
+            padding: 1rem 1rem;
+            border: 1px solid #e9ecef;
+            background-color: #ffffff;
+            border-radius: 0.5rem;
+            margin-bottom: 2rem;
+            height: 100%;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        }
+
+        .service-card i {
+            font-size: 2.5rem; /* Slightly smaller icons */
+            color: #7612fa;
+            margin-bottom: 1rem;
+        }
+        .service-card h5 {
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+        .process-step {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .process-step i {
+            font-size: 2.5rem;
+            color: #6c757d; /* Secondary color for process icons */
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .process-step h6 {
+            font-weight: bold;
+        }
+        .cta-section {
+            background-color: #0d6efd;
+            color: white;
+            padding: 4rem 1rem;
+            text-align: center;
+        }
+        .cta-section h2 { font-weight: 700; }
+        .cta-section p { margin-bottom: 2rem; }
+
+        footer {
+            padding: 2rem 0;
+            text-align: center;
+            font-size: 0.9em;
+            color: #6c757d;
+            background-color: #f8f9fa;
+            margin-top: 0; /* Remove margin if CTA is directly above */
+        }
+
+
+        .connectivity-section {
+            background-color: #F8F2FF !important; /* Very light purple/grey */
+        }
+
+
+        /* --- Capabilities Grid Section Styles --- */
+        .capabilities-section {
+            /* Subtle background, similar to reference */
+            background-color: #F8F2FF !important;
+            background: radial-gradient(circle,rgba(248, 242, 255, 1) 0%, rgba(226, 207, 255, 1) 100%) !important; /* Very light purple/grey */
+             /* Optional gradient like the reference if desired: */
+             /* background: linear-gradient(to bottom, rgba(248, 247, 252, 0.1), rgba(248, 247, 252, 1)); */
+        }
+
+        .capability-card {
+            background-color: #ffffff;
+            border: 1px solid #e9ecef;
+            border-radius: 0.75rem; /* More rounded corners like reference */
+            padding: 1.5rem 1rem; /* Adjust padding */
+            height: 100%; /* Ensure cards in a row have same height */
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-color 0.4s ease-in-out;
+            display: flex; /* Use flexbox for alignment */
+            flex-direction: column; /* Stack icon and text vertically */
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally */
+            min-height: 120px; /* Ensure a minimum height */
+        }
+        .capability-card:hover {
+            border-color: #7612fa;
+            transform: translateY(-4px);
+            box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.08);
+        }
+
+        .capability-card i {
+            font-size: 2rem; /* Icon size */
+            color: #7612fa; /* Example color (purpleish like reference) - Choose your brand color */
+            margin-bottom: 0.75rem;
+        }
+
+        .capability-card h6 {
+            font-size: 0.9rem; /* Smaller text for capability title */
+            font-weight: 500;
+            margin-bottom: 0; /* Remove bottom margin */
+            color: #343a40; /* Darker text */
+        }
+        /* --- End Capabilities Grid Styles --- */
+
+
+        /* --- Use Cases Section Styles --- */
+        .use-cases-section {
+            background-color: #ffffff; /* Or a very light off-white */
+        }
+
+        .accordion-flush .accordion-item {
+             border: none; /* Remove default borders */
+             border-bottom: 1px solid #e9ecef; /* Add subtle bottom border */
+        }
+        .accordion-flush .accordion-item:last-child {
+            border-bottom: none; /* Remove border on last item */
+        }
+
+        .accordion-button.use-case-btn {
+            background-color: transparent !important; /* Remove default background */
+            color: #495057; /* Default text color */
+            font-size: 18px;
+            font-weight: 500;
+            padding: 1.25rem 0.5rem 1.25rem 1.5rem; /* Adjust padding (more left padding) */
+            box-shadow: none !important; /* Remove focus shadow */
+            position: relative; /* Needed for the pseudo-element */
+            transition: color 0.15s ease-in-out;
+        }
+
+        .accordion-button.use-case-btn:not(.collapsed) {
+            background: -webkit-linear-gradient(100deg, #40ddff 10%, #7612fa 25.08%, #fa12e3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600; /* Make active text bolder */
+        }
+
+        /* Style the active state indicator (vertical bar) */
+        .accordion-button.use-case-btn:not(.collapsed)::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 15%; /* Adjust vertical position */
+            bottom: 15%;
+            width: 4px; /* Width of the bar */
+            /* Apply the gradient background */
+            background-image: linear-gradient(100deg, #40ddff -6.08%, #7612fa 25.08%, #fa12e3);
+            border-radius: 3px;
+        }
+
+
+        /* Hide default accordion icon */
+        .accordion-button.use-case-btn::after {
+           display: none;
+        }
+
+        .accordion-body {
+            padding: 0.5rem 0.5rem 1.25rem 1.5rem; /* Match left padding, adjust others */
+            font-size: 0.95em;
+            color: #6c757d;
+        }
+
+        /*.use-case-image-container {
+             /* Optional: add styles if needed */
+        
+        /* --- End Use Cases Section Styles --- */
+
+
+
+        /* --- Client Use Cases Section Styles --- */
+        .client-use-cases-section {
+            /* background-color: #f8f7fc; */ /* Use bg-light class instead */
+            padding-bottom: 5rem; /* More padding at the bottom */
+        }
+
+        .filter-buttons .btn {
+            border-radius: 1.5rem; /* Pill-like buttons */
+            padding: 0.3rem 1rem;
+            font-size: 0.9em;
+            transition: all 0.2s ease-in-out;
+        }
+        /*.filter-buttons .btn.active {
+             /* Keep btn-dark style, or define custom active style */
+             /* background-color: #495057;
+             color: white; */
+        
+
+        .testimonial-feature-box {
+             background-color: #ffffff;
+        }
+
+        .check-list li {
+            margin-bottom: 0.5rem;
+        }
+        .check-list i {
+            vertical-align: middle; /* Align icon better */
+        }
+
+        .testimonial img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover; /* Ensure image covers space nicely */
+        }
+        .testimonial .stars {
+            font-size: 0.9em;
+        }
+        .testimonial blockquote {
+            font-size: 1rem;
+            border-left: 3px solid #e9ecef;
+            padding-left: 1rem;
+            margin-top: 0.5rem;
+            color: #495057;
+        }
+         .testimonial h6 {
+            font-size: 0.95em;
+         }
+
+        /*.feature-list-box {
+            /* Container for the list */
+        .feature-list-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f1f3f5; /* Lighter border */
+        }
+         .feature-list-item:last-child {
+            border-bottom: none;
+         }
+        .feature-list-item i {
+            font-size: 1.5rem; /* Icon size */
+            margin-right: 1rem;
+            /* color: #6f42c1; /* Example color */
+        }
+        .feature-list-item span {
+            font-weight: 500;
+            color: #343a40;
+        }
+        /* --- End Client Use Cases Styles --- */
+
+
+
+        /* --- Final CTA Section Styles --- */
+        .final-cta-section {
+            padding: 0; /* Remove padding from section itself if box handles it */
+        }
+
+        .cta-content-box {
+            background-color: #1a1c1f; /* Dark background */
+             /* Optional Dark Gradient */
+             /* background: linear-gradient(100deg, #343a40, #1a1c1f); */
+            color: #f8f9fa; /* Light text */
+            border-radius: 1rem; /* Rounded corners */
+            overflow: hidden; /* Important to contain the image */
+             min-height: 450px; /* Ensure minimum height */
+        }
+
+        .cta-content-box .text-content {
+             /* Flex properties for vertical centering if needed, but padding might suffice */
+             /* display: flex;
+             flex-direction: column;
+             justify-content: center; */
+             z-index: 1; /* Ensure text is above image if overlap occurs */
+        }
+
+        .btn-cta-gradient {
+            background-image: linear-gradient(to right, #6f42c1, #e83e8c); /* Example Gradient - Match your brand! */
+            border: none;
+            color: white;
+            transition: opacity 0.2s ease-in-out;
+        }
+        .btn-cta-gradient:hover {
+             opacity: 0.9;
+             color: white;
+        }
+
+        .cta-content-box .image-column {
+            padding: 0; /* Remove padding from image column */
+            position: relative; /* For potential absolute positioning inside */
+            min-height: 450px; /* Match text side */
+        }
+
+        .cta-content-box .cta-image {
+            /* Make image cover the column height */
+            height: 100%;
+            width: 100%;
+            object-fit: cover; /* Cover the area, might crop */
+            object-position: center; /* Center the image */
+            /* Optional: Slight desaturation/overlay for text readability if needed */
+            /* filter: grayscale(30%) brightness(90%); */
+        }
+        /* --- End Final CTA Section Styles --- */
+
+
+
+        .how-it-works-section {
+            background-color: #f8f8fc !important;
+            padding: 20px;
+            margin-right: auto;
+            margin-left: auto;
+            width:fit-content;
+            border: 1px solid rgba(96,96,163,.3);
+            border-radius: 18px;
+            box-shadow: 0 1px 1px -.5px rgba(18, 43, 165, .04), 0 3px 3px -1.5px rgba(18, 43, 165, .04), 0 6px 6px -3px rgba(18, 43, 165, .04);
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <!-- Optional: Simple Navbar for B2B -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <!-- Apply d-flex and align-items-center to the PARENT div -->
+            <div class="container-border d-flex align-items-center me-2">
+                <img src="img.png" class="logo-img me-2 ms-3" alt="YourCompanyName Logo" style="height: 25px;"> <!-- Added me-2 for spacing -->
+                <a class="navbar-brand" href="#hero-section"><strong>DataWarp</strong><span style="font-size: small;"> | The everything app, for data.</span></a>
+            </div>
+             <ul class="navbar-nav ms-automb-2 mb-lg-0">
+                <li class="nav-item">
+                    <!-- Link to a contact section or separate page -->
+                    <div class="container-border ms-2">
+                        <a class="btn btn-outline-dark btn-sm btn-theme" href="#contact">Get Custom Solution</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <div class="container-background">
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero-section">
+        <div class="container">
+            <h1>The everything app, for data.</h1>
+            <p class="lead medium" style="font-weight: 500;">A single platform for data cleaning, transformation, and analysis.<br>Get insights faster.</p>
+            <a href="#contact" class="btn btn-primary btn-lg fw-bold">
+                <i class="bi bi-calendar-check me-2"></i> Get custom solution
+            </a>
+            <p class="mt-3 small text-muted">Customized according to your needs.</p>
+        </div>
+    </section>
+
+
+    <!-- ================================================== -->
+    <!-- Problem / Custom Solution Section                  -->
+    <!-- ================================================== -->
+    <section class="section"> <!-- Or keep bg-light if preferred -->
+        <div class="container">
+            <div class="row g-4 align-items-stretch"> <!-- Use g-4 for gutter, align-items-stretch to make columns equal height -->
+
+                <!-- Problem Column (Left) -->
+                <div class="col-lg-6 d-flex">
+                    <div class="problem-box p-4 p-md-5 rounded shadow-sm border w-100">
+                         <h2 class="fw-bold mb-3">Working with data?</h2>
+                         <p class="text-muted mb-4">Unspecialized data cleaning and analysis wastes time, creates inaccuracies and reduces revenue.</p>
+                         <!-- Replace placeholder with a graphic representing data chaos, spreadsheets, errors -->
+                         <ul class="list-unstyled mt-4 text-muted small">
+                            <li><i class="bi bi-clock-history me-2 text-danger"></i>Hours lost on repetitive tasks</li>
+                            <li><i class="bi bi-bug me-2 text-danger"></i>Costly errors slipping into reports</li>
+                            <li><i class="bi bi-diagram-2 me-2 text-danger"></i>Inconsistent processes across teams</li>
+                            <li><i class="bi bi-graph-down me-2 text-danger"></i>Delayed insights due to data bottlenecks</li>
+                         </ul>
+                    </div>
+                </div>
+
+                <!-- Solution Column (Right) -->
+                <div class="col-lg-6 d-flex">
+                    <div class="solution-box p-4 p-md-5 rounded shadow-sm text-white w-100">
+                        <h2 class="fw-bold mb-3">Let's build your solution.</h2>
+                        <p class="mb-4">Customized data solution built and trained especially for your data. Every solution we make is unique.</p>
+                         <div class="text-center mt-4">
+                             <a href="#contact" class="btn btn-light fw-bold px-4 py-2">
+                                 Discuss Your Custom App <i class="bi bi-arrow-right ms-1"></i>
+                             </a>
+                             <p class="small opacity-75 mt-2">Tailored to your CSV, Excel, or Database needs.</p>
+                         </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- ================================================== -->
+
+    </div>
+
+
+
+    <!-- ================================================== -->
+    <!-- Use Cases / Applications Section (Accordion Style) -->
+    <!-- ================================================== -->
+    <section class="section use-cases-section">
+        <div class="container">
+            <p class="text-info fw-bold medium mb-2 text-center sub-head">Tailored Applications</p>
+            <h2 class="section-heading">Solve Your Specific Data Problems</h2>
+            <p class="lead text-muted text-center mb-5" style="max-width: 800px; margin-left: auto; margin-right: auto;">From streamlining marketing lists to reconciling financial data, get the precise tool you need.</p>
+
+            <div class="row g-5 align-items-center"> <!-- g-5 for larger gutter -->
+
+                <!-- Left Column: Accordion Use Cases -->
+                <div class="col-lg-4">
+                    <div class="accordion accordion-flush" id="useCasesAccordion">
+
+                        <!-- Use Case 1 (Default Open) -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button use-case-btn" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Sales Lead Cleansing
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#useCasesAccordion">
+                                <div class="accordion-body">
+                                    Standardize names, validate emails/phones, remove duplicates, and enrich leads from multiple sources for higher conversion rates.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Use Case 2 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button use-case-btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    E-commerce Catalog Standardization
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#useCasesAccordion">
+                                <div class="accordion-body">
+                                    Unify product attributes, categories, pricing formats, and image references across different supplier feeds or platforms.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Use Case 3 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingThree">
+                                <button class="accordion-button use-case-btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    Financial Data Reconciliation
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#useCasesAccordion">
+                                <div class="accordion-body">
+                                    Match transactions, resolve discrepancies, validate formats, and prepare financial records accurately for reporting or audits.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Use Case 4 -->
+                         <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingFour">
+                                <button class="accordion-button use-case-btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    Marketing List Deduplication
+                                </button>
+                            </h2>
+                            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#useCasesAccordion">
+                                <div class="accordion-body">
+                                    Identify and merge duplicate contacts across campaigns or lists using fuzzy matching and custom rules, ensuring compliance and efficiency.
+                                </div>
+                            </div>
+                        </div>
+                         <!-- Add more accordion items as needed -->
+
+                    </div> <!-- End Accordion -->
+
+                    <!-- Optional Button -->
+                    <!-- <div class="text-center mt-4">
+                         <a href="#contact" class="btn btn-dark">Explore All Use Cases <i class="bi bi-arrow-right ms-1"></i></a>
+                    </div> -->
+
+                </div> <!-- End Left Column -->
+
+                <!-- Right Column: Image -->
+                <div class="col-lg-8">
+                    <div class="use-case-image-container p-3 border rounded shadow-sm bg-light">
+                        <img src="image.png" class="img-fluid rounded" alt="Conceptual image of a custom data cleaning application interface">
+                        <!-- IMPORTANT: Replace with a relevant image -->
+                        <!-- Consider using JS to change this image based on accordion selection for dynamic effect -->
+                    </div>
+                </div> <!-- End Right Column -->
+
+            </div> <!-- End Row -->
+        </div> <!-- End Container -->
+    </section>
+    <!-- ================================================== -->
+
+
+
+    <!-- ================================================== -->
+    <!-- Feature Section 1: Custom Rules (Image Left)     -->
+    <!-- ================================================== -->
+    <section class="section">
+        <div class="container">
+            <div class="row gx-5 gy-4 align-items-center justify-content-center"> <!-- Added justify-content-center to row -->
+                <!-- Added text-center to the column div -->
+                <div class="col-lg-8 text-center"> <!-- Adjust col size (e.g., col-lg-8) to constrain width if needed -->
+                    <p class="text-info fw-bold medium mb-2 sub-head">Intelligent Automation</p> <!-- Removed text-center here, parent handles it -->
+                    <h2 class="fw-bold mb-3">Accelerate Cleaning with Smart Defaults</h2> <!-- Removed text-center here -->
+                    <p class="lead mb-4"><span class="fw-semibold small">Jumpstart your data preparation with our built-in Auto-Clean function.</span> <span class="small">It intelligently applies common, non-destructive cleaning steps based on data types, handling tedious tasks automatically so you can focus on complex issues.</span></p> <!-- Removed text-center here -->
+    
+                    <!-- Add inline styles or a custom class to the UL -->
+                    <ul class="list-unstyled d-inline-block text-start">
+                        <li class="mb-2"><i class="bi bi-check-lg text-success me-2"></i>Automatically trims leading/trailing whitespace.</li>
+                        <li class="mb-2"><i class="bi bi-check-lg text-success me-2"></i>Attempts safe conversion to numeric & datetime formats.</li>
+                        <li class="mb-2"><i class="bi bi-check-lg text-success me-2"></i>Clips potential outliers using standard IQR methods.</li>
+                        <li class="mb-2"><i class="bi bi-check-lg text-success me-2"></i>Intelligently fills missing values based on column type.</li>
+                        <li class="mb-2"><i class="bi bi-check-lg text-success me-2"></i>Standardizes text case and optimizes low-cardinality columns.</li>
+                    </ul>
+    
+                     <!-- Keep text-muted centered by the parent -->
+                     <p class="mt-3 fst-italic small text-muted">Always reviewable and undoable, giving you full control.</p>
+                    <!-- Optional Button -->
+                    <!-- <a href="#contact" class="btn btn-outline-success mt-3">See Auto-Clean in Action</a> -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- ================================================== -->
+    <!-- Capabilities Grid Section                          -->
+    <!-- ================================================== -->
+    <section class="section capabilities-section"> <!-- Add a specific class -->
+        <div class="container">
+            <p class="text-info fw-bold medium mb-2 text-center sub-head">Core Capabilities</p>
+            <h2 class="section-heading">Build Your Ideal Cleaning Workflow</h2>
+            <p class="lead text-muted text-center mb-5" style="max-width: 700px; margin-left: auto; margin-right: auto;">We incorporate the features *you* need, from basic validation to complex transformations, into one intuitive app.</p>
+
+            <div class="row g-3 justify-content-center"> <!-- g-3 for slightly smaller gutters -->
+
+                <!-- Capability Card -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="capability-card">
+                        <i class="bi bi-radioactive"></i> <!-- Icon for handling missing -->
+                        <h6>Missing Data Handling</h6>
+                    </div>
+                </div>
+                <!-- Capability Card -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="capability-card">
+                        <i class="bi bi-files"></i>
+                        <h6>Duplicate Detection</h6>
+                    </div>
+                </div>
+                <!-- Capability Card -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="capability-card">
+                        <i class="bi bi-rulers"></i>
+                        <h6>Data Type Conversion</h6>
+                    </div>
+                </div>
+                 <!-- Capability Card -->
+                 <div class="col-6 col-md-4 col-lg-3">
+                    <div class="capability-card">
+                        <i class="bi bi-card-text"></i>
+                        <h6>Text Formatting</h6>
+                    </div>
+                </div>
+                 <!-- Capability Card -->
+                 <div class="col-6 col-md-4 col-lg-3">
+                    <div class="capability-card">
+                        <i class="bi bi-eraser"></i>
+                        <h6>Whitespace Trimming</h6>
+                    </div>
+                </div>
+                 <!-- Capability Card -->
+                 <div class="col-6 col-md-4 col-lg-3">
+                    <div class="capability-card">
+                        <i class="bi bi-search"></i>
+                        <h6>Pattern Validation (Regex)</h6>
+                    </div>
+                </div>
+                 <!-- Capability Card -->
+                 <div class="col-6 col-md-4 col-lg-3">
+                    <div class="capability-card">
+                        <i class="bi bi-shield-check"></i>
+                        <h6>Custom Business Rules</h6>
+                    </div>
+                </div>
+                 <!-- Capability Card -->
+                 <div class="col-6 col-md-4 col-lg-3">
+                    <div class="capability-card">
+                        <i class="bi bi-filter-circle"></i>
+                        <h6>Outlier Management</h6>
+                    </div>
+                </div>
+                 <!-- Capability Card -->
+                 <div class="col-6 col-md-4 col-lg-3">
+                    <div class="capability-card">
+                        <i class="bi bi-funnel"></i>
+                        <h6>Advanced Filtering</h6>
+                    </div>
+                </div>
+                <!-- Capability Card -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="capability-card">
+                        <i class="bi bi-distribute-vertical"></i>
+                        <h6>Column Splitting</h6>
+                    </div>
+                </div>
+                 <!-- Capability Card -->
+                 <div class="col-6 col-md-4 col-lg-3">
+                    <div class="capability-card">
+                        <i class="bi bi-union"></i>
+                        <h6>Column Combining</h6>
+                    </div>
+                </div>
+                 <!-- Capability Card -->
+                 <div class="col-6 col-md-4 col-lg-3">
+                    <div class="capability-card">
+                        <i class="bi bi-database-check"></i>
+                        <h6>Database Connectivity</h6>
+                    </div>
+                </div>
+                 <!-- Capability Card -->
+                 <div class="col-6 col-md-4 col-lg-3">
+                    <div class="capability-card">
+                        <i class="bi bi-file-earmark-spreadsheet"></i>
+                        <h6>File Handling (CSV/XLSX)</h6>
+                    </div>
+                </div>
+                 <!-- Capability Card -->
+                 <div class="col-6 col-md-4 col-lg-3">
+                    <div class="capability-card">
+                        <i class="bi bi-arrow-counterclockwise"></i>
+                        <h6>Undo/Redo Functionality</h6>
+                    </div>
+                </div>
+                <!-- Capability Card -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="capability-card">
+                         <i class="bi bi-download"></i>
+                         <h6>Flexible Exporting</h6>
+                    </div>
+                </div>
+                 <!-- Capability Card -->
+                 <div class="col-6 col-md-4 col-lg-3">
+                    <div class="capability-card">
+                         <i class="bi bi-braces-asterisk"></i> <!-- Icon for more/custom -->
+                         <h6>And Much More...</h6>
+                    </div>
+                </div>
+
+            </div> <!-- End Row -->
+
+             <!-- Optional "Learn More" Button -->
+             <!-- <div class="text-center mt-5">
+                <a href="#contact" class="btn btn-dark">Discuss Your Specific Needs</a>
+            </div> -->
+
+        </div> <!-- End Container -->
+    </section>
+    <!-- ================================================== -->
+
+
+
+    <!-- ================================================== -->
+    <!-- Client Use Cases / Testimonial Section             -->
+    <!-- ================================================== -->
+    <section class="section client-use-cases-section bg-light">
+        <div class="container">
+            <p class="text-info fw-bold medium mb-2 text-center sub-head">Real-World Results</p>
+            <h2 class="section-heading">Custom Apps for Diverse Needs</h2>
+            <p class="lead text-muted text-center mb-4" style="max-width: 700px; margin-left: auto; margin-right: auto;">See how tailored data cleaning solutions accelerate workflows across different departments.</p>
+
+            <!-- Filter Buttons (Simulated - No JS Functionality Added Here) -->
+            <div class="d-flex flex-wrap justify-content-center mb-5 filter-buttons">
+                <button type="button" class="btn btn-dark btn-sm me-2 mb-2 active" data-filter="marketing">
+                    <i class="bi bi-megaphone me-1"></i> Marketing Data
+                </button>
+                <button type="button" class="btn btn-outline-dark btn-sm me-2 mb-2" data-filter="sales">
+                    <i class="bi bi-graph-up-arrow me-1"></i> Sales Ops
+                </button>
+                <button type="button" class="btn btn-outline-dark btn-sm me-2 mb-2" data-filter="finance">
+                    <i class="bi bi-bank me-1"></i> Financial Records
+                </button>
+                <button type="button" class="btn btn-outline-dark btn-sm me-2 mb-2" data-filter="ecommerce">
+                    <i class="bi bi-cart4 me-1"></i> E-commerce
+                </button>
+                <!-- <button type="button" class="btn btn-outline-dark btn-sm mb-2" data-filter="all">
+                    <i class="bi bi-grid-3x3-gap me-1"></i> See All Examples
+                </button> -->
+            </div>
+
+            <!-- Main Content Box -->
+            <div class="testimonial-feature-box bg-white p-4 p-lg-5 border rounded shadow-sm">
+                <div class="row g-5 align-items-center">
+
+                    <!-- Left Column: Use Case Details & Testimonial -->
+                    <div class="col-lg-7">
+                        <h4 class="fw-bold mb-3" id="use-case-title">Streamlined Marketing Campaign Lists</h4>
+                        <p class="text-muted mb-4" id="use-case-description">Get marketing campaigns running faster with consistently clean and validated contact lists, ready for segmentation and outreach.</p>
+                        <ul class="list-unstyled mb-4 check-list" id="use-case-checklist">
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Standardize lead sources and formats.</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Validate email addresses and phone numbers.</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Deduplicate contacts across multiple lists.</li>
+                        </ul>
+
+                        <hr class="my-4">
+
+                        <!-- Testimonial -->
+                        <div class="testimonial mt-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div>
+                                    <div class="stars text-warning mb-1">
+                                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                                    </div>
+                                    <h6 class="mb-0 fw-bold" id="testimonial-attribution">Solution within 5-7 days</h6>
+                                </div>
+                            </div>
+                            <blockquote class="blockquote fst-italic" id="testimonial-quote">
+                                The custom cleaning app to save your team countless hours. You can now trust your campaign data and focus on strategy instead of tedious manual work.
+                            </blockquote>
+                            <!-- Replace with real testimonial -->
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Key App Aspects List -->
+                    <div class="col-lg-5">
+                        <div class="feature-list-box">
+                            <div class="feature-list-item">
+                                <i class="bi bi-shield-check text-primary"></i>
+                                <span>Custom Validation Rules</span>
+                            </div>
+                            <div class="feature-list-item">
+                                <i class="bi bi-arrow-repeat text-primary"></i>
+                                <span>Automated Data Transformation</span>
+                            </div>
+                            <div class="feature-list-item">
+                                <i class="bi bi-file-earmark-spreadsheet text-primary"></i>
+                                <span>CSV/XLSX/Database Input</span>
+                            </div>
+                            <div class="feature-list-item">
+                                <i class="bi bi-lightning-charge text-primary"></i>
+                                <span>Intuitive User Interface</span>
+                            </div>
+                            <div class="feature-list-item">
+                                 <i class="bi bi-download text-primary"></i>
+                                <span>Clean Data Export</span>
+                            </div>
+                             <!-- Add more relevant features -->
+                        </div>
+                         <div class="text-center mt-4">
+                             <a href="#contact" class="btn btn-primary w-100">Get Your Custom Solution <i class="bi bi-arrow-right ms-1"></i></a>
+                         </div>
+                    </div>
+                </div> <!-- End Row -->
+            </div> <!-- End Main Content Box -->
+
+        </div> <!-- End Container -->
+    </section>
+    <!-- ================================================== -->
+
+
+    <!-- How It Works Section -->
+    <section class="section bg-light how-it-works-section">
+        <div class="container">
+            <h2 class="section-heading">Our Process</h2>
+            <div class="row">
+                <div class="col-md-3 process-step">
+                    <i class="bi bi-search"></i>
+                    <h6>1. Discovery & Consultation</h6>
+                    <p class="small">We discuss your data sources, pain points, and desired cleaning outcomes.</p>
+                </div>
+                 <div class="col-md-3 process-step">
+                    <i class="bi bi-palette-fill"></i>
+                    <h6>2. Custom Design & Build</h6>
+                    <p class="small">We design and develop the app incorporating your specific rules and workflow.</p>
+                </div>
+                 <div class="col-md-3 process-step">
+                    <i class="bi bi-rocket-takeoff-fill"></i>
+                    <h6>3. Deployment & Training</h6>
+                    <p class="small">We deploy the application and provide guidance for your team.</p>
+                </div>
+                 <div class="col-md-3 process-step">
+                    <i class="bi bi-headset"></i>
+                    <h6>4. Ongoing Support</h6>
+                    <p class="small">We offer support and maintenance options to ensure continued success.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section (Reframed from Features) -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-heading">Benefits of a Custom Solution</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <i class="bi bi-stopwatch"></i>
+                        <h5>Increased Efficiency</h5>
+                        <p>Automate repetitive tasks and dramatically reduce the time spent on manual data cleaning.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <i class="bi bi-check-circle-fill"></i>
+                        <h5>Improved Accuracy</h5>
+                        <p>Enforce consistent rules and validations to enhance data quality and reliability.</p>
+                    </div>
+                </div>
+                 <div class="col-md-4">
+                    <div class="service-card">
+                        <i class="bi bi-gear-wide-connected"></i>
+                        <h5>Tailored Workflows</h5>
+                        <p>Get an application that perfectly matches your specific data types, sources, and business logic.</p>
+                    </div>
+                </div>
+                 <div class="col-md-4">
+                    <div class="service-card">
+                        <i class="bi bi-people-fill"></i>
+                        <h5>User-Friendly Interface</h5>
+                        <p>Empower your team with an intuitive tool designed for ease of use, reducing training needs.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <i class="bi bi-plug-fill"></i>
+                        <h5>Seamless Integration</h5>
+                        <p>Connect directly to your existing databases or work smoothly with standard file formats (CSV, XLSX, etc.).</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <i class="bi bi-graph-up-arrow"></i>
+                        <h5>Faster Insights</h5>
+                        <p>Get analysis-ready data quicker, enabling faster reporting and better decision-making.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <!-- Who It's For Section -->
+    <section class="section bg-light">
+        <div class="container">
+            <h2 class="section-heading">Ideal For</h2>
+             <div class="row justify-content-center text-center">
+                <div class="col-md-3 mb-3">
+                    <i class="bi bi-building fs-2 text-secondary mb-2"></i><br> Startups & SMEs
+                </div>
+                 <div class="col-md-3 mb-3">
+                    <i class="bi bi-shop fs-2 text-secondary mb-2"></i><br> E-commerce Businesses
+                </div>
+                 <div class="col-md-3 mb-3">
+                    <i class="bi bi-graph-up fs-2 text-secondary mb-2"></i><br> Marketing & Sales Teams
+                </div>
+                 <div class="col-md-3 mb-3">
+                    <i class="bi bi-bank fs-2 text-secondary mb-2"></i><br> Finance Departments
+                </div>
+                <div class="col-md-3 mb-3">
+                     <i class="bi bi-clipboard-data fs-2 text-secondary mb-2"></i><br> Research Institutions
+                 </div>
+                  <div class="col-md-3 mb-3">
+                     <i class="bi bi-hdd-network-fill fs-2 text-secondary mb-2"></i><br> Data Analytics Teams
+                 </div>
+             </div>
+        </div>
+    </section>
+
+
+    
+
+
+        <!-- ================================================== -->
+    <!-- Final CTA Section                                  -->
+    <!-- ================================================== -->
+    <section class="final-cta-section mt-5">
+        <div class="container">
+            <div class="cta-content-box row g-0 align-items-center">
+
+                <!-- Left Column: Text & Button -->
+                 <!-- Add text-center here -->
+                <div class="col-lg-6 p-4 p-md-5 text-content text-center">
+                    <!-- Optional: Logo Placeholder -->
+                    <!-- <img src="your-logo-light.png" alt="Your Company Logo" height="40" class="mb-4"> -->
+                    <h2 class="display-5 fw-bold mb-3">Ready for Clean, Reliable Data?</h2>
+                    <p class="lead mb-4">Stop wrestling with messy data. Let us build a custom cleaning application that integrates seamlessly into your workflow and delivers trustworthy data for your analysis and reporting needs.</p>
+                    <!-- Button is inline-flex, will be centered by parent's text-center -->
+                    <a href="#contact" class="btn btn-primary btn-lg fw-bold px-4 py-2 d-inline-flex align-items-center">
+                        Get Your Customized Solution</i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ================================================== -->
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+             <!-- Update with your actual company/service name and year -->
+            <p>© 2025 DataWarp. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+        
+            // --- Use Case / Testimonial Data ---
+            const useCaseData = {
+                marketing: {
+                    title: "Streamlined Marketing Campaign Lists",
+                    description: "Get marketing campaigns running faster with consistently clean and validated contact lists, ready for segmentation and outreach.",
+                    checklist: [
+                        "Standardize lead sources and formats.",
+                        "Validate email addresses and phone numbers.",
+                        "Deduplicate contacts across multiple lists.",
+                        "Enrich data with third-party sources (optional)."
+                    ],
+                    testimonial: {
+                        quote: "The custom cleaning app to save your team countless hours. You can now trust your campaign data and focus on strategy instead of tedious manual work.",
+                        attribution: "Solution within 5-7 days",
+                        imgSrc: "T1.png" // Replace
+                    },
+                    // Optional: Features for right panel if making dynamic
+                    // features: [ {icon: 'bi-shield-check', text: 'Custom Validation Rules'}, ... ]
+                },
+                sales: {
+                    title: "Accelerated Sales Operations",
+                    description: "Ensure your CRM data is accurate, complete, and ready for effective sales engagement and territory management.",
+                    checklist: [
+                        "Cleanse and standardize account/contact information.",
+                        "Identify and merge duplicate CRM records.",
+                        "Validate addresses and territories.",
+                        "Integrate data from lead generation platforms."
+                    ],
+                    testimonial: {
+                        quote: "To improve your sales reporting accuracy and generate more leads as an essential part of your workflow.",
+                        attribution: "Solution within 7-9 days",
+                        imgSrc: "https://via.placeholder.com/60x60/dee2e6/6c757d?text=David" // Replace
+                    }
+                },
+                finance: {
+                    title: "Reliable Financial Data Reconciliation",
+                    description: "Automate the matching and validation of financial records from various systems, ensuring accuracy for reporting and audits.",
+                    checklist: [
+                        "Standardize transaction descriptions and categories.",
+                        "Match invoices to payments across platforms.",
+                        "Validate currency formats and tax codes.",
+                        "Flag discrepancies for manual review."
+                    ],
+                    testimonial: {
+                        quote: "Make your audit preparation smoother with our custom solution tailored specifically for your needs.",
+                        attribution: "Solution within 6-8 days",
+                        imgSrc: "https://via.placeholder.com/60x60/dee2e6/6c757d?text=Maria" // Replace
+                    }
+                },
+                ecommerce: {
+                    title: "Optimized E-commerce Product Catalogs",
+                    description: "Maintain consistent and accurate product information across marketplaces and your own store by cleaning supplier feeds.",
+                    checklist: [
+                        "Unify product attribute names (e.g., color, size).",
+                        "Standardize measurement units and pricing formats.",
+                        "Validate image URLs and SKU formats.",
+                        "Map supplier categories to your store's taxonomy."
+                    ],
+                    testimonial: {
+                        quote: "Manage multiple supplier feeds with our custom app standardizing everything, saving you huge amounts of time.",
+                        attribution: "Solution within 5-7 days",
+                        imgSrc: "https://via.placeholder.com/60x60/dee2e6/6c757d?text=Kevin" // Replace
+                    }
+                }
+                // Add more categories matching your buttons
+            };
+        
+            // --- DOM References for Updatable Content ---
+            const useCaseTitleEl = document.getElementById('use-case-title');
+            const useCaseDescriptionEl = document.getElementById('use-case-description');
+            const useCaseChecklistEl = document.getElementById('use-case-checklist');
+            const testimonialImageEl = document.getElementById('testimonial-image');
+            const testimonialAttributionEl = document.getElementById('testimonial-attribution');
+            const testimonialQuoteEl = document.getElementById('testimonial-quote');
+            const featureListBoxEl = document.getElementById('feature-list-box'); // Ref if needed
+        
+            // --- DOM Reference for Filter Button Container ---
+            const filterButtonContainer = document.querySelector('.filter-buttons');
+        
+            // --- Function to Update Content ---
+            function updateUseCaseContent(filterKey) {
+                const data = useCaseData[filterKey];
+                if (!data) {
+                    console.warn("No data found for filter:", filterKey);
+                    return; // Do nothing if data for the key doesn't exist
+                }
+        
+                // Update Text Content
+                if(useCaseTitleEl) useCaseTitleEl.textContent = data.title;
+                if(useCaseDescriptionEl) useCaseDescriptionEl.textContent = data.description;
+                if(testimonialQuoteEl) testimonialQuoteEl.textContent = data.testimonial.quote;
+                if(testimonialAttributionEl) testimonialAttributionEl.textContent = data.testimonial.attribution;
+                if(testimonialImageEl) testimonialImageEl.src = data.testimonial.imgSrc; // Update image source
+        
+                // Update Checklist
+                if (useCaseChecklistEl && Array.isArray(data.checklist)) {
+                    useCaseChecklistEl.innerHTML = ''; // Clear existing items
+                    data.checklist.forEach(itemText => {
+                        const li = document.createElement('li');
+                        li.classList.add('mb-2'); // Add margin bottom
+                        // Add icon and text
+                        li.innerHTML = `<i class="bi bi-check-circle-fill text-success me-2"></i>${itemText}`;
+                        useCaseChecklistEl.appendChild(li);
+                    });
+                }
+        
+                // Optional: Update Right Feature List (if data.features exists)
+                // if (featureListBoxEl && Array.isArray(data.features)) {
+                //    featureListBoxEl.innerHTML = ''; // Clear
+                //    data.features.forEach(feature => {
+                //        const div = document.createElement('div');
+                //        div.className = 'feature-list-item';
+                //        div.innerHTML = `<i class="bi ${feature.icon} text-primary"></i> <span>${feature.text}</span>`;
+                //        featureListBoxEl.appendChild(div);
+                //    });
+                // }
+            }
+        
+            // --- Event Listener for Filter Buttons (Event Delegation) ---
+            if (filterButtonContainer) {
+                filterButtonContainer.addEventListener('click', (event) => {
+                    const button = event.target.closest('button[data-filter]'); // Find the button clicked or its parent button
+                    if (!button) return; // Exit if click wasn't on a filter button
+        
+                    const filterValue = button.dataset.filter;
+        
+                    // Update active button state
+                    filterButtonContainer.querySelectorAll('button').forEach(btn => {
+                        btn.classList.remove('active', 'btn-dark'); // Remove active style
+                        btn.classList.add('btn-outline-dark'); // Reset to outline
+                    });
+                    button.classList.add('active', 'btn-dark'); // Add active style to clicked button
+                    button.classList.remove('btn-outline-dark');
+        
+                    // Update the content
+                    updateUseCaseContent(filterValue);
+                });
+            }
+        
+        }); // End DOMContentLoaded
+    </script>
+
+</body>
+</html>
