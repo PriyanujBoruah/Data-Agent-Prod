@@ -76,9 +76,31 @@
         .container-border {
             padding: .3125rem;
             border: 1px solid #ceceea;
-            border-radius: 14px;
+            border-radius: 14px !important;
             background-color: #FFF;
         }
+        .round-border {
+            border-radius: 14px !important;
+        }
+        .bg-theme {
+            background-color: #7612fa !important;
+        }
+        .padding-medium {
+            padding-top: 0.5rem !important;
+            padding-left: 0.5rem !important;
+            padding-right: 0.5rem !important;
+            padding-bottom: 0.5rem !important;
+        }
+        .border-gradient {
+            /* 1. Define the border width and style (needs to be set for border-image to work) */
+            border: 3px solid transparent;
+            border-radius: 14px; /* Add this line */
+            background-image: linear-gradient(white, white),
+                                linear-gradient(100deg, #40ddff -6.08%, #7612fa 25.08%, #fa12e3);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+        }
+
         
 
         .navbar-brand strong { /* Optional: Make brand stand out */
@@ -86,9 +108,10 @@
             font-size: medium;
         }
 
-        .container-background {
+        body {
             background-image: url('hero-section-bg.jpg');
             background-size: cover;
+            background-attachment: fixed;
         }
 
         .hero-section {
@@ -294,6 +317,58 @@
 
 
 
+        /* --- Deliverables Section Styles --- */
+        .deliverables-section {
+            background-color: none; /* Or bg-light if preferred */
+        }
+
+        .deliverable-card {
+            background-color: #fff; /* Light card background */
+            border: 1px solid #dee2e6; /* Subtle border */
+            border-radius: 0.75rem; /* Rounded corners */
+            overflow: hidden; /* Keep image corners rounded */
+            display: flex; /* Ensure flex works for height alignment */
+            flex-direction: column; /* Stack image and content */
+            width: 100%; /* Ensure card takes full column width */
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            box-shadow: 0 1px 1px -.5px rgba(18, 43, 165, .04), 0 3px 3px -1.5px rgba(18, 43, 165, .04), 0 6px 6px -3px rgba(18, 43, 165, .04), 0 12px 12px -6px rgba(18, 43, 165, .04);
+        }
+         .deliverable-card:hover {
+             transform: translateY(-5px);
+             box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+         }
+
+        .deliverable-card .card-image-top {
+            width: 100%;
+            /* height: 200px; */ /* Optional fixed height for images */
+            /* background-color: #e9ecef; */ /* Placeholder color if needed */
+            overflow: hidden; /* Ensure image doesn't break border radius */
+        }
+
+        .deliverable-card .card-image-top img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Cover the area */
+        }
+
+        .deliverable-card .card-content {
+            padding: 1.25rem; /* Padding for text content */
+            flex-grow: 1; /* Allow content to take remaining space */
+        }
+
+        .deliverable-card h5 {
+            color: #212529; /* Dark heading */
+        }
+
+        .deliverable-card p.small {
+            color: #495057; /* Slightly lighter paragraph text */
+            line-height: 1.6;
+        }
+        /* --- End Deliverables Section Styles --- */
+
+
+
         /* --- Client Use Cases Section Styles --- */
         .client-use-cases-section {
             /* background-color: #f8f7fc; */ /* Use bg-light class instead */
@@ -429,7 +504,171 @@
             border-radius: 18px;
             box-shadow: 0 1px 1px -.5px rgba(18, 43, 165, .04), 0 3px 3px -1.5px rgba(18, 43, 165, .04), 0 6px 6px -3px rgba(18, 43, 165, .04);
         }
+        
 
+
+        /* --- Detailed Examples Section Styles --- */
+        .detailed-examples-section {
+             background-color: #fff; /* Light background for the whole section */
+        }
+
+        .example-card {
+            background-color: #f8f8fc; /* White background for cards */
+            border: 1px solid var(--colors-UI-Border-Default, rgba(96, 96, 163, .3));
+            border-radius: 0.75rem; /* Rounded corners */
+            padding: 1.5rem; /* Padding inside the card */
+            width: 100%; /* Ensure card fills column */
+            display: flex; /* Use flexbox */
+            flex-direction: column; /* Stack content vertically */
+            box-shadow: 0 1px 1px -.5px rgba(18, 43, 165, .04), 0 3px 3px -1.5px rgba(18, 43, 165, .04), 0 6px 6px -3px rgba(18, 43, 165, .04), 0 12px 12px -6px rgba(18, 43, 165, .04);
+        }
+
+        .example-card h4 {
+            color: #343a40; /* Darker heading */
+        }
+
+        .example-card p.small {
+            color: #495057;
+            line-height: 1.6;
+            flex-grow: 1; /* Allow paragraph to push image down */
+        }
+
+        .example-card .example-image {
+             margin-top: 1.5rem; /* Space above image, or use mt-auto */
+             /* background-color: #e9ecef; */ /* Optional placeholder background */
+             border-radius: 0.5rem; /* Slightly rounded image corners */
+             overflow: hidden; /* Clip image to border radius */
+        }
+        .example-card .example-image img {
+             display: block; /* Remove extra space below image */
+             /* border: 1px solid #ced4da; */ /* Border is on the image itself now */
+        }
+        /* --- End Detailed Examples Section Styles --- */
+
+
+
+        /* --- Scrolling Banner Section --- */
+        .scrolling-banner-section {
+            padding-top: 4rem;
+            padding-bottom: 6rem; /* Add padding below rows */
+            background-color: #f8f9fa; /* Or keep white */
+        }
+
+        .scrolling-banner-container {
+            position: relative; /* For absolute positioning of logo */
+            padding: 2rem 0; /* Vertical padding */
+            overflow: hidden; /* Hide overflowing text */
+            /* Optional subtle background gradient for rows */
+             /* background: linear-gradient(to bottom, rgba(233, 236, 239, 0.5), rgba(233, 236, 239, 0.8)); */
+        }
+
+        /* --- Vignette/Fade Effect using Pseudo-elements --- */
+        .scrolling-banner-container::before,
+        .scrolling-banner-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0; /* Cover full height */
+            width: 100px; /* Width of the fade - Adjust as needed */
+            z-index: 5; /* Sit above scrolling content but below central logo */
+            pointer-events: none; /* Allow clicks to pass through */
+        }
+
+        .scrolling-banner-container::before {
+            left: 0;
+             /* Gradient from transparent to container background */
+            background: linear-gradient(to right,
+                #ffffff 0%,          /* Start with solid background color */
+                rgba(255, 255, 255, 0) 100% /* Fade to transparent */
+            );
+            /* Change #f8f9fa to match the actual background color
+               of .scrolling-banner-section or .scrolling-banner-container
+               if you changed it from bg-light */
+        }
+
+        .scrolling-banner-container::after {
+            right: 0;
+            /* Gradient from container background to transparent */
+             background: linear-gradient(to left,
+                 #ffffff 0%,         /* Start with solid background color */
+                 rgba(255, 255, 255, 0) 100% /* Fade to transparent */
+            );
+             /* Change #f8f9fa to match the actual background color */
+        }
+         /* --- End Vignette Effect --- */
+
+        .scrolling-row {
+            width: 100%;
+            overflow: hidden; /* Ensure row itself clips */
+        }
+        .scrolling-row.bottom-row { margin-bottom: 1.5rem; margin-top: 1.5rem;} /* Space between rows */
+
+        .scrolling-content {
+            display: flex; /* Arrange items horizontally */
+            width: max-content; /* Allow content to determine width */
+            will-change: transform; /* Optimize animation performance */
+            animation: scrollLeft 40s linear infinite; /* Default scroll left */
+        }
+
+        .scrolling-content.scroll-right {
+             /* animation-name: scrollRight; /* Use different animation or direction */
+             animation: scrollLeft 45s linear infinite reverse; /* Simpler: Reverse the left scroll */
+             /* Adjust duration slightly for variation */
+        }
+
+        .scroll-item {
+            background-color: #ffffff;
+            color: #495057;
+            padding: 0.6rem 1.2rem;
+            margin: 0 0.75rem; /* Space between items */
+            border-radius: 0.75rem; /* Rounded corners */
+            border: 1px solid #dee2e6;
+            white-space: nowrap; /* Prevent text wrapping */
+            font-size: 0.9em;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            flex-shrink: 0; /* Prevent items from shrinking */
+        }
+
+        .central-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10; /* Ensure logo is above scrolling rows */
+            background-color: #ffffff; /* Background for the logo circle */
+            border-radius: 50%; /* Make it circular */
+            width: 200px;  /* Adjust size as needed */
+            height: 200px; /* Adjust size as needed */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem; /* Padding inside the circle */
+        }
+
+        .central-logo img {
+            max-width: 80%; /* Ensure logo fits inside padding */
+            max-height: 80%;
+            object-fit: contain;
+        }
+        .central-logo i { /* If using an icon instead of img */
+             font-size: 3rem; /* Adjust icon size */
+        }
+
+        /* Animation Keyframes */
+        @keyframes scrollLeft {
+            0% { transform: translateX(0%); }
+            /* Move one full set of original items to the left */
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Optional keyframes for right scroll if not using reverse */
+        /* @keyframes scrollRight {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0%); }
+        } */
+
+        /* --- End Scrolling Banner Styles --- */
 
     </style>
 </head>
@@ -519,15 +758,15 @@
     <!-- Use Cases / Applications Section (Accordion Style) -->
     <!-- ================================================== -->
     <section class="section use-cases-section">
-        <div class="container">
-            <p class="text-info fw-bold medium mb-2 text-center sub-head">Tailored Applications</p>
-            <h2 class="section-heading">Solve Your Specific Data Problems</h2>
-            <p class="lead text-muted text-center mb-5" style="max-width: 800px; margin-left: auto; margin-right: auto;">From streamlining marketing lists to reconciling financial data, get the precise tool you need.</p>
+        <div class="container text-center">
+            <p class="text-info fw-bold medium mb-2 text-center sub-head" style="font-size: 1.125rem;">Tailored Applications</p>
+            <h2 class="fw-bold">Solve Your Specific Data Problems</h2>
+            <p class="mx-auto mb-5" style="letter-spacing: -.25px; font-size: 1.125rem; line-height: 1.3333333333; font-weight: 500;">From streamlining marketing lists to reconciling financial data, get the precise tool you need.</p>
 
             <div class="row g-5 align-items-center"> <!-- g-5 for larger gutter -->
 
                 <!-- Left Column: Accordion Use Cases -->
-                <div class="col-lg-4">
+                <div class="col-lg-4" style="text-align: left;">
                     <div class="accordion accordion-flush" id="useCasesAccordion">
 
                         <!-- Use Case 1 (Default Open) -->
@@ -613,6 +852,604 @@
 
 
     <!-- ================================================== -->
+    <!-- Old Way vs. Custom App Way Section                 -->
+    <!-- ================================================== -->
+    <section class="section comparison-section"> <!-- Use bg-light for section -->
+        <div class="container text-center">
+            <p class="text-info fw-bold medium mb-2 text-center sub-head" style="font-size: 1.125rem;">The Data Cleaning Difference</p>
+            <h2 class="fw-bold">Stop Fighting Spreadsheets, Start Cleaning Efficiently</h2>
+            <p class="mx-auto mb-5" style="letter-spacing: -.25px; font-size: 1.125rem; line-height: 1.3333333333; font-weight: 500;">Compare tedious manual processes with the speed and accuracy of a tailored application.</p>
+
+            <div class="row g-4 g-lg-5 align-items-stretch"> <!-- g-lg-5 for wider gutter on large screens -->
+
+                <!-- Left Column: The Old Way -->
+                <div class="col-lg-6 d-flex">
+                    <div class="comparison-box old-way-box p-4 p-md-5 rounded shadow-sm border bg-white h-100 container-border">
+                        <h3 class="fw-bold mb-4 text-center">The Old Way: Manual Struggle</h3>
+                        <ul class="list-unstyled comparison-list" style="text-align: left;">
+                            <li>
+                                <i class="bi bi-x-circle text-secondary me-2"></i>
+                                <span>Scattered data across messy spreadsheets & files.</span>
+                            </li>
+                            <li>
+                                <i class="bi bi-x-circle text-secondary me-2"></i>
+                                <span>Hours spent on repetitive VLOOKUPs, formulas, copy/pasting.</span>
+                            </li>
+                            <li>
+                                <i class="bi bi-x-circle text-secondary me-2"></i>
+                                <span>Inconsistent formats & validation leading to errors.</span>
+                            </li>
+                            <li>
+                                <i class="bi bi-x-circle text-secondary me-2"></i>
+                                <span>Lack of standardization and difficult collaboration.</span>
+                            </li>
+                             <li>
+                                <i class="bi bi-x-circle text-secondary me-2"></i>
+                                <span>Delayed analysis due to tedious prep work.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Right Column: The Custom App Way -->
+                <div class="col-lg-6 d-flex">
+                     <div class="comparison-box your-way-box p-3 p-md-5 rounded shadow h-100 d-flex flex-column container-border border-gradient"> <!-- flex column -->
+                        <h3 class="fw-bold mb-4 text-center">DataWarp: Your Custom App Way</h3>
+                        <ul class="list-unstyled comparison-list flex-grow-1" style="text-align: left;"> <!-- flex-grow makes list take space -->
+                            <li>
+                                <i class="bi bi-check-circle-fill me-2"></i>
+                                <span>Centralized cleaning for all sources (Files & DBs).</span>
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle-fill me-2"></i>
+                                <span>Automated workflows handle common tasks instantly.</span>
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle-fill me-2"></i>
+                                <span>Built-in custom validation & business rules ensure accuracy.</span>
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle-fill me-2"></i>
+                                <span>Standardized output ready for immediate use.</span>
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle-fill me-2"></i>
+                                <span>Faster time-to-insight with analysis-ready data.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div> <!-- End Row -->
+        </div> <!-- End Container -->
+    </section>
+    <!-- ================================================== -->
+
+
+    <!-- ================================================== -->
+    <!-- Key Deliverables / Aspects Section                 -->
+    <!-- ================================================== -->
+    <section class="section deliverables-section">
+        <div class="container text-center">
+            <!-- Optional Section Header -->
+            <p class="text-info fw-bold medium mb-2 text-center sub-head" style="font-size: 1.125rem;">What You Get</p>
+            <h2 class="fw-bold">A Powerful, Purpose-Built Cleaning Engine</h2>
+            <p class="mx-auto mb-5" style="text-align: center; letter-spacing: -.25px; font-size: 1.125rem; line-height: 1.3333333333; font-weight: 500;">We deliver more than just code; we provide a complete solution focused on usability and results.</p>
+
+            <div class="row g-4 justify-content-center"> <!-- Use justify-content-center if fewer than 3 cards -->
+
+                <!-- Card 1 -->
+                <div class="col-md-6 col-lg-4 d-flex"> <!-- Use d-flex for equal height cards -->
+                    <div class="deliverable-card">
+                        <div class="card-image-top">
+                            <img src="data-cleaning.png" alt="Screenshot of a clean app interface">
+                             <!-- Replace with relevant image -->
+                        </div>
+                        <div class="card-content">
+                            <h5 class="fw-bold mt-3 mb-2">Advanced Data Cleaning</h5>
+                            <p class="small">Tackle Tough Data Confidently: Our advanced features provide the power you need for any cleaning scenario. Achieve ultimate data quality with granular, powerful cleaning operations.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="col-md-6 col-lg-4 d-flex">
+                    <div class="deliverable-card">
+                        <div class="card-image-top">
+                            <img src="data-featuring.png" alt="Visualization of custom logic">
+                             <!-- Replace with relevant image -->
+                        </div>
+                         <div class="card-content">
+                            <h5 class="fw-bold mt-3 mb-2">In-Depth Feature Identification</h5>
+                            <p class="small">Identify Actionable Insights: Discover key characteristics that inform cleaning strategies and feature engineering. Explore detailed metrics and patterns crucial for effective analysis and modeling.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="col-md-6 col-lg-4 d-flex">
+                    <div class="deliverable-card">
+                        <div class="card-image-top">
+                            <img src="data-visual.png" alt="Diagram showing data flow">
+                             <!-- Replace with relevant image -->
+                        </div>
+                         <div class="card-content">
+                            <h5 class="fw-bold mt-3 mb-2">Intuitive Data Visualization</h5>
+                            <p class="small">Make Data Understandable: Communicate insights effectively with interactive, easy-to-interpret charts. Bridge the gap between raw data and understanding with integrated visualization.</p>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Add more cards if needed -->
+
+            </div> <!-- End Row -->
+        </div> <!-- End Container -->
+    </section>
+    <!-- ================================================== -->
+
+
+
+    <!-- ================================================== -->
+    <!-- Scrolling Text / Integrations Section              -->
+    <!-- ================================================== -->
+    <section class="section scrolling-banner-section overflow-hidden bg-white"> <!-- overflow-hidden on section -->
+        <div class="container text-center">
+            <!-- Section Header -->
+            <p class="text-info fw-bold medium mb-2 text-center sub-head" style="font-size: 1.125rem;">Custom Built For You</p>
+            <h2 class="fw-bold">Build Your Ideal Cleaning Workflow</h2>
+            <p class="mx-auto mb-5" style="letter-spacing: -.25px; font-size: 1.125rem; line-height: 1.3333333333; font-weight: 500;">Get the features you need, from basic validation to complex transformations, into one intuitive app.</p>
+        </div>
+
+        <!-- Scrolling Banner Container -->
+        <div class="scrolling-banner-container position-relative">
+
+            <!-- Top Row (Scrolls Left) -->
+            <div class="scrolling-row top-row">
+                <div class="scrolling-content scroll-left">
+                    <!-- Add your text items here - DUPLICATE the entire set for infinite scroll -->
+                    <span class="scroll-item">Missing Data Handling</span>
+                    <span class="scroll-item">Duplicate Detection</span>
+                    <span class="scroll-item">Data Type Conversion</span>
+                    <span class="scroll-item">Text Formatting</span>
+                    <span class="scroll-item">Whitespace Trimming</span>
+                    <span class="scroll-item">Flexible Exporting</span>
+                    <span class="scroll-item">Advanced Filtering</span>
+                    <span class="scroll-item">Database Connectivity</span>
+                    <!-- Duplicate Set 1 -->
+                    <span class="scroll-item">Missing Data Handling</span>
+                    <span class="scroll-item">Duplicate Detection</span>
+                    <span class="scroll-item">Data Type Conversion</span>
+                    <span class="scroll-item">Text Formatting</span>
+                    <span class="scroll-item">Whitespace Trimming</span>
+                    <span class="scroll-item">Flexible Exporting</span>
+                    <span class="scroll-item">Advanced Filtering</span>
+                    <span class="scroll-item">Database Connectivity</span>
+                </div>
+            </div>
+
+            <!-- Bottom Row (Scrolls Right) -->
+            <div class="scrolling-row bottom-row">
+                 <div class="scrolling-content scroll-right">
+                     <!-- Add different text items - DUPLICATE the entire set -->
+                    <span class="scroll-item">Regex Pattern Validation</span>
+                    <span class="scroll-item">Custom Business Rules</span>
+                    <span class="scroll-item">Outlier Management</span>
+                    <span class="scroll-item">Column Splitting</span>
+                    <span class="scroll-item">Pairwise Trends</span>
+                    <span class="scroll-item">Smart Visualization</span>
+                    <span class="scroll-item">Column Combining</span>
+                    <span class="scroll-item">Data Quality Check</span>
+                    <!-- Duplicate Set 2 -->
+                    <span class="scroll-item">Regex Pattern Validation</span>
+                    <span class="scroll-item">Custom Business Rules</span>
+                    <span class="scroll-item">Outlier Management</span>
+                    <span class="scroll-item">Column Splitting</span>
+                    <span class="scroll-item">Pairwise Trends</span>
+                    <span class="scroll-item">Smart Visualization</span>
+                    <span class="scroll-item">Column Combining</span>
+                    <span class="scroll-item">Data Quality Check</span>
+                 </div>
+            </div>
+
+            <!-- Top Row (Scrolls Left) -->
+            <div class="scrolling-row top-row">
+                <div class="scrolling-content scroll-left">
+                    <!-- Add your text items here - DUPLICATE the entire set for infinite scroll -->
+                    <span class="scroll-item">Cleaning Suggestion</span>
+                    <span class="scroll-item">Numerical Pattern</span>
+                    <span class="scroll-item">Correlation Heatmap</span>
+                    <span class="scroll-item">Numerical Distribution</span>
+                    <span class="scroll-item">Easy Dataset Download</span>
+                    <span class="scroll-item">Grouped Numerical Analysis</span>
+                    <span class="scroll-item">Column Analytics</span>
+                    <span class="scroll-item">Deduplication</span>
+                    <!-- Duplicate Set 1 -->
+                    <span class="scroll-item">Cleaning Suggestion</span>
+                    <span class="scroll-item">Numerical Pattern</span>
+                    <span class="scroll-item">Correlation Heatmap</span>
+                    <span class="scroll-item">Numerical Distribution</span>
+                    <span class="scroll-item">Easy Dataset Download</span>
+                    <span class="scroll-item">Grouped Numerical Analysis</span>
+                    <span class="scroll-item">Column Analytics</span>
+                    <span class="scroll-item">Deduplication</span>
+                </div>
+            </div>
+
+            <!-- Central Logo -->
+            <div class="central-logo" style="border: 1px solid #ceceea;">
+                <img src="img.png" alt="Logo Overlay">
+                <!-- Or use an Icon -->
+                <!-- <i class="bi bi-shield-check display-1 text-primary"></i> -->
+            </div>
+
+        </div> <!-- End Scrolling Banner Container -->
+    </section>
+    <!-- ================================================== -->
+
+
+
+    <!-- ================================================== -->
+    <!-- Detailed Cleaning Examples Section (2+3 Layout)    -->
+    <!-- ================================================== -->
+    <section class="section detailed-examples-section py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-11 col-xl-10">
+                    <!-- Section Header (Keep as before) -->
+                    <div class="text-center mb-5">
+                        <p class="text-info fw-bold medium mb-2 text-center sub-head" style="font-size: 1.125rem;">Automated Data Cleaning</p>
+                        <h2 class="fw-bold" style="font-size: 2.625rem;">Advanced cleaning to achieve high quality data</h2>
+                        <p class="mx-auto mb-3" style="letter-spacing: -.25px; font-size: 1.125rem; line-height: 1.3333333333; font-weight: 500;">See examples of how custom logic built into your app handles specific, complex data cleaning challenges.</p>
+                        <a href="https://tally.so/r/wLVB4j" class="btn btn-primary btn-lg fw-bold">
+                            <i class="bi bi-calendar-check me-2"></i> Get custom solution
+                        </a>
+                    </div>
+
+                    <!-- Examples Grid -->
+                    <!-- Row 1: Two Columns -->
+                    <div class="row g-4 align-items-stretch justify-content-center mb-4"> <!-- Added mb-4 for spacing -->
+
+                        <!-- Example Card 1 -->
+                        <div class="col-md-6 d-flex"> <!-- Stays col-md-6 -->
+                            <div class="example-card">
+                                <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">One-Click Automated Cleaning</h4>
+                                <p class="text-md" style="font-size: 1rem; font-weight: 500;">Instantly tidy your data! Auto-Clean handles common issues like whitespace, basic type conversion, and outliers in one click.</p>
+                                <div class="example-image mt-auto">
+                                    <img src="auto-clean.png" alt="Address Cleaning Example UI" class="img-fluid rounded border">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Example Card 2 -->
+                        <div class="col-md-6 d-flex"> <!-- Stays col-md-6 -->
+                            <div class="example-card">
+                                <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">Interactive Table</h4>
+                                <p class="text-md" style="font-size: 1rem; font-weight: 500;">Go beyond the surface. Explore column distributions, missing values, and outliers with a single click.</p>
+                                <div class="example-image mt-auto">
+                                    <img src="interactive-table.png" alt="Product Data Mapping Example" class="img-fluid rounded border">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div> <!-- End Row 1 -->
+
+                    <!-- Row 2: Three Columns -->
+                    <div class="row g-4 align-items-stretch justify-content-center">
+
+                        <!-- Example Card 3 -->
+                        <div class="col-md-6 col-lg-4 d-flex"> <!-- Changed to col-lg-4 -->
+                            <div class="example-card">
+                                <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">Advanced Cleaning Tools</h4>
+                                <p class="text-md" style="font-size: 1rem; font-weight: 500;">Go beyond basic cleaning. Tackle complex issues like specific value mapping, case changes, and regex replacements.</p>
+                                <div class="example-image mt-auto">
+                                    <img src="cleaning-tools.png" alt="Transaction Reconciliation Example" class="img-fluid rounded border">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Example Card 4 -->
+                        <div class="col-md-6 col-lg-4 d-flex"> <!-- Changed to col-lg-4 -->
+                            <div class="example-card">
+                                <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">Instant Column Analytics</h4>
+                                <p class="text-md" style="font-size: 1rem; font-weight: 500;">Essential metrics, always visible. Keep track of your data's shape with the Stat-Bar.</p>
+                                <div class="example-image mt-auto">
+                                    <img src="stat-bar.png" alt="Fuzzy Duplicate Matching Example" class="img-fluid rounded border">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Example Card 5 -->
+                        <div class="col-md-6 col-lg-4 d-flex"> <!-- Changed to col-lg-4 -->
+                            <div class="example-card">
+                                <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">Intuitive Column Manipulation</h4>
+                                <p class="text-md" style="font-size: 1rem; font-weight: 500;">Structure your data for analysis: Easily manipulate columns using dedicated tools.</p>
+                                <div class="example-image mt-auto">
+                                    <img src="column-cleaning.png" alt="Data Enrichment Example" class="img-fluid rounded border">
+                                    <!-- Replace with relevant visual -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Add more rows of 3 if needed -->
+
+                    </div> <!-- End Row 2 -->
+                </div>
+            </div>
+        </div> <!-- End Container -->
+    </section>
+    <!-- ================================================== -->
+
+
+
+    <!-- ================================================== -->
+    <!-- Detailed Cleaning Examples Section (2+3 Layout)    -->
+    <!-- ================================================== -->
+    <section class="section detailed-examples-section py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-11 col-xl-10">
+                    <!-- Section Header (Keep as before) -->
+                    <div class="text-center mb-5">
+                        <p class="text-info fw-bold medium mb-2 text-center sub-head" style="font-size: 1.125rem;">One-Tap Feature Identification</p>
+                        <h2 class="fw-bold" style="font-size: 2.625rem;">A single-click for complete feature detection, pattern recognition, and feature extraction</h2>
+                        <p class="mx-auto mb-3" style="letter-spacing: -.25px; font-size: 1.125rem; line-height: 1.3333333333; font-weight: 500;">See examples of how custom logic built into your app handles specific, complex data cleaning challenges.</p>
+                        <a href="https://tally.so/r/wLVB4j" class="btn btn-primary btn-lg fw-bold">
+                            <i class="bi bi-calendar-check me-2"></i> Get custom solution
+                        </a>
+                    </div>
+
+                    <!-- Examples Grid -->
+                    <!-- Row 1: Two Columns -->
+                    <div class="row g-4 align-items-stretch justify-content-center mb-4"> <!-- Added mb-4 for spacing -->
+
+                        <!-- Example Card 1 -->
+                        <div class="col-md-6 d-flex"> <!-- Stays col-md-6 -->
+                            <div class="example-card">
+                                <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">Data Overview & Quality</h4>
+                                <p class="text-md" style="font-size: 1rem; font-weight: 500;">Know Your Data Instantly: Overview provides immediate insights into dataset structure and potential quality red flags.</p>
+                                <div class="example-image mt-auto">
+                                    <img src="feature-overview.png" alt="Address Cleaning Example UI" class="img-fluid rounded border">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Example Card 2 -->
+                        <div class="col-md-6 d-flex"> <!-- Stays col-md-6 -->
+                            <div class="example-card">
+                                <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">In-Depth Correlation Analysis</h4>
+                                <p class="text-md" style="font-size: 1rem; font-weight: 500;">Identify Key Variable Interactions: See which numerical features move together or in opposition, guiding your analysis.</p>
+                                <div class="example-image mt-auto">
+                                    <img src="feature-correlation.png" alt="Product Data Mapping Example" class="img-fluid rounded border">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div> <!-- End Row 1 -->
+
+                    <!-- Row 2: Three Columns -->
+                    <div class="row g-4 align-items-stretch justify-content-center">
+
+                        <!-- Example Card 3 -->
+                        <div class="col-md-6 col-lg-4 d-flex"> <!-- Changed to col-lg-4 -->
+                            <div class="example-card">
+                                <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">Numerical Column Patterns</h4>
+                                <p class="text-md" style="font-size: 1rem; font-weight: 500;">Deep Dive into Numerical Distributions: Instantly assess skewness, kurtosis, potential non-normality, and zero-inflation for every number column.</p>
+                                <div class="example-image mt-auto">
+                                    <img src="feature-pattern.png" alt="Transaction Reconciliation Example" class="img-fluid rounded border">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Example Card 4 -->
+                        <div class="col-md-6 col-lg-4 d-flex"> <!-- Changed to col-lg-4 -->
+                            <div class="example-card">
+                                <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">Cleaning Suggestions</h4>
+                                <p class="text-md" style="font-size: 1rem; font-weight: 500;">Smart Recommendations: Receive context-aware suggestions for improving data quality and preparing features for modeling.</p>
+                                <div class="example-image mt-auto">
+                                    <img src="feature-suggestions.png" alt="Fuzzy Duplicate Matching Example" class="img-fluid rounded border">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Example Card 5 -->
+                        <div class="col-md-6 col-lg-4 d-flex"> <!-- Changed to col-lg-4 -->
+                            <div class="example-card">
+                                <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">Grouped Numerical Analysis</h4>
+                                <p class="text-md" style="font-size: 1rem; font-weight: 500;">Uncover Segment Patterns: Identify significant differences in numerical behavior between distinct groups in your data.</p>
+                                <div class="example-image mt-auto">
+                                    <img src="feature-group.png" alt="Data Enrichment Example" class="img-fluid rounded border">
+                                    <!-- Replace with relevant visual -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Add more rows of 3 if needed -->
+
+                    </div> <!-- End Row 2 -->
+                </div>
+            </div>
+        </div> <!-- End Container -->
+    </section>
+    <!-- ================================================== -->
+
+
+
+    <!-- ================================================== -->
+    <!-- Detailed Cleaning Examples Section (2+3 Layout)    -->
+    <!-- ================================================== -->
+    <section class="section detailed-examples-section py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-11 col-xl-10">
+                    <!-- Section Header (Keep as before) -->
+                    <div class="text-center mb-5">
+                        <p class="text-info fw-bold medium mb-2 text-center sub-head" style="font-size: 1.125rem;">Easy Data Visualization</p>
+                        <h2 class="fw-bold" style="font-size: 2.625rem;">Reveal patterns, trends and relationships using advanced visualizations</h2>
+                        <p class="mx-auto mb-3" style="letter-spacing: -.25px; font-size: 1.125rem; line-height: 1.3333333333; font-weight: 500;">See examples of how custom logic built into your app handles specific, complex data cleaning challenges.</p>
+                        <a href="https://tally.so/r/wLVB4j" class="btn btn-primary btn-lg fw-bold">
+                            <i class="bi bi-calendar-check me-2"></i> Get custom solution
+                        </a>
+                    </div>
+
+                    <!-- Examples Grid -->
+                    <!-- Row 1: Two Columns -->
+                    <div class="row g-4 align-items-stretch justify-content-center mb-4"> <!-- Added mb-4 for spacing -->
+
+                        <!-- Example Card 1 -->
+                        <div class="col-md-6 d-flex"> <!-- Stays col-md-6 -->
+                            <div class="example-card">
+                                <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">One-Click Visualization</h4>
+                                <p class="text-md" style="font-size: 1rem; font-weight: 500;">Instant Visual Overview: Generate essential plots for your entire dataset with a single click.</p>
+                                <div class="example-image mt-auto">
+                                    <img src="visual-button.png" alt="Address Cleaning Example UI" class="img-fluid rounded border">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Example Card 2 -->
+                        <div class="col-md-6 d-flex"> <!-- Stays col-md-6 -->
+                            <div class="example-card">
+                                <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">Numerical Distributions</h4>
+                                <p class="text-md" style="font-size: 1rem; font-weight: 500;">Visualize Numerical Shape: Instantly understand distributions, skewness, and central tendency with histograms.</p>
+                                <div class="example-image mt-auto">
+                                    <img src="visual-histogram.png" alt="Product Data Mapping Example" class="img-fluid rounded border">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div> <!-- End Row 1 -->
+
+                    <!-- Row 2: Three Columns -->
+                    <div class="row g-4 align-items-stretch justify-content-center">
+
+                        <!-- Example Card 3 -->
+                        <div class="col-md-6 col-lg-4 d-flex"> <!-- Changed to col-lg-4 -->
+                            <div class="example-card">
+                                <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">Categorical Counts</h4>
+                                <p class="text-md" style="font-size: 1rem; font-weight: 500;">Check Data Balance Effortlessly: Count plots reveal imbalances crucial for modeling and fairness checks.</p>
+                                <div class="example-image mt-auto">
+                                    <img src="visual-categorical.png" alt="Transaction Reconciliation Example" class="img-fluid rounded border">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Example Card 4 -->
+                        <div class="col-md-6 col-lg-4 d-flex"> <!-- Changed to col-lg-4 -->
+                            <div class="example-card">
+                                <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">Correlation Heatmaps</h4>
+                                <p class="text-md" style="font-size: 1rem; font-weight: 500;">Map Linear Relationships Instantly: The correlation heatmap provides a bird's-eye view of numerical interactions.</p>
+                                <div class="example-image mt-auto">
+                                    <img src="visual-heatmap.png" alt="Fuzzy Duplicate Matching Example" class="img-fluid rounded border">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Example Card 5 -->
+                        <div class="col-md-6 col-lg-4 d-flex"> <!-- Changed to col-lg-4 -->
+                            <div class="example-card">
+                                <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">Sampled Relationships</h4>
+                                <p class="text-md" style="font-size: 1rem; font-weight: 500;">Visualize Pairwise Trends: Scatter plots (with trendlines) reveal the nature of relationships between numerical pairs.</p>
+                                <div class="example-image mt-auto">
+                                    <img src="visual-relations.png" alt="Data Enrichment Example" class="img-fluid rounded border">
+                                    <!-- Replace with relevant visual -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Add more rows of 3 if needed -->
+
+                    </div> <!-- End Row 2 -->
+                </div>
+            </div>
+        </div> <!-- End Container -->
+    </section>
+    <!-- ================================================== -->
+
+
+
+    <!-- How It Works Section -->
+    <section class="section bg-light how-it-works-section mt-5">
+        <div class="container">
+            <h2 class="section-heading">Our Process</h2>
+            <div class="row">
+                <div class="col-md-3 process-step">
+                    <i class="bi bi-search"></i>
+                    <h6>1. Discovery & Consultation</h6>
+                    <p class="small">We discuss your data sources, pain points, and desired cleaning outcomes.</p>
+                </div>
+                 <div class="col-md-3 process-step">
+                    <i class="bi bi-palette-fill"></i>
+                    <h6>2. Custom Design & Build</h6>
+                    <p class="small">We design and develop the app incorporating your specific rules and workflow.</p>
+                </div>
+                 <div class="col-md-3 process-step">
+                    <i class="bi bi-rocket-takeoff-fill"></i>
+                    <h6>3. Installation & Training</h6>
+                    <p class="small">We deploy the application and provide guidance for your team.</p>
+                </div>
+                 <div class="col-md-3 process-step">
+                    <i class="bi bi-headset"></i>
+                    <h6>4. Ongoing Support</h6>
+                    <p class="small">We offer support and maintenance options to ensure continued success.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section (Reframed from Features) -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-heading">Benefits of a Custom Solution</h2>
+            <div class="row">
+                <div class="col-md-4 mb-2">
+                    <div class="service-card">
+                        <i class="bi bi-stopwatch"></i>
+                        <h5>Increased Efficiency</h5>
+                        <p>Automate repetitive tasks and dramatically reduce the time spent on manual data cleaning.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <div class="service-card">
+                        <i class="bi bi-check-circle-fill"></i>
+                        <h5>Improved Accuracy</h5>
+                        <p>Enforce consistent rules and validations to enhance data quality and reliability.</p>
+                    </div>
+                </div>
+                 <div class="col-md-4 mb-2">
+                    <div class="service-card">
+                        <i class="bi bi-gear-wide-connected"></i>
+                        <h5>Tailored Workflows</h5>
+                        <p>Get an application that perfectly matches your specific data types, sources, and business logic.</p>
+                    </div>
+                </div>
+                 <div class="col-md-4 mb-2">
+                    <div class="service-card">
+                        <i class="bi bi-people-fill"></i>
+                        <h5>User-Friendly Interface</h5>
+                        <p>Empower your team with an intuitive tool designed for ease of use, reducing training needs.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <div class="service-card">
+                        <i class="bi bi-plug-fill"></i>
+                        <h5>Seamless Integration</h5>
+                        <p>Connect directly to your existing databases or work smoothly with standard file formats (CSV, XLSX, etc.).</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <div class="service-card">
+                        <i class="bi bi-graph-up-arrow"></i>
+                        <h5>Faster Insights</h5>
+                        <p>Get analysis-ready data quicker, enabling faster reporting and better decision-making.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- ================================================== -->
     <!-- Feature Section 1: Custom Rules (Image Left)     -->
     <!-- ================================================== -->
     <section class="section">
@@ -620,21 +1457,21 @@
             <div class="row gx-5 gy-4 align-items-center justify-content-center"> <!-- Added justify-content-center to row -->
                 <!-- Added text-center to the column div -->
                 <div class="col-lg-8 text-center"> <!-- Adjust col size (e.g., col-lg-8) to constrain width if needed -->
-                    <p class="text-info fw-bold medium mb-2 sub-head">Intelligent Automation</p> <!-- Removed text-center here, parent handles it -->
-                    <h2 class="fw-bold mb-3">Accelerate Cleaning with Smart Defaults</h2> <!-- Removed text-center here -->
-                    <p class="lead mb-4"><span class="fw-semibold small">Jumpstart your data preparation with our built-in Auto-Clean function.</span> <span class="small">It intelligently applies common, non-destructive cleaning steps based on data types, handling tedious tasks automatically so you can focus on complex issues.</span></p> <!-- Removed text-center here -->
+                    <p class="text-info fw-bold medium mb-2 text-center sub-head" style="font-size: 1.125rem;">What Makes Us Different</p> <!-- Removed text-center here, parent handles it -->
+                    <h2 class="fw-bold mb-3">Your App is Truly Yours</h2> <!-- Removed text-center here -->
+                    <p class="lead mb-4"><span class="small">Your solution is built especially for your data. After development is completed, we deliver the customized platform to your team.</span> <span class="fw-semibold small">You get the complete code, no extra monthly costs / subscriptions.</span> <span class="small">You only pay for the development that required to build and customize your platform. Apart from all the advanced features like</span> <span class="fw-semibold small">Auto-Cleaning, One-Tap Feature Identification and Data Visualization,</span> <span class="small">you also get monthly support and maintenance to keep your platform up-to-date.</span></p> <!-- Removed text-center here -->
     
                     <!-- Add inline styles or a custom class to the UL -->
                     <ul class="list-unstyled d-inline-block text-start">
-                        <li class="mb-2"><i class="bi bi-check-lg text-success me-2"></i>Automatically trims leading/trailing whitespace.</li>
-                        <li class="mb-2"><i class="bi bi-check-lg text-success me-2"></i>Attempts safe conversion to numeric & datetime formats.</li>
-                        <li class="mb-2"><i class="bi bi-check-lg text-success me-2"></i>Clips potential outliers using standard IQR methods.</li>
-                        <li class="mb-2"><i class="bi bi-check-lg text-success me-2"></i>Intelligently fills missing values based on column type.</li>
-                        <li class="mb-2"><i class="bi bi-check-lg text-success me-2"></i>Standardizes text case and optimizes low-cardinality columns.</li>
+                        <li class="mb-2"><i class="bi bi-check-lg text-success me-2"></i>Auto-Clean feature tuned according to your data.</li>
+                        <li class="mb-2"><i class="bi bi-check-lg text-success me-2"></i>Identify every necessary & required feature in your data.</li>
+                        <li class="mb-2"><i class="bi bi-check-lg text-success me-2"></i>Represent & visualize everything in your data.</li>
+                        <li class="mb-2"><i class="bi bi-check-lg text-success me-2"></i>Use advanced algorithms to increase data quality.</li>
+                        <li class="mb-2"><i class="bi bi-check-lg text-success me-2"></i>Easy-to-use & user-friendly interface even for non-technical users.</li>
                     </ul>
     
                      <!-- Keep text-muted centered by the parent -->
-                     <p class="mt-3 fst-italic small text-muted">Always reviewable and undoable, giving you full control.</p>
+                     <p class="mt-3 fst-italic small text-muted">No hidden / extra costs after development.</p>
                     <!-- Optional Button -->
                     <!-- <a href="#contact" class="btn btn-outline-success mt-3">See Auto-Clean in Action</a> -->
                 </div>
@@ -645,150 +1482,13 @@
 
 
     <!-- ================================================== -->
-    <!-- Capabilities Grid Section                          -->
-    <!-- ================================================== -->
-    <section class="section capabilities-section"> <!-- Add a specific class -->
-        <div class="container">
-            <p class="text-info fw-bold medium mb-2 text-center sub-head">Core Capabilities</p>
-            <h2 class="section-heading">Build Your Ideal Cleaning Workflow</h2>
-            <p class="lead text-muted text-center mb-5" style="max-width: 700px; margin-left: auto; margin-right: auto;">We incorporate the features *you* need, from basic validation to complex transformations, into one intuitive app.</p>
-
-            <div class="row g-3 justify-content-center"> <!-- g-3 for slightly smaller gutters -->
-
-                <!-- Capability Card -->
-                <div class="col-6 col-md-4 col-lg-3">
-                    <div class="capability-card">
-                        <i class="bi bi-radioactive"></i> <!-- Icon for handling missing -->
-                        <h6>Missing Data Handling</h6>
-                    </div>
-                </div>
-                <!-- Capability Card -->
-                <div class="col-6 col-md-4 col-lg-3">
-                    <div class="capability-card">
-                        <i class="bi bi-files"></i>
-                        <h6>Duplicate Detection</h6>
-                    </div>
-                </div>
-                <!-- Capability Card -->
-                <div class="col-6 col-md-4 col-lg-3">
-                    <div class="capability-card">
-                        <i class="bi bi-rulers"></i>
-                        <h6>Data Type Conversion</h6>
-                    </div>
-                </div>
-                 <!-- Capability Card -->
-                 <div class="col-6 col-md-4 col-lg-3">
-                    <div class="capability-card">
-                        <i class="bi bi-card-text"></i>
-                        <h6>Text Formatting</h6>
-                    </div>
-                </div>
-                 <!-- Capability Card -->
-                 <div class="col-6 col-md-4 col-lg-3">
-                    <div class="capability-card">
-                        <i class="bi bi-eraser"></i>
-                        <h6>Whitespace Trimming</h6>
-                    </div>
-                </div>
-                 <!-- Capability Card -->
-                 <div class="col-6 col-md-4 col-lg-3">
-                    <div class="capability-card">
-                        <i class="bi bi-search"></i>
-                        <h6>Pattern Validation (Regex)</h6>
-                    </div>
-                </div>
-                 <!-- Capability Card -->
-                 <div class="col-6 col-md-4 col-lg-3">
-                    <div class="capability-card">
-                        <i class="bi bi-shield-check"></i>
-                        <h6>Custom Business Rules</h6>
-                    </div>
-                </div>
-                 <!-- Capability Card -->
-                 <div class="col-6 col-md-4 col-lg-3">
-                    <div class="capability-card">
-                        <i class="bi bi-filter-circle"></i>
-                        <h6>Outlier Management</h6>
-                    </div>
-                </div>
-                 <!-- Capability Card -->
-                 <div class="col-6 col-md-4 col-lg-3">
-                    <div class="capability-card">
-                        <i class="bi bi-funnel"></i>
-                        <h6>Advanced Filtering</h6>
-                    </div>
-                </div>
-                <!-- Capability Card -->
-                <div class="col-6 col-md-4 col-lg-3">
-                    <div class="capability-card">
-                        <i class="bi bi-distribute-vertical"></i>
-                        <h6>Column Splitting</h6>
-                    </div>
-                </div>
-                 <!-- Capability Card -->
-                 <div class="col-6 col-md-4 col-lg-3">
-                    <div class="capability-card">
-                        <i class="bi bi-union"></i>
-                        <h6>Column Combining</h6>
-                    </div>
-                </div>
-                 <!-- Capability Card -->
-                 <div class="col-6 col-md-4 col-lg-3">
-                    <div class="capability-card">
-                        <i class="bi bi-database-check"></i>
-                        <h6>Database Connectivity</h6>
-                    </div>
-                </div>
-                 <!-- Capability Card -->
-                 <div class="col-6 col-md-4 col-lg-3">
-                    <div class="capability-card">
-                        <i class="bi bi-file-earmark-spreadsheet"></i>
-                        <h6>File Handling (CSV/XLSX)</h6>
-                    </div>
-                </div>
-                 <!-- Capability Card -->
-                 <div class="col-6 col-md-4 col-lg-3">
-                    <div class="capability-card">
-                        <i class="bi bi-arrow-counterclockwise"></i>
-                        <h6>Undo/Redo Functionality</h6>
-                    </div>
-                </div>
-                <!-- Capability Card -->
-                <div class="col-6 col-md-4 col-lg-3">
-                    <div class="capability-card">
-                         <i class="bi bi-download"></i>
-                         <h6>Flexible Exporting</h6>
-                    </div>
-                </div>
-                 <!-- Capability Card -->
-                 <div class="col-6 col-md-4 col-lg-3">
-                    <div class="capability-card">
-                         <i class="bi bi-braces-asterisk"></i> <!-- Icon for more/custom -->
-                         <h6>And Much More...</h6>
-                    </div>
-                </div>
-
-            </div> <!-- End Row -->
-
-             <!-- Optional "Learn More" Button -->
-             <!-- <div class="text-center mt-5">
-                <a href="#contact" class="btn btn-dark">Discuss Your Specific Needs</a>
-            </div> -->
-
-        </div> <!-- End Container -->
-    </section>
-    <!-- ================================================== -->
-
-
-
-    <!-- ================================================== -->
     <!-- Client Use Cases / Testimonial Section             -->
     <!-- ================================================== -->
     <section class="section client-use-cases-section bg-light">
-        <div class="container">
-            <p class="text-info fw-bold medium mb-2 text-center sub-head">Real-World Results</p>
-            <h2 class="section-heading">Custom Apps for Diverse Needs</h2>
-            <p class="lead text-muted text-center mb-4" style="max-width: 700px; margin-left: auto; margin-right: auto;">See how tailored data cleaning solutions accelerate workflows across different departments.</p>
+        <div class="container text-center">
+            <p class="text-info fw-bold medium mb-2 text-center sub-head" style="font-size: 1.125rem;">Real-World Results</p>
+            <h2 class="fw-bold">Custom Apps for Diverse Needs</h2>
+            <p class="mx-auto mb-5" style="letter-spacing: -.25px; font-size: 1.125rem; line-height: 1.3333333333; font-weight: 500;">See how tailored data cleaning solutions accelerate workflows across different departments.</p>
 
             <!-- Filter Buttons (Simulated - No JS Functionality Added Here) -->
             <div class="d-flex flex-wrap justify-content-center mb-5 filter-buttons">
@@ -810,7 +1510,7 @@
             </div>
 
             <!-- Main Content Box -->
-            <div class="testimonial-feature-box bg-white p-4 p-lg-5 border rounded shadow-sm">
+            <div class="testimonial-feature-box bg-white p-4 p-lg-5 border rounded shadow-sm" style="text-align: left;">
                 <div class="row g-5 align-items-center">
 
                     <!-- Left Column: Use Case Details & Testimonial -->
@@ -879,87 +1579,8 @@
     <!-- ================================================== -->
 
 
-    <!-- How It Works Section -->
-    <section class="section bg-light how-it-works-section">
-        <div class="container">
-            <h2 class="section-heading">Our Process</h2>
-            <div class="row">
-                <div class="col-md-3 process-step">
-                    <i class="bi bi-search"></i>
-                    <h6>1. Discovery & Consultation</h6>
-                    <p class="small">We discuss your data sources, pain points, and desired cleaning outcomes.</p>
-                </div>
-                 <div class="col-md-3 process-step">
-                    <i class="bi bi-palette-fill"></i>
-                    <h6>2. Custom Design & Build</h6>
-                    <p class="small">We design and develop the app incorporating your specific rules and workflow.</p>
-                </div>
-                 <div class="col-md-3 process-step">
-                    <i class="bi bi-rocket-takeoff-fill"></i>
-                    <h6>3. Deployment & Training</h6>
-                    <p class="small">We deploy the application and provide guidance for your team.</p>
-                </div>
-                 <div class="col-md-3 process-step">
-                    <i class="bi bi-headset"></i>
-                    <h6>4. Ongoing Support</h6>
-                    <p class="small">We offer support and maintenance options to ensure continued success.</p>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Benefits Section (Reframed from Features) -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-heading">Benefits of a Custom Solution</h2>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="service-card">
-                        <i class="bi bi-stopwatch"></i>
-                        <h5>Increased Efficiency</h5>
-                        <p>Automate repetitive tasks and dramatically reduce the time spent on manual data cleaning.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="service-card">
-                        <i class="bi bi-check-circle-fill"></i>
-                        <h5>Improved Accuracy</h5>
-                        <p>Enforce consistent rules and validations to enhance data quality and reliability.</p>
-                    </div>
-                </div>
-                 <div class="col-md-4">
-                    <div class="service-card">
-                        <i class="bi bi-gear-wide-connected"></i>
-                        <h5>Tailored Workflows</h5>
-                        <p>Get an application that perfectly matches your specific data types, sources, and business logic.</p>
-                    </div>
-                </div>
-                 <div class="col-md-4">
-                    <div class="service-card">
-                        <i class="bi bi-people-fill"></i>
-                        <h5>User-Friendly Interface</h5>
-                        <p>Empower your team with an intuitive tool designed for ease of use, reducing training needs.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="service-card">
-                        <i class="bi bi-plug-fill"></i>
-                        <h5>Seamless Integration</h5>
-                        <p>Connect directly to your existing databases or work smoothly with standard file formats (CSV, XLSX, etc.).</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="service-card">
-                        <i class="bi bi-graph-up-arrow"></i>
-                        <h5>Faster Insights</h5>
-                        <p>Get analysis-ready data quicker, enabling faster reporting and better decision-making.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-     <!-- Who It's For Section -->
+    <!-- Who It's For Section -->
     <section class="section bg-light">
         <div class="container">
             <h2 class="section-heading">Ideal For</h2>
@@ -990,10 +1611,10 @@
     
 
 
-        <!-- ================================================== -->
+    <!-- ================================================== -->
     <!-- Final CTA Section                                  -->
     <!-- ================================================== -->
-    <section class="final-cta-section mt-5">
+    <section class="final-cta-section pt-5" style="background-color: #F8F9FA;">
         <div class="container">
             <div class="cta-content-box row g-0 align-items-center">
 
