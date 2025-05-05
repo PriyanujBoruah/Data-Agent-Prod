@@ -4,9 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Custom Data Cleaning Solutions for Businesses</title>
-    <!-- Bootstrap CSS -->
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,8 +13,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Shantell+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <style>
         body {
-            padding-top: 0; /* Remove padding if not using fixed navbar */
-            background-color: #ffffff; /* Cleaner background */
+            padding-top: 0;
+            background-color: #ffffff;
             font-family: "Plus Jakarta Sans", sans-serif;
         }
         .text-info {
@@ -92,18 +91,16 @@
             padding-bottom: 0.5rem !important;
         }
         .border-gradient {
-            /* 1. Define the border width and style (needs to be set for border-image to work) */
             border: 3px solid transparent;
-            border-radius: 14px; /* Add this line */
-            background-image: linear-gradient(white, white),
-                                linear-gradient(100deg, #40ddff -6.08%, #7612fa 25.08%, #fa12e3);
+            border-radius: 14px;
+            background-image: linear-gradient(white, white), linear-gradient(100deg, #40ddff -6.08%, #7612fa 25.08%, #fa12e3);
             background-origin: border-box;
             background-clip: padding-box, border-box;
         }
 
         
 
-        .navbar-brand strong { /* Optional: Make brand stand out */
+        .navbar-brand strong {
             color: #000;
             font-size: medium;
         }
@@ -115,21 +112,20 @@
         }
 
         .hero-section {
-             /* Slightly softer gradient or solid color */
-            background: none; /* Light background */
-            color: #343a40; /* Darker text for light background */
+            background: none;
+            color: #343a40;
             padding: 6rem 1rem;
             text-align: center;
         }
         .hero-section h1 {
-            font-size: 3rem; /* Slightly smaller for B2B */
+            font-size: 3rem;
             font-weight: 700;
             margin-bottom: 1rem;
         }
         .hero-section .lead {
             font-size: 1.2rem;
             margin-bottom: 2rem;
-            max-width: 800px; /* Constrain width */
+            max-width: 800px;
             margin-left: auto;
             margin-right: auto;
         }
@@ -141,7 +137,7 @@
              margin-bottom: 3.5rem;
              font-weight: 600;
         }
-        .section-heading::after { /* Optional subtle underline */
+        .section-heading::after {
             content: '';
             display: block;
             width: 60px;
@@ -166,7 +162,7 @@
         }
 
         .service-card i {
-            font-size: 2.5rem; /* Slightly smaller icons */
+            font-size: 2.5rem;
             color: #7612fa;
             margin-bottom: 1rem;
         }
@@ -180,7 +176,7 @@
         }
         .process-step i {
             font-size: 2.5rem;
-            color: #6c757d; /* Secondary color for process icons */
+            color: #6c757d;
             margin-bottom: 0.5rem;
             display: block;
         }
@@ -202,36 +198,31 @@
             font-size: 0.9em;
             color: #6c757d;
             background-color: #f8f9fa;
-            margin-top: 0; /* Remove margin if CTA is directly above */
+            margin-top: 0;
         }
 
 
-        .connectivity-section {
-            background-color: #F8F2FF !important; /* Very light purple/grey */
-        }
+        .connectivity-section { background-color: #F8F2FF !important; }
 
 
         /* --- Capabilities Grid Section Styles --- */
         .capabilities-section {
-            /* Subtle background, similar to reference */
             background-color: #F8F2FF !important;
-            background: radial-gradient(circle,rgba(248, 242, 255, 1) 0%, rgba(226, 207, 255, 1) 100%) !important; /* Very light purple/grey */
-             /* Optional gradient like the reference if desired: */
-             /* background: linear-gradient(to bottom, rgba(248, 247, 252, 0.1), rgba(248, 247, 252, 1)); */
+            background: radial-gradient(circle,rgba(248, 242, 255, 1) 0%, rgba(226, 207, 255, 1) 100%) !important;
         }
 
         .capability-card {
             background-color: #ffffff;
             border: 1px solid #e9ecef;
-            border-radius: 0.75rem; /* More rounded corners like reference */
-            padding: 1.5rem 1rem; /* Adjust padding */
-            height: 100%; /* Ensure cards in a row have same height */
+            border-radius: 0.75rem;
+            padding: 1.5rem 1rem;
+            height: 100%;
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-color 0.4s ease-in-out;
-            display: flex; /* Use flexbox for alignment */
-            flex-direction: column; /* Stack icon and text vertically */
-            justify-content: center; /* Center content vertically */
-            align-items: center; /* Center content horizontally */
-            min-height: 120px; /* Ensure a minimum height */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 120px;
         }
         .capability-card:hover {
             border-color: #7612fa;
@@ -240,41 +231,36 @@
         }
 
         .capability-card i {
-            font-size: 2rem; /* Icon size */
-            color: #7612fa; /* Example color (purpleish like reference) - Choose your brand color */
+            font-size: 2rem;
+            color: #7612fa;
             margin-bottom: 0.75rem;
         }
 
         .capability-card h6 {
-            font-size: 0.9rem; /* Smaller text for capability title */
+            font-size: 0.9rem;
             font-weight: 500;
-            margin-bottom: 0; /* Remove bottom margin */
-            color: #343a40; /* Darker text */
+            margin-bottom: 0;
+            color: #343a40;
         }
         /* --- End Capabilities Grid Styles --- */
 
 
         /* --- Use Cases Section Styles --- */
         .use-cases-section {
-            background-color: #ffffff; /* Or a very light off-white */
+            background-color: #ffffff;
         }
 
-        .accordion-flush .accordion-item {
-             border: none; /* Remove default borders */
-             border-bottom: 1px solid #e9ecef; /* Add subtle bottom border */
-        }
-        .accordion-flush .accordion-item:last-child {
-            border-bottom: none; /* Remove border on last item */
-        }
+        .accordion-flush .accordion-item { border: none; border-bottom: 1px solid #e9ecef; }
+        .accordion-flush .accordion-item:last-child { border-bottom: none; }
 
         .accordion-button.use-case-btn {
-            background-color: transparent !important; /* Remove default background */
-            color: #495057; /* Default text color */
+            background-color: transparent !important;
+            color: #495057;
             font-size: 18px;
             font-weight: 500;
-            padding: 1.25rem 0.5rem 1.25rem 1.5rem; /* Adjust padding (more left padding) */
-            box-shadow: none !important; /* Remove focus shadow */
-            position: relative; /* Needed for the pseudo-element */
+            padding: 1.25rem 0.5rem 1.25rem 1.5rem;
+            box-shadow: none !important;
+            position: relative;
             transition: color 0.15s ease-in-out;
         }
 
@@ -282,7 +268,7 @@
             background: -webkit-linear-gradient(100deg, #40ddff 10%, #7612fa 25.08%, #fa12e3);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-weight: 600; /* Make active text bolder */
+            font-weight: 600;
         }
 
         /* Style the active state indicator (vertical bar) */
@@ -290,10 +276,9 @@
             content: '';
             position: absolute;
             left: 0;
-            top: 15%; /* Adjust vertical position */
+            top: 15%;
             bottom: 15%;
-            width: 4px; /* Width of the bar */
-            /* Apply the gradient background */
+            width: 4px;
             background-image: linear-gradient(100deg, #40ddff -6.08%, #7612fa 25.08%, #fa12e3);
             border-radius: 3px;
         }
@@ -305,31 +290,25 @@
         }
 
         .accordion-body {
-            padding: 0.5rem 0.5rem 1.25rem 1.5rem; /* Match left padding, adjust others */
+            padding: 0.5rem 0.5rem 1.25rem 1.5rem;
             font-size: 0.95em;
             color: #6c757d;
         }
 
-        /*.use-case-image-container {
-             /* Optional: add styles if needed */
         
-        /* --- End Use Cases Section Styles --- */
-
-
-
         /* --- Deliverables Section Styles --- */
         .deliverables-section {
-            background-color: none; /* Or bg-light if preferred */
+            background-color: none;
         }
 
         .deliverable-card {
-            background-color: #fff; /* Light card background */
-            border: 1px solid #dee2e6; /* Subtle border */
-            border-radius: 0.75rem; /* Rounded corners */
-            overflow: hidden; /* Keep image corners rounded */
-            display: flex; /* Ensure flex works for height alignment */
-            flex-direction: column; /* Stack image and content */
-            width: 100%; /* Ensure card takes full column width */
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
             box-shadow: 0 1px 1px -.5px rgba(18, 43, 165, .04), 0 3px 3px -1.5px rgba(18, 43, 165, .04), 0 6px 6px -3px rgba(18, 43, 165, .04), 0 12px 12px -6px rgba(18, 43, 165, .04);
         }
@@ -340,29 +319,27 @@
 
         .deliverable-card .card-image-top {
             width: 100%;
-            /* height: 200px; */ /* Optional fixed height for images */
-            /* background-color: #e9ecef; */ /* Placeholder color if needed */
-            overflow: hidden; /* Ensure image doesn't break border radius */
+            overflow: hidden;
         }
 
         .deliverable-card .card-image-top img {
             display: block;
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Cover the area */
+            object-fit: cover;
         }
 
         .deliverable-card .card-content {
-            padding: 1.25rem; /* Padding for text content */
-            flex-grow: 1; /* Allow content to take remaining space */
+            padding: 1.25rem;
+            flex-grow: 1;
         }
 
         .deliverable-card h5 {
-            color: #212529; /* Dark heading */
+            color: #212529;
         }
 
         .deliverable-card p.small {
-            color: #495057; /* Slightly lighter paragraph text */
+            color: #495057;
             line-height: 1.6;
         }
         /* --- End Deliverables Section Styles --- */
@@ -371,22 +348,15 @@
 
         /* --- Client Use Cases Section Styles --- */
         .client-use-cases-section {
-            /* background-color: #f8f7fc; */ /* Use bg-light class instead */
-            padding-bottom: 5rem; /* More padding at the bottom */
+            padding-bottom: 5rem; 
         }
 
         .filter-buttons .btn {
-            border-radius: 1.5rem; /* Pill-like buttons */
+            border-radius: 1.5rem; 
             padding: 0.3rem 1rem;
             font-size: 0.9em;
             transition: all 0.2s ease-in-out;
         }
-        /*.filter-buttons .btn.active {
-             /* Keep btn-dark style, or define custom active style */
-             /* background-color: #495057;
-             color: white; */
-        
-
         .testimonial-feature-box {
              background-color: #ffffff;
         }
@@ -395,13 +365,13 @@
             margin-bottom: 0.5rem;
         }
         .check-list i {
-            vertical-align: middle; /* Align icon better */
+            vertical-align: middle; 
         }
 
         .testimonial img {
             width: 60px;
             height: 60px;
-            object-fit: cover; /* Ensure image covers space nicely */
+            object-fit: cover; 
         }
         .testimonial .stars {
             font-size: 0.9em;
@@ -418,20 +388,19 @@
          }
 
         /*.feature-list-box {
-            /* Container for the list */
+        /* Container for the list */
         .feature-list-item {
             display: flex;
             align-items: center;
             padding: 1rem 0;
-            border-bottom: 1px solid #f1f3f5; /* Lighter border */
+            border-bottom: 1px solid #f1f3f5;
         }
          .feature-list-item:last-child {
             border-bottom: none;
          }
         .feature-list-item i {
-            font-size: 1.5rem; /* Icon size */
+            font-size: 1.5rem;
             margin-right: 1rem;
-            /* color: #6f42c1; /* Example color */
         }
         .feature-list-item span {
             font-weight: 500;
@@ -443,29 +412,23 @@
 
         /* --- Final CTA Section Styles --- */
         .final-cta-section {
-            padding: 0; /* Remove padding from section itself if box handles it */
+            padding: 0;
         }
 
         .cta-content-box {
-            background-color: #1a1c1f; /* Dark background */
-             /* Optional Dark Gradient */
-             /* background: linear-gradient(100deg, #343a40, #1a1c1f); */
-            color: #f8f9fa; /* Light text */
-            border-radius: 1rem; /* Rounded corners */
-            overflow: hidden; /* Important to contain the image */
-             min-height: 450px; /* Ensure minimum height */
+            background-color: #1a1c1f; 
+            color: #f8f9fa; 
+            border-radius: 1rem; 
+            overflow: hidden; 
+             min-height: 450px; 
         }
 
         .cta-content-box .text-content {
-             /* Flex properties for vertical centering if needed, but padding might suffice */
-             /* display: flex;
-             flex-direction: column;
-             justify-content: center; */
-             z-index: 1; /* Ensure text is above image if overlap occurs */
+             z-index: 1; 
         }
 
         .btn-cta-gradient {
-            background-image: linear-gradient(to right, #6f42c1, #e83e8c); /* Example Gradient - Match your brand! */
+            background-image: linear-gradient(to right, #6f42c1, #e83e8c); 
             border: none;
             color: white;
             transition: opacity 0.2s ease-in-out;
@@ -476,19 +439,17 @@
         }
 
         .cta-content-box .image-column {
-            padding: 0; /* Remove padding from image column */
-            position: relative; /* For potential absolute positioning inside */
-            min-height: 450px; /* Match text side */
+            padding: 0; 
+            position: relative; 
+            min-height: 450px; 
         }
 
         .cta-content-box .cta-image {
             /* Make image cover the column height */
             height: 100%;
             width: 100%;
-            object-fit: cover; /* Cover the area, might crop */
-            object-position: center; /* Center the image */
-            /* Optional: Slight desaturation/overlay for text readability if needed */
-            /* filter: grayscale(30%) brightness(90%); */
+            object-fit: cover; 
+            object-position: center;
         }
         /* --- End Final CTA Section Styles --- */
 
@@ -509,39 +470,37 @@
 
         /* --- Detailed Examples Section Styles --- */
         .detailed-examples-section {
-             background-color: #fff; /* Light background for the whole section */
+             background-color: #fff;
         }
 
         .example-card {
-            background-color: #f8f8fc; /* White background for cards */
+            background-color: #f8f8fc; 
             border: 1px solid var(--colors-UI-Border-Default, rgba(96, 96, 163, .3));
-            border-radius: 0.75rem; /* Rounded corners */
-            padding: 1.5rem; /* Padding inside the card */
-            width: 100%; /* Ensure card fills column */
-            display: flex; /* Use flexbox */
-            flex-direction: column; /* Stack content vertically */
+            border-radius: 0.75rem; 
+            padding: 1.5rem; 
+            width: 100%; 
+            display: flex; 
+            flex-direction: column; 
             box-shadow: 0 1px 1px -.5px rgba(18, 43, 165, .04), 0 3px 3px -1.5px rgba(18, 43, 165, .04), 0 6px 6px -3px rgba(18, 43, 165, .04), 0 12px 12px -6px rgba(18, 43, 165, .04);
         }
 
         .example-card h4 {
-            color: #343a40; /* Darker heading */
+            color: #343a40;
         }
 
         .example-card p.small {
             color: #495057;
             line-height: 1.6;
-            flex-grow: 1; /* Allow paragraph to push image down */
+            flex-grow: 1; 
         }
 
         .example-card .example-image {
-             margin-top: 1.5rem; /* Space above image, or use mt-auto */
-             /* background-color: #e9ecef; */ /* Optional placeholder background */
-             border-radius: 0.5rem; /* Slightly rounded image corners */
-             overflow: hidden; /* Clip image to border radius */
+             margin-top: 1.5rem; 
+             border-radius: 0.5rem; 
+             overflow: hidden; 
         }
         .example-card .example-image img {
-             display: block; /* Remove extra space below image */
-             /* border: 1px solid #ced4da; */ /* Border is on the image itself now */
+             display: block; 
         }
         /* --- End Detailed Examples Section Styles --- */
 
@@ -550,16 +509,14 @@
         /* --- Scrolling Banner Section --- */
         .scrolling-banner-section {
             padding-top: 4rem;
-            padding-bottom: 6rem; /* Add padding below rows */
-            background-color: #f8f9fa; /* Or keep white */
+            padding-bottom: 6rem; 
+            background-color: #f8f9fa; 
         }
 
         .scrolling-banner-container {
-            position: relative; /* For absolute positioning of logo */
-            padding: 2rem 0; /* Vertical padding */
-            overflow: hidden; /* Hide overflowing text */
-            /* Optional subtle background gradient for rows */
-             /* background: linear-gradient(to bottom, rgba(233, 236, 239, 0.5), rgba(233, 236, 239, 0.8)); */
+            position: relative; 
+            padding: 2rem 0; 
+            overflow: hidden; 
         }
 
         /* --- Vignette/Fade Effect using Pseudo-elements --- */
@@ -568,66 +525,53 @@
             content: '';
             position: absolute;
             top: 0;
-            bottom: 0; /* Cover full height */
-            width: 100px; /* Width of the fade - Adjust as needed */
-            z-index: 5; /* Sit above scrolling content but below central logo */
-            pointer-events: none; /* Allow clicks to pass through */
+            bottom: 0; 
+            width: 100px; 
+            z-index: 5; 
+            pointer-events: none; 
         }
 
         .scrolling-banner-container::before {
             left: 0;
-             /* Gradient from transparent to container background */
             background: linear-gradient(to right,
-                #ffffff 0%,          /* Start with solid background color */
-                rgba(255, 255, 255, 0) 100% /* Fade to transparent */
-            );
-            /* Change #f8f9fa to match the actual background color
-               of .scrolling-banner-section or .scrolling-banner-container
-               if you changed it from bg-light */
+                #ffffff 0%, rgba(255, 255, 255, 0) 100%);
         }
 
         .scrolling-banner-container::after {
             right: 0;
-            /* Gradient from container background to transparent */
-             background: linear-gradient(to left,
-                 #ffffff 0%,         /* Start with solid background color */
-                 rgba(255, 255, 255, 0) 100% /* Fade to transparent */
-            );
-             /* Change #f8f9fa to match the actual background color */
+            background: linear-gradient(to left, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
         }
          /* --- End Vignette Effect --- */
 
         .scrolling-row {
             width: 100%;
-            overflow: hidden; /* Ensure row itself clips */
+            overflow: hidden; 
         }
-        .scrolling-row.bottom-row { margin-bottom: 1.5rem; margin-top: 1.5rem;} /* Space between rows */
+        .scrolling-row.bottom-row { margin-bottom: 1.5rem; margin-top: 1.5rem;} 
 
         .scrolling-content {
-            display: flex; /* Arrange items horizontally */
-            width: max-content; /* Allow content to determine width */
-            will-change: transform; /* Optimize animation performance */
-            animation: scrollLeft 40s linear infinite; /* Default scroll left */
+            display: flex; 
+            width: max-content; 
+            will-change: transform; 
+            animation: scrollLeft 40s linear infinite; 
         }
 
         .scrolling-content.scroll-right {
-             /* animation-name: scrollRight; /* Use different animation or direction */
-             animation: scrollLeft 45s linear infinite reverse; /* Simpler: Reverse the left scroll */
-             /* Adjust duration slightly for variation */
+             animation: scrollLeft 45s linear infinite reverse; 
         }
 
         .scroll-item {
             background-color: #ffffff;
             color: #495057;
             padding: 0.6rem 1.2rem;
-            margin: 0 0.75rem; /* Space between items */
-            border-radius: 0.75rem; /* Rounded corners */
+            margin: 0 0.75rem; 
+            border-radius: 0.75rem; 
             border: 1px solid #dee2e6;
-            white-space: nowrap; /* Prevent text wrapping */
+            white-space: nowrap; 
             font-size: 0.9em;
             font-weight: 500;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            flex-shrink: 0; /* Prevent items from shrinking */
+            flex-shrink: 0; 
         }
 
         .central-logo {
@@ -635,41 +579,32 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            z-index: 10; /* Ensure logo is above scrolling rows */
-            background-color: #ffffff; /* Background for the logo circle */
-            border-radius: 50%; /* Make it circular */
-            width: 200px;  /* Adjust size as needed */
-            height: 200px; /* Adjust size as needed */
+            z-index: 10; 
+            background-color: #ffffff; 
+            border-radius: 50%; 
+            width: 200px;  
+            height: 200px; 
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 1rem; /* Padding inside the circle */
+            padding: 1rem; 
         }
 
         .central-logo img {
-            max-width: 80%; /* Ensure logo fits inside padding */
+            max-width: 80%; 
             max-height: 80%;
             object-fit: contain;
         }
-        .central-logo i { /* If using an icon instead of img */
-             font-size: 3rem; /* Adjust icon size */
+        .central-logo i { 
+             font-size: 3rem; 
         }
 
         /* Animation Keyframes */
         @keyframes scrollLeft {
             0% { transform: translateX(0%); }
-            /* Move one full set of original items to the left */
             100% { transform: translateX(-50%); }
         }
-
-        /* Optional keyframes for right scroll if not using reverse */
-        /* @keyframes scrollRight {
-            0% { transform: translateX(-50%); }
-            100% { transform: translateX(0%); }
-        } */
-
-        /* --- End Scrolling Banner Styles --- */
-
+        
     </style>
 </head>
 <body>
@@ -712,16 +647,15 @@
     <!-- ================================================== -->
     <!-- Problem / Custom Solution Section                  -->
     <!-- ================================================== -->
-    <section class="section"> <!-- Or keep bg-light if preferred -->
+    <section class="section">
         <div class="container">
-            <div class="row g-4 align-items-stretch"> <!-- Use g-4 for gutter, align-items-stretch to make columns equal height -->
+            <div class="row g-4 align-items-stretch">
 
                 <!-- Problem Column (Left) -->
                 <div class="col-lg-6 d-flex">
                     <div class="problem-box p-4 p-md-5 rounded shadow-sm border w-100">
                          <h2 class="fw-bold mb-3">Working with data?</h2>
                          <p class="text-muted mb-4">Unspecialized data cleaning and analysis wastes time, creates inaccuracies and reduces revenue.</p>
-                         <!-- Replace placeholder with a graphic representing data chaos, spreadsheets, errors -->
                          <ul class="list-unstyled mt-4 text-muted small">
                             <li><i class="bi bi-clock-history me-2 text-danger"></i>Hours lost on repetitive tasks</li>
                             <li><i class="bi bi-bug me-2 text-danger"></i>Costly errors slipping into reports</li>
@@ -763,13 +697,13 @@
             <h2 class="fw-bold">Solve Your Specific Data Problems</h2>
             <p class="mx-auto mb-5" style="letter-spacing: -.25px; font-size: 1.125rem; line-height: 1.3333333333; font-weight: 500;">From streamlining marketing lists to reconciling financial data, get the precise tool you need.</p>
 
-            <div class="row g-5 align-items-center"> <!-- g-5 for larger gutter -->
+            <div class="row g-5 align-items-center">
 
                 <!-- Left Column: Accordion Use Cases -->
                 <div class="col-lg-4" style="text-align: left;">
                     <div class="accordion accordion-flush" id="useCasesAccordion">
 
-                        <!-- Use Case 1 (Default Open) -->
+                        <!-- Use Case 1 -->
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingOne">
                                 <button class="accordion-button use-case-btn" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -824,14 +758,8 @@
                                 </div>
                             </div>
                         </div>
-                         <!-- Add more accordion items as needed -->
 
                     </div> <!-- End Accordion -->
-
-                    <!-- Optional Button -->
-                    <!-- <div class="text-center mt-4">
-                         <a href="#contact" class="btn btn-dark">Explore All Use Cases <i class="bi bi-arrow-right ms-1"></i></a>
-                    </div> -->
 
                 </div> <!-- End Left Column -->
 
@@ -839,8 +767,6 @@
                 <div class="col-lg-8">
                     <div class="use-case-image-container p-3 border rounded shadow-sm bg-light">
                         <img src="image.png" class="img-fluid rounded" alt="Conceptual image of a custom data cleaning application interface">
-                        <!-- IMPORTANT: Replace with a relevant image -->
-                        <!-- Consider using JS to change this image based on accordion selection for dynamic effect -->
                     </div>
                 </div> <!-- End Right Column -->
 
@@ -854,13 +780,13 @@
     <!-- ================================================== -->
     <!-- Old Way vs. Custom App Way Section                 -->
     <!-- ================================================== -->
-    <section class="section comparison-section"> <!-- Use bg-light for section -->
+    <section class="section comparison-section">
         <div class="container text-center">
             <p class="text-info fw-bold medium mb-2 text-center sub-head" style="font-size: 1.125rem;">The Data Cleaning Difference</p>
             <h2 class="fw-bold">Stop Fighting Spreadsheets, Start Cleaning Efficiently</h2>
             <p class="mx-auto mb-5" style="letter-spacing: -.25px; font-size: 1.125rem; line-height: 1.3333333333; font-weight: 500;">Compare tedious manual processes with the speed and accuracy of a tailored application.</p>
 
-            <div class="row g-4 g-lg-5 align-items-stretch"> <!-- g-lg-5 for wider gutter on large screens -->
+            <div class="row g-4 g-lg-5 align-items-stretch">
 
                 <!-- Left Column: The Old Way -->
                 <div class="col-lg-6 d-flex">
@@ -931,19 +857,17 @@
     <!-- ================================================== -->
     <section class="section deliverables-section">
         <div class="container text-center">
-            <!-- Optional Section Header -->
             <p class="text-info fw-bold medium mb-2 text-center sub-head" style="font-size: 1.125rem;">What You Get</p>
             <h2 class="fw-bold">A Powerful, Purpose-Built Cleaning Engine</h2>
             <p class="mx-auto mb-5" style="text-align: center; letter-spacing: -.25px; font-size: 1.125rem; line-height: 1.3333333333; font-weight: 500;">We deliver more than just code; we provide a complete solution focused on usability and results.</p>
 
-            <div class="row g-4 justify-content-center"> <!-- Use justify-content-center if fewer than 3 cards -->
+            <div class="row g-4 justify-content-center"> 
 
                 <!-- Card 1 -->
-                <div class="col-md-6 col-lg-4 d-flex"> <!-- Use d-flex for equal height cards -->
+                <div class="col-md-6 col-lg-4 d-flex"> 
                     <div class="deliverable-card">
                         <div class="card-image-top">
                             <img src="data-cleaning.png" alt="Screenshot of a clean app interface">
-                             <!-- Replace with relevant image -->
                         </div>
                         <div class="card-content">
                             <h5 class="fw-bold mt-3 mb-2">Advanced Data Cleaning</h5>
@@ -957,7 +881,6 @@
                     <div class="deliverable-card">
                         <div class="card-image-top">
                             <img src="data-featuring.png" alt="Visualization of custom logic">
-                             <!-- Replace with relevant image -->
                         </div>
                          <div class="card-content">
                             <h5 class="fw-bold mt-3 mb-2">In-Depth Feature Identification</h5>
@@ -971,7 +894,6 @@
                     <div class="deliverable-card">
                         <div class="card-image-top">
                             <img src="data-visual.png" alt="Diagram showing data flow">
-                             <!-- Replace with relevant image -->
                         </div>
                          <div class="card-content">
                             <h5 class="fw-bold mt-3 mb-2">Intuitive Data Visualization</h5>
@@ -979,8 +901,6 @@
                         </div>
                     </div>
                 </div>
-
-                 <!-- Add more cards if needed -->
 
             </div> <!-- End Row -->
         </div> <!-- End Container -->
@@ -1006,7 +926,6 @@
             <!-- Top Row (Scrolls Left) -->
             <div class="scrolling-row top-row">
                 <div class="scrolling-content scroll-left">
-                    <!-- Add your text items here - DUPLICATE the entire set for infinite scroll -->
                     <span class="scroll-item">Missing Data Handling</span>
                     <span class="scroll-item">Duplicate Detection</span>
                     <span class="scroll-item">Data Type Conversion</span>
@@ -1030,7 +949,6 @@
             <!-- Bottom Row (Scrolls Right) -->
             <div class="scrolling-row bottom-row">
                  <div class="scrolling-content scroll-right">
-                     <!-- Add different text items - DUPLICATE the entire set -->
                     <span class="scroll-item">Regex Pattern Validation</span>
                     <span class="scroll-item">Custom Business Rules</span>
                     <span class="scroll-item">Outlier Management</span>
@@ -1054,7 +972,6 @@
             <!-- Top Row (Scrolls Left) -->
             <div class="scrolling-row top-row">
                 <div class="scrolling-content scroll-left">
-                    <!-- Add your text items here - DUPLICATE the entire set for infinite scroll -->
                     <span class="scroll-item">Cleaning Suggestion</span>
                     <span class="scroll-item">Numerical Pattern</span>
                     <span class="scroll-item">Correlation Heatmap</span>
@@ -1063,7 +980,7 @@
                     <span class="scroll-item">Grouped Numerical Analysis</span>
                     <span class="scroll-item">Column Analytics</span>
                     <span class="scroll-item">Deduplication</span>
-                    <!-- Duplicate Set 1 -->
+                    <!-- Duplicate Set 3 -->
                     <span class="scroll-item">Cleaning Suggestion</span>
                     <span class="scroll-item">Numerical Pattern</span>
                     <span class="scroll-item">Correlation Heatmap</span>
@@ -1078,8 +995,6 @@
             <!-- Central Logo -->
             <div class="central-logo" style="border: 1px solid #ceceea;">
                 <img src="img.png" alt="Logo Overlay">
-                <!-- Or use an Icon -->
-                <!-- <i class="bi bi-shield-check display-1 text-primary"></i> -->
             </div>
 
         </div> <!-- End Scrolling Banner Container -->
@@ -1095,7 +1010,6 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-11 col-xl-10">
-                    <!-- Section Header (Keep as before) -->
                     <div class="text-center mb-5">
                         <p class="text-info fw-bold medium mb-2 text-center sub-head" style="font-size: 1.125rem;">Automated Data Cleaning</p>
                         <h2 class="fw-bold" style="font-size: 2.625rem;">Advanced cleaning to achieve high quality data</h2>
@@ -1107,10 +1021,10 @@
 
                     <!-- Examples Grid -->
                     <!-- Row 1: Two Columns -->
-                    <div class="row g-4 align-items-stretch justify-content-center mb-4"> <!-- Added mb-4 for spacing -->
+                    <div class="row g-4 align-items-stretch justify-content-center mb-4">
 
                         <!-- Example Card 1 -->
-                        <div class="col-md-6 d-flex"> <!-- Stays col-md-6 -->
+                        <div class="col-md-6 d-flex">
                             <div class="example-card">
                                 <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">One-Click Automated Cleaning</h4>
                                 <p class="text-md" style="font-size: 1rem; font-weight: 500;">Instantly tidy your data! Auto-Clean handles common issues like whitespace, basic type conversion, and outliers in one click.</p>
@@ -1121,7 +1035,7 @@
                         </div>
 
                         <!-- Example Card 2 -->
-                        <div class="col-md-6 d-flex"> <!-- Stays col-md-6 -->
+                        <div class="col-md-6 d-flex">
                             <div class="example-card">
                                 <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">Interactive Table</h4>
                                 <p class="text-md" style="font-size: 1rem; font-weight: 500;">Go beyond the surface. Explore column distributions, missing values, and outliers with a single click.</p>
@@ -1137,7 +1051,7 @@
                     <div class="row g-4 align-items-stretch justify-content-center">
 
                         <!-- Example Card 3 -->
-                        <div class="col-md-6 col-lg-4 d-flex"> <!-- Changed to col-lg-4 -->
+                        <div class="col-md-6 col-lg-4 d-flex">
                             <div class="example-card">
                                 <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">Advanced Cleaning Tools</h4>
                                 <p class="text-md" style="font-size: 1rem; font-weight: 500;">Go beyond basic cleaning. Tackle complex issues like specific value mapping, case changes, and regex replacements.</p>
@@ -1148,7 +1062,7 @@
                         </div>
 
                         <!-- Example Card 4 -->
-                        <div class="col-md-6 col-lg-4 d-flex"> <!-- Changed to col-lg-4 -->
+                        <div class="col-md-6 col-lg-4 d-flex">
                             <div class="example-card">
                                 <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">Instant Column Analytics</h4>
                                 <p class="text-md" style="font-size: 1rem; font-weight: 500;">Essential metrics, always visible. Keep track of your data's shape with the Stat-Bar.</p>
@@ -1159,18 +1073,15 @@
                         </div>
 
                         <!-- Example Card 5 -->
-                        <div class="col-md-6 col-lg-4 d-flex"> <!-- Changed to col-lg-4 -->
+                        <div class="col-md-6 col-lg-4 d-flex">
                             <div class="example-card">
                                 <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">Intuitive Column Manipulation</h4>
                                 <p class="text-md" style="font-size: 1rem; font-weight: 500;">Structure your data for analysis: Easily manipulate columns using dedicated tools.</p>
                                 <div class="example-image mt-auto">
-                                    <img src="column-cleaning.png" alt="Data Enrichment Example" class="img-fluid rounded border">
-                                    <!-- Replace with relevant visual -->
+                                    <img src="column-cleaning.png" alt="Data Enrichment Example" class="img-fluid rounded border"><!-- Replace with relevant visual -->
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Add more rows of 3 if needed -->
 
                     </div> <!-- End Row 2 -->
                 </div>
@@ -1188,7 +1099,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-11 col-xl-10">
-                    <!-- Section Header (Keep as before) -->
+                    <!-- Section Header -->
                     <div class="text-center mb-5">
                         <p class="text-info fw-bold medium mb-2 text-center sub-head" style="font-size: 1.125rem;">One-Tap Feature Identification</p>
                         <h2 class="fw-bold" style="font-size: 2.625rem;">A single-click for complete feature detection, pattern recognition, and feature extraction</h2>
@@ -1200,10 +1111,10 @@
 
                     <!-- Examples Grid -->
                     <!-- Row 1: Two Columns -->
-                    <div class="row g-4 align-items-stretch justify-content-center mb-4"> <!-- Added mb-4 for spacing -->
+                    <div class="row g-4 align-items-stretch justify-content-center mb-4"> 
 
                         <!-- Example Card 1 -->
-                        <div class="col-md-6 d-flex"> <!-- Stays col-md-6 -->
+                        <div class="col-md-6 d-flex"> 
                             <div class="example-card">
                                 <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">Data Overview & Quality</h4>
                                 <p class="text-md" style="font-size: 1rem; font-weight: 500;">Know Your Data Instantly: Overview provides immediate insights into dataset structure and potential quality red flags.</p>
@@ -1214,7 +1125,7 @@
                         </div>
 
                         <!-- Example Card 2 -->
-                        <div class="col-md-6 d-flex"> <!-- Stays col-md-6 -->
+                        <div class="col-md-6 d-flex"> 
                             <div class="example-card">
                                 <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">In-Depth Correlation Analysis</h4>
                                 <p class="text-md" style="font-size: 1rem; font-weight: 500;">Identify Key Variable Interactions: See which numerical features move together or in opposition, guiding your analysis.</p>
@@ -1230,7 +1141,7 @@
                     <div class="row g-4 align-items-stretch justify-content-center">
 
                         <!-- Example Card 3 -->
-                        <div class="col-md-6 col-lg-4 d-flex"> <!-- Changed to col-lg-4 -->
+                        <div class="col-md-6 col-lg-4 d-flex"> 
                             <div class="example-card">
                                 <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">Numerical Column Patterns</h4>
                                 <p class="text-md" style="font-size: 1rem; font-weight: 500;">Deep Dive into Numerical Distributions: Instantly assess skewness, kurtosis, potential non-normality, and zero-inflation for every number column.</p>
@@ -1241,7 +1152,7 @@
                         </div>
 
                         <!-- Example Card 4 -->
-                        <div class="col-md-6 col-lg-4 d-flex"> <!-- Changed to col-lg-4 -->
+                        <div class="col-md-6 col-lg-4 d-flex"> 
                             <div class="example-card">
                                 <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">Cleaning Suggestions</h4>
                                 <p class="text-md" style="font-size: 1rem; font-weight: 500;">Smart Recommendations: Receive context-aware suggestions for improving data quality and preparing features for modeling.</p>
@@ -1252,18 +1163,15 @@
                         </div>
 
                         <!-- Example Card 5 -->
-                        <div class="col-md-6 col-lg-4 d-flex"> <!-- Changed to col-lg-4 -->
+                        <div class="col-md-6 col-lg-4 d-flex"> 
                             <div class="example-card">
                                 <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">Grouped Numerical Analysis</h4>
                                 <p class="text-md" style="font-size: 1rem; font-weight: 500;">Uncover Segment Patterns: Identify significant differences in numerical behavior between distinct groups in your data.</p>
                                 <div class="example-image mt-auto">
                                     <img src="feature-group.png" alt="Data Enrichment Example" class="img-fluid rounded border">
-                                    <!-- Replace with relevant visual -->
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Add more rows of 3 if needed -->
 
                     </div> <!-- End Row 2 -->
                 </div>
@@ -1281,7 +1189,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-11 col-xl-10">
-                    <!-- Section Header (Keep as before) -->
+                    <!-- Section Header -->
                     <div class="text-center mb-5">
                         <p class="text-info fw-bold medium mb-2 text-center sub-head" style="font-size: 1.125rem;">Easy Data Visualization</p>
                         <h2 class="fw-bold" style="font-size: 2.625rem;">Reveal patterns, trends and relationships using advanced visualizations</h2>
@@ -1293,10 +1201,10 @@
 
                     <!-- Examples Grid -->
                     <!-- Row 1: Two Columns -->
-                    <div class="row g-4 align-items-stretch justify-content-center mb-4"> <!-- Added mb-4 for spacing -->
+                    <div class="row g-4 align-items-stretch justify-content-center mb-4">
 
                         <!-- Example Card 1 -->
-                        <div class="col-md-6 d-flex"> <!-- Stays col-md-6 -->
+                        <div class="col-md-6 d-flex">
                             <div class="example-card">
                                 <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">One-Click Visualization</h4>
                                 <p class="text-md" style="font-size: 1rem; font-weight: 500;">Instant Visual Overview: Generate essential plots for your entire dataset with a single click.</p>
@@ -1307,7 +1215,7 @@
                         </div>
 
                         <!-- Example Card 2 -->
-                        <div class="col-md-6 d-flex"> <!-- Stays col-md-6 -->
+                        <div class="col-md-6 d-flex">
                             <div class="example-card">
                                 <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">Numerical Distributions</h4>
                                 <p class="text-md" style="font-size: 1rem; font-weight: 500;">Visualize Numerical Shape: Instantly understand distributions, skewness, and central tendency with histograms.</p>
@@ -1323,7 +1231,7 @@
                     <div class="row g-4 align-items-stretch justify-content-center">
 
                         <!-- Example Card 3 -->
-                        <div class="col-md-6 col-lg-4 d-flex"> <!-- Changed to col-lg-4 -->
+                        <div class="col-md-6 col-lg-4 d-flex">
                             <div class="example-card">
                                 <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">Categorical Counts</h4>
                                 <p class="text-md" style="font-size: 1rem; font-weight: 500;">Check Data Balance Effortlessly: Count plots reveal imbalances crucial for modeling and fairness checks.</p>
@@ -1334,7 +1242,7 @@
                         </div>
 
                         <!-- Example Card 4 -->
-                        <div class="col-md-6 col-lg-4 d-flex"> <!-- Changed to col-lg-4 -->
+                        <div class="col-md-6 col-lg-4 d-flex">
                             <div class="example-card">
                                 <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">Correlation Heatmaps</h4>
                                 <p class="text-md" style="font-size: 1rem; font-weight: 500;">Map Linear Relationships Instantly: The correlation heatmap provides a bird's-eye view of numerical interactions.</p>
@@ -1345,18 +1253,15 @@
                         </div>
 
                         <!-- Example Card 5 -->
-                        <div class="col-md-6 col-lg-4 d-flex"> <!-- Changed to col-lg-4 -->
+                        <div class="col-md-6 col-lg-4 d-flex">
                             <div class="example-card">
                                 <h4 class="fw-bold mb-2" style="font-size: 1.25rem;">Sampled Relationships</h4>
                                 <p class="text-md" style="font-size: 1rem; font-weight: 500;">Visualize Pairwise Trends: Scatter plots (with trendlines) reveal the nature of relationships between numerical pairs.</p>
                                 <div class="example-image mt-auto">
                                     <img src="visual-relations.png" alt="Data Enrichment Example" class="img-fluid rounded border">
-                                    <!-- Replace with relevant visual -->
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Add more rows of 3 if needed -->
 
                     </div> <!-- End Row 2 -->
                 </div>
@@ -1396,7 +1301,7 @@
         </div>
     </section>
 
-    <!-- Benefits Section (Reframed from Features) -->
+    <!-- Benefits Section -->
     <section class="section">
         <div class="container">
             <h2 class="section-heading">Benefits of a Custom Solution</h2>
@@ -1454,14 +1359,12 @@
     <!-- ================================================== -->
     <section class="section">
         <div class="container">
-            <div class="row gx-5 gy-4 align-items-center justify-content-center"> <!-- Added justify-content-center to row -->
-                <!-- Added text-center to the column div -->
-                <div class="col-lg-8 text-center"> <!-- Adjust col size (e.g., col-lg-8) to constrain width if needed -->
-                    <p class="text-info fw-bold medium mb-2 text-center sub-head" style="font-size: 1.125rem;">What Makes Us Different</p> <!-- Removed text-center here, parent handles it -->
-                    <h2 class="fw-bold mb-3">Your App is Truly Yours</h2> <!-- Removed text-center here -->
+            <div class="row gx-5 gy-4 align-items-center justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <p class="text-info fw-bold medium mb-2 text-center sub-head" style="font-size: 1.125rem;">What Makes Us Different</p>
+                    <h2 class="fw-bold mb-3">Your App is Truly Yours</h2>
                     <p class="lead mb-4"><span class="small">Your solution is built especially for your data. After development is completed, we deliver the customized platform to your team.</span> <span class="fw-semibold small">You get the complete code, no extra monthly costs / subscriptions.</span> <span class="small">You only pay for the development fee that is required to build and customize your platform. Apart from all the advanced features like</span> <span class="fw-semibold small">Auto-Cleaning, One-Tap Feature Identification and Data Visualization,</span> <span class="small">you also get monthly support and maintenance to keep your platform up-to-date.</span></p> <!-- Removed text-center here -->
     
-                    <!-- Add inline styles or a custom class to the UL -->
                     <ul class="list-unstyled d-inline-block text-start">
                         <li class="mb-2"><i class="bi bi-check-lg text-success me-2"></i>Auto-Clean feature tuned according to your data.</li>
                         <li class="mb-2"><i class="bi bi-check-lg text-success me-2"></i>Identify every necessary & required feature in your data.</li>
@@ -1470,10 +1373,7 @@
                         <li class="mb-2"><i class="bi bi-check-lg text-success me-2"></i>Easy-to-use & user-friendly interface even for non-technical users.</li>
                     </ul>
     
-                     <!-- Keep text-muted centered by the parent -->
                      <p class="mt-3 fst-italic small text-muted">No hidden / extra costs after development.</p>
-                    <!-- Optional Button -->
-                    <!-- <a href="#contact" class="btn btn-outline-success mt-3">See Auto-Clean in Action</a> -->
                 </div>
             </div>
         </div>
@@ -1504,16 +1404,13 @@
                 <button type="button" class="btn btn-outline-dark btn-sm me-2 mb-2" data-filter="ecommerce">
                     <i class="bi bi-cart4 me-1"></i> E-commerce
                 </button>
-                <!-- <button type="button" class="btn btn-outline-dark btn-sm mb-2" data-filter="all">
-                    <i class="bi bi-grid-3x3-gap me-1"></i> See All Examples
-                </button> -->
             </div>
 
             <!-- Main Content Box -->
             <div class="testimonial-feature-box bg-white p-4 p-lg-5 border rounded shadow-sm" style="text-align: left;">
                 <div class="row g-5 align-items-center">
 
-                    <!-- Left Column: Use Case Details & Testimonial -->
+                    <!-- Left Column -->
                     <div class="col-lg-7">
                         <h4 class="fw-bold mb-3" id="use-case-title">Streamlined Marketing Campaign Lists</h4>
                         <p class="text-muted mb-4" id="use-case-description">Get marketing campaigns running faster with consistently clean and validated contact lists, ready for segmentation and outreach.</p>
@@ -1538,7 +1435,6 @@
                             <blockquote class="blockquote fst-italic" id="testimonial-quote">
                                 The custom cleaning app to save your team countless hours. You can now trust your campaign data and focus on strategy instead of tedious manual work.
                             </blockquote>
-                            <!-- Replace with real testimonial -->
                         </div>
                     </div>
 
@@ -1619,13 +1515,9 @@
             <div class="cta-content-box row g-0 align-items-center">
 
                 <!-- Left Column: Text & Button -->
-                 <!-- Add text-center here -->
                 <div class="col-lg-6 p-4 p-md-5 text-content text-center">
-                    <!-- Optional: Logo Placeholder -->
-                    <!-- <img src="your-logo-light.png" alt="Your Company Logo" height="40" class="mb-4"> -->
                     <h2 class="display-5 fw-bold mb-3">Ready for Clean, Reliable Data?</h2>
                     <p class="lead mb-4">Stop wrestling with messy data. Let us build a custom cleaning application that integrates seamlessly into your workflow and delivers trustworthy data for your analysis and reporting needs.</p>
-                    <!-- Button is inline-flex, will be centered by parent's text-center -->
                     <a href="https://tally.so/r/wLVB4j" class="btn btn-primary btn-lg fw-bold px-4 py-2 d-inline-flex align-items-center">
                         Get Your Customized Solution</i>
                     </a>
@@ -1639,8 +1531,7 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-             <!-- Update with your actual company/service name and year -->
-            <p>© 2025 DataWarp. All rights reserved.</p>
+             <p>© 2025 DataWarp. All rights reserved.</p>
         </div>
     </footer>
 
@@ -1664,10 +1555,8 @@
                     testimonial: {
                         quote: "The custom cleaning app to save your team countless hours. You can now trust your campaign data and focus on strategy instead of tedious manual work.",
                         attribution: "Solution within 5-7 days",
-                        imgSrc: "T1.png" // Replace
+                        imgSrc: "T1.png"
                     },
-                    // Optional: Features for right panel if making dynamic
-                    // features: [ {icon: 'bi-shield-check', text: 'Custom Validation Rules'}, ... ]
                 },
                 sales: {
                     title: "Accelerated Sales Operations",
@@ -1681,7 +1570,7 @@
                     testimonial: {
                         quote: "To improve your sales reporting accuracy and generate more leads as an essential part of your workflow.",
                         attribution: "Solution within 7-9 days",
-                        imgSrc: "https://via.placeholder.com/60x60/dee2e6/6c757d?text=David" // Replace
+                        imgSrc: "https://via.placeholder.com/60x60/dee2e6/6c757d?text=David"
                     }
                 },
                 finance: {
@@ -1696,7 +1585,7 @@
                     testimonial: {
                         quote: "Make your audit preparation smoother with our custom solution tailored specifically for your needs.",
                         attribution: "Solution within 6-8 days",
-                        imgSrc: "https://via.placeholder.com/60x60/dee2e6/6c757d?text=Maria" // Replace
+                        imgSrc: "https://via.placeholder.com/60x60/dee2e6/6c757d?text=Maria"
                     }
                 },
                 ecommerce: {
@@ -1711,10 +1600,9 @@
                     testimonial: {
                         quote: "Manage multiple supplier feeds with our custom app standardizing everything, saving you huge amounts of time.",
                         attribution: "Solution within 5-7 days",
-                        imgSrc: "https://via.placeholder.com/60x60/dee2e6/6c757d?text=Kevin" // Replace
+                        imgSrc: "https://via.placeholder.com/60x60/dee2e6/6c757d?text=Kevin"
                     }
                 }
-                // Add more categories matching your buttons
             };
         
             // --- DOM References for Updatable Content ---
@@ -1734,7 +1622,7 @@
                 const data = useCaseData[filterKey];
                 if (!data) {
                     console.warn("No data found for filter:", filterKey);
-                    return; // Do nothing if data for the key doesn't exist
+                    return; 
                 }
         
                 // Update Text Content
@@ -1755,17 +1643,6 @@
                         useCaseChecklistEl.appendChild(li);
                     });
                 }
-        
-                // Optional: Update Right Feature List (if data.features exists)
-                // if (featureListBoxEl && Array.isArray(data.features)) {
-                //    featureListBoxEl.innerHTML = ''; // Clear
-                //    data.features.forEach(feature => {
-                //        const div = document.createElement('div');
-                //        div.className = 'feature-list-item';
-                //        div.innerHTML = `<i class="bi ${feature.icon} text-primary"></i> <span>${feature.text}</span>`;
-                //        featureListBoxEl.appendChild(div);
-                //    });
-                // }
             }
         
             // --- Event Listener for Filter Buttons (Event Delegation) ---
