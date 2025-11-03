@@ -608,60 +608,82 @@ main {
 -------------------------------------------------- */
 @media (max-width: 992px) {
     .nav-links { display: none; }
-    .features-grid, .help-grid { grid-template-columns: repeat(2, 1fr); }
-    .vision-grid, .security-content { grid-template-columns: 1fr; gap: 50px; }
+    
+    .features-grid, .help-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .vision-grid {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+
+    /* MODIFIED: Correctly handles stacking for the security section */
+    .security-content {
+        flex-direction: column;
+        gap: 50px;
+    }
+
     .roi-content { flex-direction: column; text-align: center; }
-    .security-image { margin-top: 40px; }
     .section-header { text-align: center !important; }
 
-    /* --- Corrected Responsive Capabilities Section --- */
+    /* --- Responsive Capabilities Section --- */
     .capabilities-container {
         flex-direction: column;
     }
     
     .capabilities-tabs {
-        flex-direction: row;      /* Arrange tabs horizontally */
-        flex-wrap: wrap;          /* Allow them to wrap to the next line */
-        justify-content: center;  /* Center the bubbles */
-        gap: 10px;                /* Spacing between bubbles */
-        margin-bottom: 30px;      /* Space between bubbles and content */
+        flex-direction: row;      
+        flex-wrap: wrap;          
+        justify-content: center;  
+        gap: 10px;                
+        margin-bottom: 30px;      
     }
 
     .tab-item {
-        border: 1px solid var(--border-color); /* Bubble border */
-        border-radius: 50px;       /* Makes it a bubble/pill shape */
-        padding: 8px 18px;         /* Adjust padding for bubble size */
-        font-size: 0.9rem;         /* Smaller font for mobile */
+        border: 1px solid var(--border-color); 
+        border-radius: 50px;       
+        padding: 8px 18px;         
+        font-size: 0.9rem;         
         font-weight: 500;
-        border-left: 1px solid var(--border-color); /* Reset the PC style */
+        border-left: 1px solid var(--border-color); 
     }
 
     .tab-item:hover {
-        background-color: #eef2f7;    /* A subtle hover effect */
+        background-color: #eef2f7;    
         color: var(--dark-text);
     }
 
-    /* Active bubble style */
     .tab-item.active {
         background-color: var(--primary-blue);
         color: white;
         border-color: var(--primary-blue);
-        border-left-color: var(--primary-blue); /* This ensures consistency */
+        border-left-color: var(--primary-blue); 
     }
 
     .capabilities-content-wrapper {
-        min-height: auto;           /* Let content define height on mobile */
+        min-height: auto;           
         padding: 20px;
     }
 
     .pane-grid {
-        grid-template-columns: 1fr; /* Stack columns vertically on mobile */
+        grid-template-columns: 1fr; 
     }
 
     .content-image {
-        margin-top: 20px; /* Add some space between text and image on mobile */
+        margin-top: 20px; 
     }
 }
+
+@media (max-width: 768px) {
+    .hero-title { font-size: 2.5rem; }
+    
+    .institutions { 
+        grid-template-columns: 1fr; 
+        gap: 50px;
+    }
+}
+
 
 
 
