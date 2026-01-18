@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datawarp - Data Sovereignty Platform</title>
+    <link rel="icon" type="image/png" href="colored_logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- LENIS SMOOTH SCROLL CSS -->
+    <style>
+        html.lenis, html.lenis body { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+        .lenis.lenis-scrolling iframe { pointer-events: none; }
+    </style>
+
+    <style>
+        /* --- CSS RESET & BASICS --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #202124;
+            width: 100%;
+            overflow-x: clip; 
+        }
+
+        /* --- CUSTOM NATIVE SCROLLBAR --- */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 10px; border: 3px solid transparent; background-clip: content-box; }
+        ::-webkit-scrollbar-thumb:hover { background-color: rgba(0,0,0,0.4); }
+
+        /* FIXED GLOBAL CANVAS */
+        #network-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; 
+            pointer-events: none;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            height: 70px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        nav.nav-hidden { transform: translateY(-100%); }
+
+        .nav-left { display: flex; align-items: center; height: 100%; gap: 10px; }
+        
+        .nav-logo { 
+            font-weight: 500; font-size: 18px; color: #5f6368; 
+            cursor: pointer; text-decoration: none; margin-right: 20px;
+            display: flex; align-items: center; gap: 8px;
+        }
+
+        .nav-links { display: flex; height: 100%; align-items: center; }
+        .nav-item { position: relative; height: 100%; display: flex; align-items: center; margin-right: 4px; }
+        
+        .nav-link {
+            text-decoration: none; color: #5f6368; font-size: 14px; font-weight: 500;
+            padding: 8px 12px; border-radius: 999px; transition: color 0.2s, background 0.2s;
+            display: flex; align-items: center; gap: 6px;
+        }
+        
+        .nav-link:hover, .nav-item:hover .nav-link { color: #202124; background-color: #f1f3f4; }
+
+        .nav-btn { 
+            background-color: #000; color: #fff; padding: 10px 20px; 
+            border-radius: 999px; text-decoration: none; font-size: 14px; font-weight: 500; 
+            display: flex; align-items: center; gap: 8px; transition: transform 0.2s;
+        }
+        .nav-btn:hover { transform: scale(1.05); }
+
+        /* --- MEGA MENU (DESKTOP) --- */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: -20px;
+            background: #fff;
+            border: 1px solid #eaeaea;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+            padding: 24px;
+            min-width: 550px;
+            cursor: default;
+        }
+
+        .nav-item:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .dropdown-content { display: flex; gap: 30px; }
+        .dropdown-left { width: 200px; flex-shrink: 0; padding-right: 20px; border-right: 1px solid #f1f3f4; }
+        .dropdown-left h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; color: #202124; line-height: 1.4; }
+        .dropdown-left p { font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 16px; }
+        .overview-link { font-size: 13px; color: #4285F4; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+        .overview-link:hover { text-decoration: underline; }
+        .dropdown-right { flex-grow: 1; display: flex; flex-direction: column; gap: 4px; }
+        .dropdown-item {
+            display: flex; align-items: center; gap: 12px; text-decoration: none;
+            padding: 8px 12px; border-radius: 8px; transition: background 0.2s;
+            color: #5f6368; font-size: 14px; font-weight: 500; cursor: pointer;
+        }
+        .dropdown-item:hover { background-color: #f8f9fa; color: #202124; }
+        .dropdown-item i.icon-left { width: 20px; text-align: center; color: #5f6368; font-size: 14px; }
+        .dropdown-item:hover i.icon-left { color: #202124; }
+        .dropdown-item .arrow-right { margin-left: auto; font-size: 10px; opacity: 0; transform: translateX(-5px); transition: all 0.2s; }
+        .dropdown-item:hover .arrow-right { opacity: 1; transform: translateX(0); }
+
+        /* --- MOBILE MENU STYLES --- */
+        .mobile-menu-btn { display: none; }
+        .mobile-menu-overlay { 
+            display: none; 
+            position: fixed; 
+            top: 70px; /* Below navbar */
+            left: 0; 
+            width: 100%; 
+            height: calc(100vh - 70px); 
+            background: rgba(255, 255, 255, 0.98); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+        .hero-logo-lockup { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; font-size: 20px; color: #5f6368; font-weight: 500; }
+        .logo-icon { width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 20px solid #4285F4; transform: rotate(-15deg); }
+        h1 { font-size: 64px; line-height: 1.1; font-weight: 600; letter-spacing: -1px; margin-bottom: 40px; max-width: 800px; }
+        .cta-group { display: flex; gap: 15px; }
+        .btn { padding: 14px 24px; border-radius: 999px; font-size: 15px; font-weight: 500; cursor: pointer; border: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease; text-decoration: none; }
+        .btn-primary { background-color: #202124; color: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
+        .btn-outline { background-color: white; border: 1px solid #dadce0; color: #202124; }
+        .btn-outline:hover { background-color: #f8f9fa; border-color: #202124; }
+
+        /* --- DARK FEATURE SECTION --- */
+        .dark-feature-section { width: 100%; padding: 40px 20px; display: flex; justify-content: center; z-index: 10; position: relative; }
+        .dark-card {
+            width: 100%; max-width: calc(100vw - 20px); min-height: 50vh;
+            background-color: #171717; color: #fff; border-radius: 40px;
+            padding: 100px 60px; text-align: center; position: relative;
+            overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        }
+        #orb-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+        .dark-content { position: relative; z-index: 2; }
+        .dark-card h2 { color: #fff; font-size: 48px; margin-bottom: 20px; font-weight: 600;}
+        .dark-card p { color: #9aa0a6; font-size: 20px; max-width: 700px; margin: 0 auto 40px auto; }
+        .dark-btn { background-color: #8ab4f8; color: #202124; padding: 14px 30px; border-radius: 30px; font-weight: 600; text-decoration: none; display: inline-block; transition: 0.3s; }
+        .dark-btn:hover { background-color: #fff; transform: scale(1.05); }
+
+        /* --- SPLIT SECTION --- */
+        .split-section { display: flex; min-height: 80vh; width: 100%; margin-top: 40px; border-top: 1px solid #eaeaea; background: rgba(255,255,255,0.4); position: relative; z-index: 10; }
+        .split-col { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 80px; }
+        .card-content { max-width: 420px; text-align: left; pointer-events: none; z-index: 10; }
+        .col-label { text-transform: uppercase; letter-spacing: 2px; font-weight: 700; font-size: 12px; margin-bottom: 20px; }
+        .split-col h2 { font-size: 38px; margin-bottom: 20px; font-weight: 600; letter-spacing: -0.5px;}
+        .split-col p { font-size: 18px; line-height: 1.6; color: #5f6368; margin-bottom: 30px; }
+        .left-col .col-label { color: #EA4335; } .right-col .col-label { color: #A142F4; }
+
+        /* --- AGENTIC SECTION --- */
+        .agentic-section { padding: 120px 0; background: #fff; position: relative; z-index: 20; display: flex; flex-direction: column; align-items: center; }
+        .agentic-text { max-width: 1200px; text-align: center; margin-bottom: 80px; padding: 0 40px; }
+        .agentic-text h2 { font-size: 56px; line-height: 1.1; font-weight: 500; color: #202124; letter-spacing: -1.5px; }
+        .icons-row { display: flex; justify-content: center; align-items: center; gap: 30px; width: 100%; max-width: 1200px; padding: 20px; flex-wrap: wrap; }
+        .bubble-icon {
+            width: 100px; height: 100px; background: #fff; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 28px; color: #202124; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border: 1px solid #f1f3f4;
+            animation: float-vertical 4s ease-in-out infinite;
+        }
+        @keyframes float-vertical {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-25px); }
+            100% { transform: translateY(0px); }
+        }
+        .bubble-icon:nth-child(1) { animation-delay: 0s; } .bubble-icon:nth-child(2) { animation-delay: 0.2s; }
+        .bubble-icon:nth-child(3) { animation-delay: 0.4s; } .bubble-icon:nth-child(4) { animation-delay: 0.6s; }
+        .bubble-icon:nth-child(5) { animation-delay: 0.8s; }
+
+        /* --- SCROLL FEATURE SECTION --- */
+        .scroll-feature-section {
+            position: relative;
+            background-color: #f8f9fa;
+            padding: 100px 20px; 
+            z-index: 10;
+        }
+
+        .feature-container {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            align-items: flex-start; 
+        }
+
+        .text-column {
+            width: 50%;
+            padding-right: 60px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature-block {
+            min-height: 80vh; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0.2; 
+            transition: opacity 0.5s ease;
+        }
+        
+        .feature-block.active { opacity: 1; }
+
+        .step-number { font-size: 14px; font-weight: 700; color: #4285F4; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        .feature-block h3 { font-size: 42px; margin-bottom: 20px; line-height: 1.1; }
+        .feature-block p { font-size: 20px; line-height: 1.6; color: #5f6368; }
+
+        .mobile-only-img { display: none; }
+
+        .image-column {
+            width: 50%;
+            height: 100%; 
+            position: sticky; 
+            top: 0;
+        }
+
+        .sticky-image-wrapper {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 10vh; 
+            width: 100%;
+            height: 80vh; 
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+            background: #fff;
+            will-change: transform;
+            margin-top: 10vh;
+        }
+
+        .feature-img {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; opacity: 0; transition: opacity 0.6s ease-in-out, transform 0.6s ease; transform: scale(1.05);
+        }
+        .feature-img.active { opacity: 1; transform: scale(1); }
+
+        /* --- DOWNLOAD SECTION --- */
+        .download-section { padding: 100px 20px 140px 20px; display: flex; justify-content: center; background-color: #fff; position: relative; z-index: 10; }
+        .download-card {
+            width: 100%; max-width: calc(100vw - 20px); min-height: 100vh;
+            background-color: #000; border-radius: 40px; padding: 100px 80px;
+            position: relative; overflow: hidden; display: flex; align-items: center;
+        }
+        #download-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+        .download-content { position: relative; z-index: 5; width: 100%; }
+        .download-content h2 { font-size: 64px; color: #fff; line-height: 1.1; margin-bottom: 50px; font-weight: 500; letter-spacing: -1px; }
+        .dl-btn-group { display: flex; gap: 20px; }
+        .dl-btn { padding: 18px 32px; border-radius: 100px; font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.2s ease; border: none; }
+        .dl-btn:hover { transform: scale(1.05); }
+        .dl-btn-white { background-color: #fff; color: #000; }
+        .dl-btn-dark { background-color: rgba(255, 255, 255, 0.15); color: #fff; backdrop-filter: blur(5px); }
+
+        /* --- FOOTER --- */
+        .site-footer { background-color: #fff; color: #202124; padding: 80px 40px 40px 40px; position: relative; z-index: 10; }
+        .footer-top { display: flex; justify-content: space-between; align-items: flex-start; max-width: 1400px; margin: 0 auto 100px auto; }
+        .footer-brand { font-size: 32px; font-weight: 400; letter-spacing: -0.5px; }
+        .footer-nav { display: flex; gap: 100px; }
+        .nav-col h4 { font-size: 16px; font-weight: 600; margin-bottom: 24px; color: #202124; }
+        .nav-col a { display: block; text-decoration: none; color: #5f6368; margin-bottom: 16px; font-size: 15px; transition: color 0.2s; }
+        .nav-col a:hover { color: #4285F4; }
+        .footer-middle { text-align: left; border-bottom: 1px solid #dadce0; overflow: hidden; padding-bottom: 30px; padding-top: 30px; }
+        .huge-text { font-size: 10vw; line-height: 0.8; font-weight: 500; letter-spacing: -0.04em; margin: 0; color: #1a1a1a; user-select: none; }
+        .lift-letter { display: inline-block; will-change: transform; transition: transform 0.1s linear; }
+        .footer-bottom { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 40px auto 0 auto; color: #5f6368; }
+        .legal-links { display: flex; gap: 30px; }
+        .legal-links a { text-decoration: none; color: #5f6368; font-size: 14px; }
+        .legal-links a:hover { color: #202124; }
+
+        /* --- MOBILE OVERRIDES --- */
+        @media (max-width: 768px) {
+            h1 { font-size: 42px; }
+            .dark-card h2 { font-size: 32px; }
+            
+            /* Hide Desktop Elements */
+            .nav-links, .nav-btn.desktop-only { display: none; } 
+
+            /* Show Hamburger */
+            .mobile-menu-btn {
+                display: block;
+                background: none;
+                border: none;
+                font-size: 24px;
+                color: #202124;
+                cursor: pointer;
+            }
+
+            /* Mobile Menu Styles */
+            .mobile-menu-overlay { display: block; }
+            .mobile-menu-overlay.open { opacity: 1; pointer-events: all; }
+            .mobile-menu-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                gap: 30px;
+            }
+            .mobile-link { font-size: 24px; font-weight: 500; color: #202124; text-decoration: none; }
+            .mobile-btn { background-color: #000; color: #fff; padding: 16px 40px; border-radius: 999px; font-size: 18px; font-weight: 600; text-decoration: none; margin-top: 20px; }
+            
+            /* Mobile Scroll Grid */
+            .feature-container { display: grid; grid-template-columns: 1fr; gap: 24px; }
+            .text-column { width: 100%; padding: 0; }
+            .image-column { display: none; }
+            .feature-block { 
+                min-height: auto; height: auto; padding: 30px; opacity: 1; 
+                background: #fff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 0;
+            }
+            .mobile-only-img { display: block; width: 100%; height: 250px; object-fit: cover; border-radius: 12px; margin-bottom: 24px; }
+            
+            .download-card { padding: 60px 40px; min-height: 80vh; }
+            .download-content h2 { font-size: 36px; }
+            .footer-top { flex-direction: column; gap: 40px; }
+            .footer-nav { gap: 50px; }
+            .huge-text { font-size: 22vw; }
+            .split-section { flex-direction: column; }
+            .split-col { padding: 60px 40px; min-height: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- FIXED NETWORK BACKGROUND -->
+    <canvas id="network-canvas"></canvas>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <div class="nav-left">
+            <a href="index.html" class="nav-logo">
+                <img src="colored_logo.png" alt="Datawarp Logo" style="width: 30px;">
+                Datawarp
+            </a>
+            
+            <div class="nav-links">
+                <div class="nav-item">
+                    <a href="product.html" class="nav-link">Product</a>
+                </div>
+                <!-- Mega Menu -->
+                <div class="nav-item">
+                    <a href="use_cases.html" class="nav-link">
+                        Use Cases <i class="fa-solid fa-chevron-down" style="font-size: 10px; margin-top: 2px;"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                            <div class="dropdown-left">
+                                <h3>Suitable for every security environment</h3>
+                                <p>See how Datawarp helps you work faster and more securely.</p>
+                                <a href="use_cases.html" class="overview-link">Read overview <i class="fa-solid fa-arrow-right" style="font-size: 10px;"></i></a>
+                            </div>
+                            <div class="dropdown-right">
+                                <a href="use_case_1.html" class="dropdown-item"><i class="fa-solid fa-share-nodes icon-left"></i><span>Banking</span><i class="fa-solid fa-chevron-right arrow-right"></i></a>
+                                <a href="use_case_2.html" class="dropdown-item"><i class="fa-solid fa-code icon-left"></i><span>Insurance</span><i class="fa-solid fa-chevron-right arrow-right"></i></a>
+                                <a href="use_case_3.html" class="dropdown-item"><i class="fa-solid fa-layer-group icon-left"></i><span>Government</span><i class="fa-solid fa-chevron-right arrow-right"></i></a>
+                                <a href="use_case_4.html" class="dropdown-item"><i class="fa-solid fa-shield-halved icon-left"></i><span>Healthcare</span><i class="fa-solid fa-chevron-right arrow-right"></i></a>
+                                <a href="use_case_5.html" class="dropdown-item"><i class="fa-solid fa-building icon-left"></i><span>Supply Chain</span><i class="fa-solid fa-chevron-right arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-item">
+                    <a href="features.html" class="nav-link">Features</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Desktop Button -->
+        <a href="contact.html" class="nav-btn desktop-only">Contact</a>
+
+        <!-- Mobile Button -->
+        <button class="mobile-menu-btn" aria-label="Open Menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <!-- Mobile Overlay -->
+        <div class="mobile-menu-overlay">
+            <div class="mobile-menu-content">
+                <a href="index.html" class="mobile-link">Home</a>
+                <a href="product.html" class="mobile-link">Product</a>
+                <a href="use_cases.html" class="mobile-link">Use Cases</a>
+                <a href="features.html" class="mobile-link">Features</a>
+                <a href="contact.html" class="mobile-btn">Contact Sales</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CONTENT WRAPPER -->
+    <div id="main-content">
+        
+        <!-- HERO -->
+        <section class="hero-container">
+            <div class="hero-logo-lockup">
+                <div class="logo-icon"></div>
+                <span>Datawarp</span>
+            </div>
+            <h1>
+                <span style="font-weight: 400;">Experience</span><br>
+                data sovereignty<br>
+                <span style="font-weight: 400;">with Datawarp</span>
+            </h1>
+            <div class="cta-group">
+                <a href="contact.html" class="btn btn-primary">Contact Sales</a>
+                <a href="use_cases.html" class="btn btn-outline">Explore use cases</a>
+            </div>
+        </section>
+
+        <!-- SMOKE ORB SECTION -->
+        <section class="dark-feature-section" id="orb-section">
+            <div class="dark-card" id="orb-card-container">
+                <canvas id="orb-canvas"></canvas>
+                <div class="dark-content">
+                    <h2>Security by Architecture, Not Policy</h2>
+                    <p>Datawarp doesn't just promise privacy, it enforces it via physics. With a 100% Air-Gapped architecture and Zero Cloud dependencies, data exfiltration is technically impossible.</p>
+                    <a href="compliances.html" class="dark-btn">See Compliances</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SPLIT SECTION -->
+        <section class="split-section">
+            <div class="split-col left-col" id="zone-red">
+                <div class="card-content">
+                    <div class="col-label">Secure Core</div>
+                    <h2>Legally Defensible Truth</h2>
+                    <p>Every click, filter, and operation generates an immutable Python Audit Trail. When you flag fraud, you don't just have a guess—you have a reproducible proof for the regulators.</p>
+                    <button class="btn btn-outline" style="pointer-events: auto;">Learn Security</button>
+                </div>
+            </div>
+
+            <div class="split-col right-col" id="zone-purple">
+                <div class="card-content">
+                    <div class="col-label">AI Integration</div>
+                    <h2>The "Time-to-Verdict" Metric</h2>
+                    <p>Traditional audits take days of data requests and SQL queries. DataWarp reduces the "Time-to-Verdict" from 48 hours to 4 minutes.</p>
+                    <button class="btn btn-outline" style="pointer-events: auto;">View AI Features</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ICONS SECTION -->
+        <section class="agentic-section">
+            <div class="agentic-text">
+                <h2>Process 50 Million+ rows<br>locally on standard laptops and<br>eliminate data bottlenecks.</h2>
+            </div>
+            <div class="icons-row">
+                <div class="bubble-icon"><i class="fa-regular fa-folder"></i></div>
+                <div class="bubble-icon"><i class="fa-solid fa-table-cells-large"></i></div>
+                <div class="bubble-icon"><i class="fa-solid fa-code"></i></div>
+                <div class="bubble-icon"><i class="fa-solid fa-share-nodes"></i></div>
+                <div class="bubble-icon"><i class="fa-solid fa-chevron-left"></i><i class="fa-solid fa-chevron-right"></i></div>
+                <div class="bubble-icon"><i class="fa-solid fa-arrow-right-long"></i></div>
+                <div class="bubble-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+            </div>
+        </section>
+
+        <!-- STICKY SCROLL SECTION (MODIFIED FOR MOBILE GRID) -->
+        <section class="scroll-feature-section">
+            <div class="feature-container">
+                
+                <div class="text-column">
+                    
+                    <!-- BLOCK 1 -->
+                    <div class="feature-block active" data-index="0">
+                        <img src="img\index\img1.png" class="mobile-only-img" alt="Mobile Img 1">
+                        <div class="step-number">01</div>
+                        <h3>The Infinite Ingestion Engine</h3>
+                        <p>Stop fighting with Excel limits. Drag, drop, and instantly map 50GB+ datasets regardless of format.</p>
+                    </div>
+
+                    <!-- BLOCK 2 -->
+                    <div class="feature-block" data-index="1">
+                        <img src="img\index\img2.png" class="mobile-only-img" alt="Mobile Img 2">
+                        <div class="step-number">02</div>
+                        <h3>Compliance on Autopilot</h3>
+                        <p>Translate complex regulatory mandates into automated audit rules without writing a single line of code.</p>
+                    </div>
+
+                    <!-- BLOCK 3 -->
+                    <div class="feature-block" data-index="2">
+                        <img src="img\index\img3.png" class="mobile-only-img" alt="Mobile Img 3">
+                        <div class="step-number">03</div>
+                        <h3>See What Others Miss</h3>
+                        <p>From predictive risk scoring to visual link analysis—uncover hidden relationships buried in the noise.</p>
+                    </div>
+
+                    <!-- BLOCK 4 -->
+                    <div class="feature-block" data-index="3">
+                        <img src="img\index\img4.png" class="mobile-only-img" alt="Mobile Img 4">
+                        <div class="step-number">04</div>
+                        <h3>The Hunter-Killer Algorithms</h3>
+                        <p>A dedicated suite of heuristic scanners designed specifically to detect money laundering and revenue leakage.</p>
+                    </div>
+                </div>
+
+                <div class="image-column">
+                    <div class="sticky-image-wrapper">
+                        <img src="img\index\img1.png" class="feature-img active" alt="Img 1">
+                        <img src="img\index\img2.png" class="feature-img" alt="Img 2">
+                        <img src="img\index\img3.png" class="feature-img" alt="Img 3">
+                        <img src="img\index\img4.png" class="feature-img" alt="Img 4">
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- DOWNLOAD SECTION -->
+        <section class="download-section">
+            <div class="download-card" id="dl-card-container">
+                <canvas id="download-canvas"></canvas>
+                <div class="download-content">
+                    <h2>Explore the<br>complete features<br>of Datawarp</h2>
+                    <div class="dl-btn-group">
+                        <a href="features.html" class="dl-btn dl-btn-white" style="text-decoration: none;">View Features</a>
+                        <a href="use_cases.html" class="dl-btn dl-btn-dark" style="text-decoration: none;">Explore Uses</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="site-footer">
+            <div class="footer-top">
+                <div class="footer-brand">Experience data sovereignty</div>
+                <div class="footer-nav">
+                    <div class="nav-col">
+                        <h4>Product</h4>
+                        <a href="index.html">Home</a><a href="product.html">Product</a><a href="features.html">Features</a><a href="use_cases.html">Use Cases</a>
+                    </div>
+                    <div class="nav-col">
+                        <h4>Resources</h4>
+                        <a href="contact.html">Contact</a><a href="mailto:boruahpriyanuj2004@gmail.com">Email</a><a href="https://www.linkedin.com/in/priyanuj-boruah/">Founder</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-middle">
+                <h1 class="huge-text">
+                    Dataw<span class="lift-letter">a</span><span class="lift-letter">r</span><span class="lift-letter">p</span>
+                </h1>
+            </div>
+            <div class="footer-bottom">
+                <div class="google-logo">©2026 Datawarp | All Rights Reserved</div>
+                <div class="legal-links">
+                    <a href="index.html">About Datawarp</a><a href="compliances.html">Compliant Standards</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- LENIS SCROLL (CDN) -->
+    <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script> 
+
+    <script>
+        // =================================================================
+        // 1. SMOOTH SCROLL SETUP (LENIS)
+        // =================================================================
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // =================================================================
+        // 2. CONFIGURATION & VARIABLES
+        // =================================================================
+        const smokeConfig = { spawnRate: 4, sizeStart: 12, sizeVariance: 10, colorOpacity: 0.025, riseSpeed: 0.25, driftSpeed: 1.5, growthRate: 0.35, fadeSpeed: 0.005 };
+        const networkConfig = { particleCount: 80, connectionDistance: 130, mouseRadius: 250, moveSpeed: 0.6 };
+        const downloadConfig = { particleCount: 60, connectionDistance: 120, mouseRadius: 300, baseColor: '161, 66, 244' };
+
+        let mouse = { x: null, y: null };
+        const navElement = document.querySelector('nav');
+        let lastScroll = 0;
+
+        // Elements
+        const netCanvas = document.getElementById("network-canvas");
+        const ctxNet = netCanvas.getContext("2d");
+        const orbCanvas = document.getElementById("orb-canvas");
+        const ctxOrb = orbCanvas.getContext("2d");
+        const dlCanvas = document.getElementById("download-canvas");
+        const ctxDl = dlCanvas.getContext("2d");
+        
+        let netW, netH, orbW, orbH, dlW, dlH;
+        let netParticles = [], emitters = [], dlParticles = [];
+        let activeColor = '66, 133, 244'; 
+
+        // Intersection Observers for Performance (Pause canvas when off screen)
+        let orbVisible = false;
+        let dlVisible = false;
+
+        const observerOrb = new IntersectionObserver((entries) => {
+            entries.forEach(entry => orbVisible = entry.isIntersecting);
+        });
+        observerOrb.observe(document.getElementById('orb-card-container'));
+
+        const observerDl = new IntersectionObserver((entries) => {
+            entries.forEach(entry => dlVisible = entry.isIntersecting);
+        });
+        observerDl.observe(document.getElementById('dl-card-container'));
+
+        // =================================================================
+        // 3. MOBILE MENU LOGIC (NEW)
+        // =================================================================
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const mobileOverlay = document.querySelector('.mobile-menu-overlay');
+        const icon = mobileBtn.querySelector('i');
+        let isMenuOpen = false;
+
+        mobileBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if(isMenuOpen) {
+                mobileOverlay.classList.add('open');
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+                lenis.stop();
+            } else {
+                mobileOverlay.classList.remove('open');
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+                lenis.start();
+            }
+        });
+
+        document.querySelectorAll('.mobile-link, .mobile-btn').forEach(link => {
+            link.addEventListener('click', () => {
+                isMenuOpen = false;
+                mobileOverlay.classList.remove('open');
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+                lenis.start();
+            });
+        });
+
+        // =================================================================
+        // 4. SCROLL OBSERVER (Desktop Sticky)
+        // =================================================================
+        const featureImages = document.querySelectorAll('.feature-img');
+        const featureBlocks = document.querySelectorAll('.feature-block');
+
+        // Only run sticky logic if screen > 768px
+        if(window.innerWidth > 768) {
+            const scrollObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const index = entry.target.getAttribute('data-index');
+                        featureBlocks.forEach(b => b.classList.remove('active'));
+                        entry.target.classList.add('active');
+                        featureImages.forEach(img => img.classList.remove('active'));
+                        if(featureImages[index]) {
+                            featureImages[index].classList.add('active');
+                        }
+                    }
+                });
+            }, {
+                threshold: 0.5,
+                rootMargin: "-10% 0px -10% 0px"
+            });
+
+            featureBlocks.forEach(block => {
+                scrollObserver.observe(block);
+            });
+        }
+
+        // =================================================================
+        // 5. CLASS DEFINITIONS
+        // =================================================================
+        class NetworkParticle {
+            constructor(w, h) {
+                this.x = Math.random() * w; this.y = Math.random() * h;
+                this.vx = (Math.random() - 0.5) * networkConfig.moveSpeed;
+                this.vy = (Math.random() - 0.5) * networkConfig.moveSpeed;
+                this.size = Math.random() * 2 + 1;
+            }
+            update(w, h) {
+                this.x += this.vx; this.y += this.vy;
+                if (this.x < 0 || this.x > w) this.vx *= -1;
+                if (this.y < 0 || this.y > h) this.vy *= -1;
+            }
+        }
+
+        class SmokeParticle {
+            constructor(x, y, color) {
+                this.x = x; this.y = y;
+                this.vx = (Math.random() - 0.5) * smokeConfig.driftSpeed; 
+                this.vy = (Math.random() * -smokeConfig.riseSpeed) - 0.5; 
+                this.size = Math.random() * smokeConfig.sizeVariance + smokeConfig.sizeStart; 
+                this.life = 1.0; this.decay = Math.random() * 0.005 + smokeConfig.fadeSpeed; 
+                this.color = color;
+            }
+            update() {
+                this.x += this.vx; this.y += this.vy;
+                this.size += smokeConfig.growthRate; this.life -= this.decay;
+            }
+            draw(ctx) {
+                ctx.save(); ctx.globalAlpha = Math.max(0, this.life);
+                let gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size);
+                gradient.addColorStop(0, this.color); gradient.addColorStop(1, 'rgba(0,0,0,0)'); 
+                ctx.fillStyle = gradient; ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill(); ctx.restore();
+            }
+        }
+
+        class OrbEmitter {
+            constructor(x, y, colorString) {
+                this.x = x; this.y = y; this.baseX = x; this.baseY = y;
+                this.color = colorString; this.particles = []; this.angle = Math.random() * Math.PI * 2; 
+            }
+            update(localMouseX, localMouseY) {
+                // AUTO-ANIMATION LOGIC FOR MOBILE
+                if(window.innerWidth < 768) {
+                    const time = Date.now() * 0.001;
+                    localMouseX = orbW/2 + Math.sin(time) * 100;
+                    localMouseY = orbH/2 + Math.cos(time * 1.5) * 50;
+                }
+
+                if (localMouseX !== null) {
+                    const dx = localMouseX - this.x; const dy = localMouseY - this.y;
+                    if (Math.sqrt(dx*dx + dy*dy) < 400) {
+                        this.x += dx * 0.04; this.y += dy * 0.04;
+                    }
+                } else {
+                    this.angle += 0.01;
+                    let tx = this.baseX + Math.sin(this.angle) * 100;
+                    let ty = this.baseY + Math.cos(this.angle * 0.8) * 50;
+                    this.x += (tx - this.x) * 0.005; this.y += (ty - this.y) * 0.005;
+                }
+                for(let i=0; i < smokeConfig.spawnRate; i++) {
+                    this.particles.push(new SmokeParticle(this.x + (Math.random()-0.5)*20, this.y + (Math.random()-0.5)*20, `rgba(${this.color}, ${smokeConfig.colorOpacity})`));
+                }
+                for (let i = this.particles.length - 1; i >= 0; i--) {
+                    let p = this.particles[i]; p.update();
+                    if (p.life <= 0) this.particles.splice(i, 1);
+                }
+            }
+            draw(ctx) {
+                ctx.globalCompositeOperation = 'lighter';
+                for (let p of this.particles) p.draw(ctx);
+                ctx.globalCompositeOperation = 'source-over';
+            }
+        }
+
+        // =================================================================
+        // 6. INIT & RESIZE
+        // =================================================================
+        function initNetwork() {
+            netParticles = [];
+            for (let i = 0; i < networkConfig.particleCount; i++) netParticles.push(new NetworkParticle(netW, netH));
+        }
+        function initEmitters() {
+            emitters = [];
+            emitters.push(new OrbEmitter(orbW * 0.3, orbH * 0.6, '66, 133, 244'));
+            emitters.push(new OrbEmitter(orbW * 0.7, orbH * 0.6, '161, 66, 244'));
+        }
+        function initDownloadParticles() {
+            dlParticles = [];
+            for (let i = 0; i < downloadConfig.particleCount; i++) {
+                let p = new NetworkParticle(dlW, dlH);
+                p.vx *= 1.5; p.vy *= 1.5; dlParticles.push(p);
+            }
+        }
+        function resizeAll() {
+            netW = netCanvas.width = window.innerWidth; netH = netCanvas.height = window.innerHeight; initNetwork();
+            
+            const orbRect = document.getElementById('orb-card-container').getBoundingClientRect(); 
+            orbW = orbCanvas.width = orbRect.width; orbH = orbCanvas.height = orbRect.height; initEmitters();
+            
+            const dlRect = document.getElementById('dl-card-container').getBoundingClientRect(); 
+            dlW = dlCanvas.width = dlRect.width; dlH = dlCanvas.height = dlRect.height; initDownloadParticles();
+        }
+
+        // =================================================================
+        // 7. ANIMATION LOOP
+        // =================================================================
+        function animate() {
+            // Navbar Logic
+            let st = window.scrollY;
+            if (st > lastScroll && st > 100) navElement.classList.add('nav-hidden');
+            else navElement.classList.remove('nav-hidden');
+            lastScroll = st;
+
+            // --- AUTO MOUSE FOR MOBILE ---
+            let simMouseX = mouse.x;
+            let simMouseY = mouse.y;
+            
+            if (window.innerWidth < 768) {
+                const time = Date.now() * 0.0005;
+                simMouseX = (window.innerWidth / 2) + Math.sin(time) * (window.innerWidth / 3);
+                simMouseY = (window.innerHeight / 2) + Math.cos(time * 1.3) * (window.innerHeight / 4);
+            }
+
+            // Network Background
+            ctxNet.clearRect(0, 0, netW, netH);
+            const zoneRed = document.getElementById('zone-red').getBoundingClientRect();
+            const zonePurple = document.getElementById('zone-purple').getBoundingClientRect();
+            
+            if (simMouseX >= zoneRed.left && simMouseX <= zoneRed.right && simMouseY >= zoneRed.top && simMouseY <= zoneRed.bottom) activeColor = '234, 67, 53';
+            else if (simMouseX >= zonePurple.left && simMouseX <= zonePurple.right && simMouseY >= zonePurple.top && simMouseY <= zonePurple.bottom) activeColor = '161, 66, 244';
+            else activeColor = '66, 133, 244';
+
+            if (simMouseX != null) {
+                netParticles.forEach(p => {
+                    p.update(netW, netH);
+                    let dx = simMouseX - p.x; let dy = simMouseY - p.y;
+                    let dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < networkConfig.mouseRadius) {
+                        let alpha = 1 - (dist / networkConfig.mouseRadius);
+                        ctxNet.beginPath(); ctxNet.arc(p.x, p.y, p.size, 0, Math.PI*2);
+                        ctxNet.fillStyle = `rgba(${activeColor}, ${alpha})`; ctxNet.fill();
+                        netParticles.forEach(p2 => {
+                            let d2 = Math.sqrt(Math.pow(p.x - p2.x, 2) + Math.pow(p.y - p2.y, 2));
+                            if (d2 < networkConfig.connectionDistance) {
+                                ctxNet.beginPath(); ctxNet.strokeStyle = `rgba(${activeColor}, ${alpha - (d2/networkConfig.connectionDistance)})`;
+                                ctxNet.lineWidth = 1; ctxNet.moveTo(p.x, p.y); ctxNet.lineTo(p2.x, p2.y); ctxNet.stroke();
+                            }
+                        });
+                    }
+                });
+            }
+
+            // Smoke Orbs
+            if (orbVisible) {
+                ctxOrb.clearRect(0, 0, orbW, orbH);
+                const rect = document.getElementById('orb-card-container').getBoundingClientRect();
+                let lmx = (simMouseX >= rect.left && simMouseX <= rect.right && simMouseY >= rect.top && simMouseY <= rect.bottom) ? simMouseX - rect.left : null;
+                let lmy = lmx ? simMouseY - rect.top : null;
+                emitters.forEach(e => { e.update(lmx, lmy); e.draw(ctxOrb); });
+            }
+
+            // Download Network
+            if (dlVisible) {
+                ctxDl.clearRect(0, 0, dlW, dlH);
+                const rect = document.getElementById('dl-card-container').getBoundingClientRect();
+                let lmx = (simMouseX >= rect.left && simMouseX <= rect.right && simMouseY >= rect.top && simMouseY <= rect.bottom) ? simMouseX - rect.left : null;
+                let lmy = lmx ? simMouseY - rect.top : null;
+                dlParticles.forEach((p, i) => {
+                    p.update(dlW, dlH);
+                    let alpha = 0.1, size = p.size;
+                    if (lmx) {
+                        let dist = Math.sqrt(Math.pow(lmx - p.x, 2) + Math.pow(lmy - p.y, 2));
+                        if (dist < downloadConfig.mouseRadius) {
+                            let proximity = 1 - (dist / downloadConfig.mouseRadius);
+                            alpha = 0.1 + (proximity * 0.9); size = p.size * (1+proximity);
+                        }
+                    }
+                    ctxDl.beginPath(); ctxDl.arc(p.x, p.y, size, 0, Math.PI*2);
+                    ctxDl.fillStyle = `rgba(${downloadConfig.baseColor}, ${alpha})`; ctxDl.fill();
+                    if(alpha > 0.2) {
+                         for (let j = i; j < dlParticles.length; j++) {
+                            let p2 = dlParticles[j]; let d2 = Math.sqrt(Math.pow(p.x - p2.x, 2) + Math.pow(p.y - p2.y, 2));
+                            if (d2 < downloadConfig.connectionDistance) {
+                                ctxDl.beginPath(); ctxDl.strokeStyle = `rgba(${downloadConfig.baseColor}, ${alpha - (d2/downloadConfig.connectionDistance)})`;
+                                ctxDl.lineWidth = 1; ctxDl.moveTo(p.x, p.y); ctxDl.lineTo(p2.x, p2.y); ctxDl.stroke();
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Footer Lift
+            const liftLetters = document.querySelectorAll('.lift-letter');
+            if (liftLetters.length > 0) {
+                let distFromBottom = document.documentElement.scrollHeight - (window.scrollY + window.innerHeight);
+                if (distFromBottom < 400) {
+                    let progress = 1 - (distFromBottom / 400);
+                    progress = Math.pow(Math.max(0, progress), 1.5);
+                    liftLetters.forEach((l, i) => {
+                        l.style.transform = `translateY(${progress * -30 * ((i+1)/3)}px)`;
+                    });
+                } else {
+                    liftLetters.forEach(l => l.style.transform = `translateY(0px)`);
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        // =================================================================
+        // 8. EVENTS
+        // =================================================================
+        window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+        window.addEventListener('resize', resizeAll);
+        
+        // Start
+        setTimeout(() => { resizeAll(); animate(); }, 100);
+
+    </script>
+</body>
+</html>

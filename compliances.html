@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datawarp - Compliant Standards</title>
+    <link rel="icon" type="image/png" href="colored_logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- LENIS SMOOTH SCROLL CSS -->
+    <style>
+        html.lenis, html.lenis body { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+        .lenis.lenis-scrolling iframe { pointer-events: none; }
+    </style>
+
+    <style>
+        /* --- RESET & BASICS --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa; /* Slightly darker to make glass pop */
+            color: #202124;
+            overflow-x: clip;
+            width: 100%;
+        }
+
+        /* --- CUSTOM NATIVE SCROLLBAR --- */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 10px; border: 3px solid transparent; background-clip: content-box; }
+        ::-webkit-scrollbar-thumb:hover { background-color: rgba(0,0,0,0.4); }
+
+        /* --- FIXED BACKGROUND CANVAS --- */
+        #background-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* Behind everything */
+            pointer-events: none;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            height: 70px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        nav.nav-hidden { transform: translateY(-100%); }
+        .nav-left { display: flex; align-items: center; height: 100%; gap: 10px; }
+        .nav-logo { font-weight: 500; font-size: 18px; color: #5f6368; text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .nav-links { display: flex; height: 100%; align-items: center; }
+        .nav-item { position: relative; height: 100%; display: flex; align-items: center; margin-right: 4px; }
+        .nav-link { text-decoration: none; color: #5f6368; font-size: 14px; font-weight: 500; padding: 8px 12px; border-radius: 999px; transition: color 0.2s, background 0.2s; display: flex; align-items: center; gap: 6px; }
+        .nav-link:hover, .nav-item:hover .nav-link { color: #202124; background-color: rgba(0,0,0,0.05); }
+        .nav-link.active { color: #202124; font-weight: 600; }
+        .nav-btn { background-color: #000; color: #fff; padding: 10px 20px; border-radius: 999px; text-decoration: none; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 8px; transition: transform 0.2s; }
+        .nav-btn:hover { transform: scale(1.05); }
+
+        /* MEGA MENU */
+        .dropdown-menu { position: absolute; top: 100%; left: -20px; background: #fff; border: 1px solid #eaeaea; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1); padding: 24px; min-width: 550px; cursor: default; }
+        .nav-item:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .dropdown-content { display: flex; gap: 30px; }
+        .dropdown-left { width: 200px; flex-shrink: 0; padding-right: 20px; border-right: 1px solid #f1f3f4; }
+        .dropdown-left h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; color: #202124; line-height: 1.4; }
+        .dropdown-left p { font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 16px; }
+        .overview-link { font-size: 13px; color: #4285F4; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+        .dropdown-right { flex-grow: 1; display: flex; flex-direction: column; gap: 4px; }
+        .dropdown-item { display: flex; align-items: center; gap: 12px; text-decoration: none; padding: 8px 12px; border-radius: 8px; transition: background 0.2s; color: #5f6368; font-size: 14px; font-weight: 500; cursor: pointer; }
+        .dropdown-item:hover { background-color: #f8f9fa; color: #202124; }
+        .dropdown-item i.icon-left { width: 20px; text-align: center; color: #5f6368; font-size: 14px; }
+        .dropdown-item .arrow-right { margin-left: auto; font-size: 10px; opacity: 0; transform: translateX(-5px); transition: all 0.2s; }
+        .dropdown-item:hover .arrow-right { opacity: 1; transform: translateX(0); }
+
+        /* --- MOBILE MENU STYLES --- */
+        .mobile-menu-btn { display: none; }
+        .mobile-menu-overlay { 
+            display: none; 
+            position: fixed; 
+            top: 70px; 
+            left: 0; 
+            width: 100%; 
+            height: calc(100vh - 70px); 
+            background: rgba(255, 255, 255, 0.98); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        /* --- HERO HEADER --- */
+        .spec-hero {
+            position: relative;
+            padding-top: 200px; 
+            padding-bottom: 120px;
+            text-align: center;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        .spec-hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            font-size: 72px;
+            font-weight: 500;
+            letter-spacing: -2px;
+            line-height: 1.05;
+            color: #202124;
+            margin-bottom: 30px;
+        }
+
+        .hero-desc {
+            font-size: 20px;
+            color: #5f6368;
+            max-width: 600px;
+            margin: 0 auto 40px auto;
+            line-height: 1.6;
+        }
+
+        .contact-btn {
+            background-color: #000;
+            color: #fff;
+            padding: 16px 32px;
+            border-radius: 999px;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        .contact-btn:hover { transform: scale(1.05); }
+
+        /* --- SPEC TABLE (GLASSMORPHISM) --- */
+        .spec-container {
+            max-width: 1200px;
+            margin: 0 auto 120px auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .spec-zone {
+            margin-bottom: 80px;
+        }
+
+        /* Non-sticky header, large clear typography */
+        .zone-header {
+            padding-bottom: 30px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #202124;
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+        }
+
+        .zone-number {
+            font-size: 14px;
+            font-weight: 700;
+            color: #4285F4;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .zone-title {
+            font-size: 32px;
+            font-weight: 500;
+            color: #202124;
+            letter-spacing: -1px;
+        }
+
+        /* Glassmorphic Rows */
+        .spec-row {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            padding: 32px;
+            margin-bottom: 8px; /* Gap between glass cards */
+            border-radius: 12px;
+            
+            /* The Glass Effect */
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            
+            transition: all 0.3s ease;
+        }
+
+        .spec-row:hover {
+            background: rgba(255, 255, 255, 0.85);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        .spec-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #202124;
+            padding-right: 40px;
+        }
+
+        .spec-desc {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #5f6368;
+        }
+
+        /* --- FOOTER CTA --- */
+        .bottom-cta-section {
+            text-align: center;
+            padding: 120px 20px;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid #eaeaea;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .bottom-cta-section h2 {
+            font-size: 42px;
+            margin-bottom: 24px;
+            color: #202124;
+            letter-spacing: -1px;
+        }
+
+        /* --- FOOTER --- */
+        .site-footer { background-color: #fff; color: #202124; padding: 80px 40px 40px 40px; border-top: 1px solid #eaeaea; position: relative; z-index: 10; }
+        .footer-top { display: flex; justify-content: space-between; max-width: 1400px; margin: 0 auto 100px auto; }
+        .footer-brand { font-size: 32px; letter-spacing: -0.5px; }
+        .footer-nav { display: flex; gap: 100px; }
+        .nav-col h4 { font-size: 16px; font-weight: 600; margin-bottom: 24px; }
+        .nav-col a { display: block; text-decoration: none; color: #5f6368; margin-bottom: 16px; font-size: 15px; }
+        .nav-col a:hover { color: #4285F4; }
+        .footer-middle { text-align: left; border-bottom: 1px solid #dadce0; padding-bottom: 30px; }
+        .huge-text { font-size: 10vw; line-height: 0.8; font-weight: 500; letter-spacing: -0.04em; color: #1a1a1a; }
+        .lift-letter { display: inline-block; will-change: transform; transition: transform 0.1s linear; }
+        .footer-bottom { display: flex; justify-content: space-between; max-width: 1400px; margin: 40px auto 0 auto; color: #5f6368; }
+        .legal-links { display: flex; gap: 30px; }
+        .legal-links a { text-decoration: none; color: #5f6368; font-size: 14px; }
+
+        /* --- MOBILE OVERRIDES --- */
+        @media (max-width: 768px) {
+            h1 { font-size: 42px; }
+            .hero-desc { font-size: 18px; }
+            
+            /* Navbar Mobile */
+            .nav-links, .desktop-only { display: none; }
+            .mobile-menu-btn { display: block; background: none; border: none; font-size: 24px; color: #202124; cursor: pointer; }
+            .mobile-menu-overlay { display: block; }
+            .mobile-menu-overlay.open { opacity: 1; pointer-events: all; }
+            .mobile-menu-content { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 30px; }
+            .mobile-link { font-size: 24px; font-weight: 500; color: #202124; text-decoration: none; }
+            .mobile-btn { background-color: #000; color: #fff; padding: 16px 40px; border-radius: 999px; font-size: 18px; font-weight: 600; text-decoration: none; margin-top: 20px; }
+
+            /* Spec Table Mobile (Stacking) */
+            .spec-row { grid-template-columns: 1fr; gap: 12px; padding: 24px; }
+            .spec-name { padding-right: 0; margin-bottom: 8px; font-size: 18px; color: #4285F4; }
+            .spec-desc { font-size: 15px; }
+            
+            .zone-header { flex-direction: column; gap: 5px; align-items: flex-start; }
+            .zone-title { font-size: 28px; }
+
+            /* Footer Mobile */
+            .footer-top { flex-direction: column; gap: 40px; }
+            .footer-nav { gap: 50px; }
+            .huge-text { font-size: 22vw; }
+            .footer-bottom { flex-direction: column; gap: 20px; align-items: flex-start; }
+            .legal-links { flex-wrap: wrap; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ANIMATED BACKGROUND -->
+    <canvas id="background-canvas"></canvas>
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="nav-left">
+            <a href="index.html" class="nav-logo">
+                <img src="colored_logo.png" alt="Datawarp Logo" style="width: 30px;">
+                Datawarp
+            </a>
+            <div class="nav-links">
+                <div class="nav-item">
+                    <a href="product.html" class="nav-link">Product</a>
+                </div>
+                <!-- Mega Menu -->
+                <div class="nav-item">
+                    <a href="use_cases.html" class="nav-link">
+                        Use Cases <i class="fa-solid fa-chevron-down" style="font-size: 10px; margin-top: 2px;"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                            <div class="dropdown-left">
+                                <h3>Suitable for every security environment</h3>
+                                <p>See how Datawarp helps you work faster and more securely.</p>
+                                <a href="use_cases.html" class="overview-link">Read overview <i class="fa-solid fa-arrow-right" style="font-size: 10px;"></i></a>
+                            </div>
+                            <div class="dropdown-right">
+                                <a href="use_case_1.html" class="dropdown-item"><i class="fa-solid fa-share-nodes icon-left"></i><span>Banking</span><i class="fa-solid fa-chevron-right arrow-right"></i></a>
+                                <a href="use_case_2.html" class="dropdown-item"><i class="fa-solid fa-code icon-left"></i><span>Insurance</span><i class="fa-solid fa-chevron-right arrow-right"></i></a>
+                                <a href="use_case_3.html" class="dropdown-item"><i class="fa-solid fa-layer-group icon-left"></i><span>Government</span><i class="fa-solid fa-chevron-right arrow-right"></i></a>
+                                <a href="use_case_4.html" class="dropdown-item"><i class="fa-solid fa-shield-halved icon-left"></i><span>Healthcare</span><i class="fa-solid fa-chevron-right arrow-right"></i></a>
+                                <a href="use_case_5.html" class="dropdown-item"><i class="fa-solid fa-building icon-left"></i><span>Supply Chain</span><i class="fa-solid fa-chevron-right arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-item"><a href="features.html" class="nav-link">Features</a></div>
+            </div>
+        </div>
+        
+        <!-- Desktop Button -->
+        <a href="contact.html" class="nav-btn desktop-only">Contact</a>
+
+        <!-- Mobile Button -->
+        <button class="mobile-menu-btn" aria-label="Open Menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <!-- Mobile Overlay -->
+        <div class="mobile-menu-overlay">
+            <div class="mobile-menu-content">
+                <a href="index.html" class="mobile-link">Home</a>
+                <a href="product.html" class="mobile-link">Product</a>
+                <a href="use_cases.html" class="mobile-link">Use Cases</a>
+                <a href="features.html" class="mobile-link">Features</a>
+                <a href="contact.html" class="mobile-btn">Contact Sales</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="spec-hero">
+        <div class="spec-hero-content">
+            <h1>Compliant Standards</h1>
+            <p class="hero-desc">A descriptive list of frameworks and compliances that Datawarp supports proving its secured capabilities.</p>
+            <a href="contact.html" class="contact-btn">Contact Sales</a>
+        </div>
+    </section>
+
+    <!-- SPEC TABLE -->
+    <div class="spec-container">
+        
+        <!-- ZONE A: GLOBAL FRAMEWORKS -->
+        <div class="spec-zone">
+            <div class="zone-header">
+                <div class="zone-number">Zone A</div>
+                <div class="zone-title">Global & Transnational Frameworks</div>
+            </div>
+            
+            <div class="spec-row">
+                <div class="spec-name">GDPR (EU/EEA)</div>
+                <div class="spec-desc">Full architectural alignment with Art. 25 (Privacy by Design), Art. 32 (Security of Processing), and Art. 44 (Cross-Border Transfers) via local-only processing.</div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-name">FATF (Global)</div>
+                <div class="spec-desc">Supports Recommendation 10 (Customer Due Diligence), Rec. 11 (Record Keeping), and Rec. 20 (STR Reporting) through immutable audit logs.</div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-name">Basel III (Banking)</div>
+                <div class="spec-desc">Facilitates Operational Risk Management (Standardized Approach) and enforces strict Internal Control Frameworks for financial institutions.</div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-name">ISO/IEC Standards</div>
+                <div class="spec-desc"><strong>27001:2013:</strong> Information Security Management (Asset Management & Access Control). <br><strong>27701:2019:</strong> Privacy Information Management (PIMS).</div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-name">PCI-DSS</div>
+                <div class="spec-desc">Compliant with Requirement 3 (Protect Stored Account Data). The PII Shield automatically masks PAN and sensitive authentication data upon ingestion.</div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-name">OECD Guidelines</div>
+                <div class="spec-desc">Adheres to principles regarding the Protection of Privacy and Transborder Flows of Personal Data.</div>
+            </div>
+        </div>
+
+        <!-- ZONE B: DATA SOVEREIGNTY -->
+        <div class="spec-zone">
+            <div class="zone-header">
+                <div class="zone-number">Zone B</div>
+                <div class="zone-title">Data Sovereignty & Residency</div>
+            </div>
+            
+            <div class="spec-row">
+                <div class="spec-name">Asia-Pacific (APAC)</div>
+                <div class="spec-desc">
+                    <strong>India:</strong> DPDP Act 2023, RBI Cyber Security Framework.<br>
+                    <strong>China:</strong> DSL & PIPL (Strict Localization Compliant).<br>
+                    <strong>Singapore:</strong> PDPA 2012, MAS TRM Guidelines.<br>
+                    <strong>Vietnam:</strong> Cybersecurity Law (Decree 53).<br>
+                    <strong>Japan:</strong> APPI. <strong>South Korea:</strong> PIPA.<br>
+                    <strong>Australia:</strong> Privacy Act 1988 & APRA CPS 234.<br>
+                    <strong>Indonesia:</strong> PDP Law. <strong>Philippines:</strong> Data Privacy Act.<br>
+                    <strong>Thailand:</strong> PDPA. <strong>Malaysia:</strong> PDPA 2010.
+                </div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-name">Middle East & Africa (MEA)</div>
+                <div class="spec-desc">
+                    <strong>UAE:</strong> Federal Decree-Law No. 45, CBUAE Consumer Protection.<br>
+                    <strong>Saudi Arabia:</strong> PDPL (Personal Data Protection Law).<br>
+                    <strong>Qatar:</strong> Law No. 13. <strong>Bahrain:</strong> PDPL.<br>
+                    <strong>South Africa:</strong> POPIA. <strong>Nigeria:</strong> NDPR.<br>
+                    <strong>Egypt:</strong> Law No. 151. <strong>Kenya:</strong> Data Protection Act.
+                </div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-name">Americas</div>
+                <div class="spec-desc">
+                    <strong>USA:</strong> GLBA (Financial Privacy), SOX Section 404, CCPA/CPRA.<br>
+                    <strong>Canada:</strong> PIPEDA.<br>
+                    <strong>Brazil:</strong> LGPD (Lei Geral de Proteção de Dados).<br>
+                    <strong>Mexico:</strong> FLPPD.
+                </div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-name">Europe (Non-EU)</div>
+                <div class="spec-desc">
+                    <strong>UK:</strong> Data Protection Act 2018 (UK GDPR).<br>
+                    <strong>Switzerland:</strong> FADP (Federal Act on Data Protection).<br>
+                    <strong>Turkey:</strong> LPPD (Law on Protection of Personal Data).
+                </div>
+            </div>
+        </div>
+
+        <!-- ZONE C: INDUSTRY REGULATIONS -->
+        <div class="spec-zone">
+            <div class="zone-header">
+                <div class="zone-number">Zone C</div>
+                <div class="zone-title">Industry-Specific Regulations</div>
+            </div>
+            
+            <div class="spec-row">
+                <div class="spec-name">Banking & AML</div>
+                <div class="spec-desc">
+                    <strong>USA PATRIOT Act:</strong> Section 314(a) & 352 (AML Programs).<br>
+                    <strong>BSA:</strong> Bank Secrecy Act Recordkeeping.<br>
+                    <strong>Wolfsberg Group:</strong> AML guidance for correspondent banking.<br>
+                    <strong>FCPA & UK Bribery Act:</strong> Internal accounting controls.
+                </div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-name">Healthcare & Life Sciences</div>
+                <div class="spec-desc">
+                    <strong>HIPAA (USA):</strong> Security Rule compliance via air-gapped processing.<br>
+                    <strong>HITECH Act (USA):</strong> Health Information Technology for Economic and Clinical Health.<br>
+                    <strong>DISHA (India):</strong> Digital Information Security in Healthcare Act (Draft).
+                </div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-name">Government & Defense</div>
+                <div class="spec-desc">
+                    <strong>NIST SP 800-171:</strong> Protecting Controlled Unclassified Information (CUI).<br>
+                    <strong>NIST SP 800-53:</strong> Security and Privacy Controls for Information Systems.<br>
+                    <strong>FIPS 140-2:</strong> Mandatory usage of approved cryptographic modules (AES-256).
+                </div>
+            </div>
+        </div>
+
+        <!-- ZONE D: TECHNICAL SECURITY -->
+        <div class="spec-zone">
+            <div class="zone-header">
+                <div class="zone-number">Zone D</div>
+                <div class="zone-title">Technical Security Standards</div>
+            </div>
+            
+            <div class="spec-row">
+                <div class="spec-name">Application Security</div>
+                <div class="spec-desc">
+                    <strong>OWASP Top 10:</strong> Architecture mitigates Injection (A03) and Sensitive Data Exposure (A04).<br>
+                    <strong>CWE/SANS Top 25:</strong> Hardened against risky resource management errors.<br>
+                    <strong>CIS Benchmarks:</strong> Aligned with Application Software Security standards.
+                </div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-name">Audit & Assurance</div>
+                <div class="spec-desc">
+                    <strong>SOC 2 Type I/II:</strong> System design aligns with Privacy, Confidentiality, and Processing Integrity trust service criteria.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- BOTTOM CTA -->
+    <section class="bottom-cta-section">
+        <h2>Ready to secure your data?</h2>
+        <div style="margin-top: 30px;">
+            <a href="contact.html" class="contact-btn">Request Enterprise Demo</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-top">
+            <div class="footer-brand">Experience data sovereignty</div>
+            <div class="footer-nav">
+                <div class="nav-col">
+                    <h4>Product</h4>
+                    <a href="index.html">Home</a><a href="product.html">Product</a><a href="features.html">Features</a><a href="use_cases.html">Use Cases</a>
+                </div>
+                <div class="nav-col">
+                    <h4>Resources</h4>
+                    <a href="contact.html">Contact</a><a href="mailto:boruahpriyanuj2004@gmail.com">Email</a><a href="https://www.linkedin.com/in/priyanuj-boruah/">Founder</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-middle">
+            <h1 class="huge-text">
+                Dataw<span class="lift-letter">a</span><span class="lift-letter">r</span><span class="lift-letter">p</span>
+            </h1>
+        </div>
+        <div class="footer-bottom">
+            <div class="google-logo">©2026 Datawarp | All Rights Reserved</div>
+            <div class="legal-links">
+                <a href="#">About Datawarp</a><a href="compliances.html" style="color:#202124; font-weight:600;">Compliant Standards</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- LENIS SCROLL -->
+    <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
+
+    <!-- LOGIC -->
+    <script>
+        // 1. SMOOTH SCROLL
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // 2. NAVBAR LOGIC
+        const navElement = document.querySelector('nav');
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            let st = window.scrollY;
+            if (st > lastScroll && st > 100) navElement.classList.add('nav-hidden');
+            else navElement.classList.remove('nav-hidden');
+            lastScroll = st;
+        });
+
+        // 3. BACKGROUND NETWORK PARTICLES (BEAUTIFUL DATA EFFECT)
+        const canvas = document.getElementById('background-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+        
+        // Configuration
+        const config = {
+            count: 70, // Number of nodes
+            distance: 180, // Connection distance
+            radius: 150, // Mouse interaction radius
+            baseColor: 'rgba(66, 133, 244, 0.15)', // Light blue lines
+            dotColor: 'rgba(32, 33, 36, 0.2)' // Darker dots
+        };
+
+        let mouse = { x: null, y: null };
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5; // Slow movement
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2 + 1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Bounce off edges
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+
+                // MOBILE AUTO-ANIMATION LOGIC
+                let interactX = mouse.x;
+                let interactY = mouse.y;
+
+                if (window.innerWidth < 768) {
+                    const time = Date.now() * 0.0005;
+                    interactX = (width/2) + Math.sin(time) * (width/3);
+                    interactY = (height/2) + Math.cos(time*1.3) * (height/4);
+                }
+
+                if(interactX != null){
+                    let dx=interactX-this.x, dy=interactY-this.y;
+                    let dist=Math.sqrt(dx*dx+dy*dy);
+                    if(dist<config.radius){
+                        let force=(config.radius-dist)/config.radius;
+                        this.x -= (dx/dist)*force*0.5; this.y -= (dy/dist)*force*0.5;
+                    }
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = config.dotColor;
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < config.count; i++) particles.push(new Particle());
+        }
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            initParticles();
+        }
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+            
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+
+                // Connect particles
+                for (let j = i; j < particles.length; j++) {
+                    let dx = particles[i].x - particles[j].x;
+                    let dy = particles[i].y - particles[j].y;
+                    let dist = Math.sqrt(dx*dx + dy*dy);
+
+                    if (dist < config.distance) {
+                        ctx.beginPath();
+                        // Opacity based on distance
+                        let opacity = 1 - (dist / config.distance);
+                        ctx.strokeStyle = `rgba(66, 133, 244, ${opacity * 0.2})`; 
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateCanvas);
+        }
+
+        // Global Event Listeners
+        window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+        window.addEventListener('resize', resize);
+        
+        // Start
+        resize();
+        animateCanvas();
+
+        // 4. FOOTER LIFT
+        const liftLetters = document.querySelectorAll('.lift-letter');
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.scrollY + window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            const distFromBottom = documentHeight - scrollPosition;
+            if (distFromBottom < 400) {
+                let progress = 1 - (distFromBottom / 400);
+                progress = Math.pow(Math.max(0, progress), 1.5);
+                liftLetters.forEach((l, i) => {
+                    l.style.transform = `translateY(${progress * -30 * ((i+1)/3)}px)`;
+                });
+            } else {
+                liftLetters.forEach(l => l.style.transform = `translateY(0px)`);
+            }
+        });
+
+        // 5. MOBILE MENU LOGIC
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const mobileOverlay = document.querySelector('.mobile-menu-overlay');
+        const icon = mobileBtn.querySelector('i');
+        let isMenuOpen = false;
+
+        mobileBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if(isMenuOpen) {
+                mobileOverlay.classList.add('open');
+                icon.classList.remove('fa-bars'); icon.classList.add('fa-xmark');
+                lenis.stop();
+            } else {
+                mobileOverlay.classList.remove('open');
+                icon.classList.remove('fa-xmark'); icon.classList.add('fa-bars');
+                lenis.start();
+            }
+        });
+
+        document.querySelectorAll('.mobile-link, .mobile-btn').forEach(link => {
+            link.addEventListener('click', () => {
+                isMenuOpen = false; mobileOverlay.classList.remove('open');
+                icon.classList.remove('fa-xmark'); icon.classList.add('fa-bars');
+                lenis.start();
+            });
+        });
+
+    </script>
+</body>
+</html>

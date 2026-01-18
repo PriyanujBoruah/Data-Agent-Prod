@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datawarp - Product</title>
+    <link rel="icon" type="image/png" href="colored_logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- LENIS CSS -->
+    <style>
+        html.lenis, html.lenis body { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+        .lenis.lenis-scrolling iframe { pointer-events: none; }
+    </style>
+
+    <style>
+        /* --- RESET & BASICS --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #202124;
+            overflow-x: clip; /* Fixes sticky/fixed jitter */
+            width: 100%;
+        }
+
+        /* --- CUSTOM NATIVE SCROLLBAR --- */
+        ::-webkit-scrollbar { width: 10px; height: 10px; } /* Height for horizontal */
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 10px; border: 3px solid transparent; background-clip: content-box; }
+        ::-webkit-scrollbar-thumb:hover { background-color: rgba(0,0,0,0.4); }
+
+        /* --- NAVIGATION --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            height: 70px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        nav.nav-hidden { transform: translateY(-100%); }
+
+        .nav-left { display: flex; align-items: center; height: 100%; gap: 10px; }
+        
+        .nav-logo { 
+            font-weight: 500; font-size: 18px; color: #5f6368; 
+            cursor: pointer; text-decoration: none; margin-right: 20px;
+            display: flex; align-items: center; gap: 8px;
+        }
+
+        .nav-links { display: flex; height: 100%; align-items: center; }
+        .nav-item { position: relative; height: 100%; display: flex; align-items: center; margin-right: 4px; }
+        
+        .nav-link {
+            text-decoration: none; color: #5f6368; font-size: 14px; font-weight: 500;
+            padding: 8px 12px; border-radius: 999px; transition: color 0.2s, background 0.2s;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .nav-link.active { color: #202124; font-weight: 600; }
+        .nav-link:hover, .nav-item:hover .nav-link { color: #202124; background-color: #f1f3f4; }
+
+        .nav-btn { 
+            background-color: #000; color: #fff; padding: 10px 20px; 
+            border-radius: 999px; text-decoration: none; font-size: 14px; font-weight: 500; 
+            display: flex; align-items: center; gap: 8px; transition: transform 0.2s;
+        }
+        .nav-btn:hover { transform: scale(1.05); }
+
+        /* --- DROPDOWN MENU STYLES --- */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: -20px;
+            background: #fff;
+            border: 1px solid #eaeaea;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+            padding: 24px;
+            min-width: 550px;
+            cursor: default;
+        }
+
+        .nav-item:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .dropdown-content { display: flex; gap: 30px; }
+        .dropdown-left { width: 200px; flex-shrink: 0; padding-right: 20px; border-right: 1px solid #f1f3f4; }
+        .dropdown-left h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; color: #202124; line-height: 1.4; }
+        .dropdown-left p { font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 16px; }
+        .overview-link { font-size: 13px; color: #4285F4; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+        .dropdown-right { flex-grow: 1; display: flex; flex-direction: column; gap: 4px; }
+        .dropdown-item {
+            display: flex; align-items: center; gap: 12px; text-decoration: none;
+            padding: 8px 12px; border-radius: 8px; transition: background 0.2s;
+            color: #5f6368; font-size: 14px; font-weight: 500; cursor: pointer;
+        }
+        .dropdown-item:hover { background-color: #f8f9fa; color: #202124; }
+        .dropdown-item i.icon-left { width: 20px; text-align: center; color: #5f6368; font-size: 14px; }
+        .dropdown-item:hover i.icon-left { color: #202124; }
+        .dropdown-item .arrow-right { margin-left: auto; font-size: 10px; opacity: 0; transform: translateX(-5px); transition: all 0.2s; }
+        .dropdown-item:hover .arrow-right { opacity: 1; transform: translateX(0); }
+
+        /* --- MOBILE MENU STYLES --- */
+        .mobile-menu-btn { display: none; }
+        .mobile-menu-overlay { 
+            display: none; 
+            position: fixed; 
+            top: 70px; 
+            left: 0; 
+            width: 100%; 
+            height: calc(100vh - 70px); 
+            background: rgba(255, 255, 255, 0.98); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        /* --- HERO SECTION --- */
+        .product-hero { position: relative; height: 100vh; width: 100%; display: flex; align-items: center; justify-content: flex-start; padding: 0 5%; overflow: hidden; }
+        #product-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        .hero-content { position: relative; z-index: 10; max-width: 650px; margin-top: -50px; }
+        h1 { font-size: 72px; line-height: 1.05; font-weight: 500; letter-spacing: -2px; margin-bottom: 40px; color: #202124; }
+        .cta-group { display: flex; gap: 16px; align-items: center; }
+        .btn-pill { padding: 16px 32px; border-radius: 100px; font-size: 16px; font-weight: 500; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; text-decoration: none; display: inline-block; border: none; }
+        .btn-pill:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .btn-dark { background-color: #171717; color: #fff; border: 1px solid #171717; }
+        .btn-light { background-color: #f8f9fa; color: #202124; border: 1px solid #dadce0; }
+        .btn-light:hover { background-color: #fff; border-color: #202124; }
+
+        /* --- DOWNLOAD SECTION --- */
+        .download-section { padding: 100px 20px; display: flex; justify-content: center; background-color: #fff; position: relative; z-index: 10; }
+        .download-card { width: 100%; background-color: #000; border-radius: 40px; padding: 100px 80px; position: relative; overflow: hidden; display: flex; align-items: center; }
+        #download-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+        .download-content { position: relative; z-index: 5; width: 100%; }
+        .download-content h2 { font-size: 48px; color: #fff; line-height: 1.1; margin-bottom: 50px; font-weight: 500; letter-spacing: -1px; }
+        .dl-btn-group { display: flex; gap: 20px; }
+        .dl-btn { padding: 18px 32px; border-radius: 100px; font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.2s ease; border: none; }
+        .dl-btn:hover { transform: scale(1.05); }
+        .dl-btn-white { background-color: #fff; color: #000; }
+        .dl-btn-dark { background-color: rgba(255, 255, 255, 0.15); color: #fff; backdrop-filter: blur(5px); }
+
+        /* --- FEATURE GALLERY --- */
+        .feature-gallery { padding: 0 0 100px 0; background: #fff; position: relative; z-index: 10; overflow: hidden; }
+        
+        .gallery-scroller { 
+            display: flex; gap: 40px; overflow-x: auto; scroll-snap-type: x mandatory; 
+            padding: 0 5%; padding-bottom: 40px; margin-bottom: 40px; 
+            -ms-overflow-style: none; scrollbar-width: none; 
+            cursor: grab;
+            overscroll-behavior-x: contain; 
+        }
+        
+        .gallery-scroller::-webkit-scrollbar { display: none; }
+        .gallery-scroller:active { cursor: grabbing; }
+
+        .gallery-item { flex: 0 0 85vw; max-width: 1200px; height: 600px; background: #f1f3f4; border-radius: 24px; scroll-snap-align: center; overflow: hidden; position: relative; border: 1px solid #eaeaea; box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+        .gallery-controls { display: flex; justify-content: space-between; align-items: center; padding: 0 5%; margin-bottom: 80px; max-width: 1400px; margin-left: auto; margin-right: auto; }
+        .control-label { font-size: 24px; font-weight: 400; color: #202124; }
+        .control-btns { background-color: #f1f3f4; padding: 4px; border-radius: 999px; display: flex; gap: 12px; }
+        .ctrl-btn { width: 48px; height: 48px; border-radius: 50%; border: none; background: #f8f9fa; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.2s ease; color: #5f6368; }
+        .ctrl-btn:hover { background-color: #E8EAED; color: #202124; border-color: #202124; }
+        .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; padding: 0 5%; max-width: 1400px; margin: 0 auto; }
+        .feature-col { display: flex; flex-direction: column; align-items: flex-start; }
+        .feature-tag { background-color: #f1f3f4; padding: 6px 12px; border-radius: 4px; font-size: 12px; font-weight: 600; color: #5f6368; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 20px; }
+        .feature-col h3 { font-size: 24px; font-weight: 500; margin-bottom: 16px; line-height: 1.3; color: #202124; }
+        .feature-col p { font-size: 16px; line-height: 1.6; color: #5f6368; }
+
+        /* --- SHOWCASE SECTION --- */
+        .showcase-section { padding: 120px 0; background: #fff; position: relative; z-index: 10; }
+        .showcase-header { display: flex; justify-content: space-between; align-items: flex-end; padding: 0 5%; max-width: 1400px; margin: 0 auto 100px auto; }
+        .showcase-header h2 { font-size: 64px; line-height: 1.1; font-weight: 500; color: #202124; letter-spacing: -2px; margin: 0; max-width: 600px; }
+        .showcase-header .text-muted { color: #5f6368; display: block; }
+        .showcase-header p { font-size: 20px; color: #5f6368; max-width: 450px; line-height: 1.6; margin: 0; padding-bottom: 5px; }
+        
+        .showcase-scroller { 
+            display: flex; gap: 32px; overflow-x: auto; scroll-snap-type: x mandatory; 
+            padding: 0 5%; padding-bottom: 20px; -ms-overflow-style: none; scrollbar-width: none;
+            cursor: grab;
+            overscroll-behavior-x: contain; 
+        }
+        .showcase-scroller::-webkit-scrollbar { display: none; }
+        .showcase-scroller:active { cursor: grabbing; }
+
+        .showcase-card { flex: 0 0 70vw; height: 600px; background: #000; border-radius: 40px; position: relative; overflow: hidden; scroll-snap-align: center; border: 1px solid #333; cursor: pointer; }
+        .showcase-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; transition: transform 0.6s ease; }
+        .showcase-card:hover img { transform: scale(1.02); }
+        .play-btn { position: absolute; bottom: 40px; right: 40px; width: 56px; height: 56px; background: rgba(255,255,255,0.15); backdrop-filter: blur(12px); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 18px; transition: transform 0.2s ease, background 0.2s ease; z-index: 10; }
+        .play-btn:hover { transform: scale(1.1); background: rgba(255,255,255,0.25); }
+        .showcase-footer { display: flex; justify-content: space-between; align-items: flex-end; padding: 30px 5% 0 5%; max-width: 100%; }
+        .showcase-info { max-width: 600px; transition: opacity 0.3s ease; opacity: 1; }
+        .showcase-info.fading { opacity: 0; }
+        .showcase-info h3 { font-size: 32px; font-weight: 500; color: #202124; margin-bottom: 12px; letter-spacing: -0.5px; }
+        .showcase-info p { font-size: 18px; line-height: 1.6; color: #5f6368; }
+        .showcase-nav { background-color: #f1f3f4; padding: 4px; border-radius: 999px; display: flex; gap: 12px; flex-shrink: 0; }
+        .nav-arrow { width: 56px; height: 56px; border-radius: 50%; background-color: #f8f9fa; color: #202124; display: flex; justify-content: center; align-items: center; font-size: 16px; cursor: pointer; transition: background 0.2s ease; border: none; }
+        .nav-arrow:hover { background-color: #e8eaed; }
+
+        /* --- FOOTER SECTION --- */
+        .site-footer { background-color: #fff; color: #202124; padding: 80px 40px 40px 40px; position: relative; z-index: 10; border-top: 1px solid #eaeaea; }
+        .footer-top { display: flex; justify-content: space-between; align-items: flex-start; max-width: 1400px; margin: 0 auto 100px auto; }
+        .footer-brand { font-size: 32px; font-weight: 400; letter-spacing: -0.5px; }
+        .footer-nav { display: flex; gap: 100px; }
+        .nav-col h4 { font-size: 16px; font-weight: 600; margin-bottom: 24px; color: #202124; }
+        .nav-col a { display: block; text-decoration: none; color: #5f6368; margin-bottom: 16px; font-size: 15px; transition: color 0.2s; }
+        .nav-col a:hover { color: #4285F4; }
+        .footer-middle { text-align: left; border-bottom: 1px solid #dadce0; overflow: hidden; padding-bottom: 30px; padding-top: 30px; }
+        .huge-text { font-size: 10vw; line-height: 0.8; font-weight: 500; letter-spacing: -0.04em; margin: 0; color: #1a1a1a; user-select: none; }
+        .lift-letter { display: inline-block; will-change: transform; transition: transform 0.1s linear; }
+        .footer-bottom { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 40px auto 0 auto; color: #5f6368; }
+        .google-logo { font-size: 14px; font-weight: 500; color: #5f6368; letter-spacing: -0.5px; }
+        .legal-links { display: flex; gap: 30px; }
+        .legal-links a { text-decoration: none; color: #5f6368; font-size: 14px; }
+        .legal-links a:hover { color: #202124; }
+
+        /* --- MOBILE OVERRIDES --- */
+        @media (max-width: 768px) {
+            h1 { font-size: 48px; }
+            .product-hero { justify-content: center; text-align: center; }
+            .hero-content { margin-top: 0; background: rgba(255,255,255,0.7); backdrop-filter: blur(2px); padding: 20px; border-radius: 20px; }
+            .cta-group { flex-direction: column; align-items: stretch; width: 100%; }
+            .btn-pill { width: 100%; text-align: center; }
+            
+            /* Navbar Mobile */
+            .nav-links, .desktop-only { display: none; }
+            .mobile-menu-btn { display: block; background: none; border: none; font-size: 24px; color: #202124; cursor: pointer; }
+            .mobile-menu-overlay { display: block; position: fixed; top: 70px; left: 0; width: 100%; height: calc(100vh - 70px); background: rgba(255,255,255,0.98); backdrop-filter: blur(20px); z-index: 999; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+            .mobile-menu-overlay.open { opacity: 1; pointer-events: all; }
+            .mobile-menu-content { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 30px; }
+            .mobile-link { font-size: 24px; font-weight: 500; color: #202124; text-decoration: none; }
+            .mobile-btn { background-color: #000; color: #fff; padding: 16px 40px; border-radius: 999px; font-size: 18px; font-weight: 600; text-decoration: none; margin-top: 20px; }
+
+            /* Download & Grid Mobile */
+            .download-card { padding: 60px 40px; }
+            .download-content h2 { font-size: 36px; }
+            .dl-btn-group { flex-direction: column; }
+            .dl-btn { width: 100%; }
+            
+            /* Feature Gallery Mobile */
+            .gallery-item { height: 300px; flex: 0 0 90vw; }
+            .feature-grid { grid-template-columns: 1fr; }
+            .gallery-controls { flex-direction: column; gap: 20px; }
+            
+            /* Showcase Mobile */
+            .showcase-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+            .showcase-header h2 { font-size: 42px; }
+            .showcase-card { flex: 0 0 90vw; height: 400px; }
+            .showcase-footer { flex-direction: column; align-items: flex-start; gap: 30px; }
+            
+            /* Footer Mobile */
+            .footer-top { flex-direction: column; gap: 40px; }
+            .footer-nav { gap: 50px; }
+            .huge-text { font-size: 22vw; }
+            .footer-bottom { flex-direction: column; gap: 20px; align-items: flex-start; }
+            .legal-links { flex-wrap: wrap; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation with Mega Menu -->
+    <nav>
+        <div class="nav-left">
+            <a href="index.html" class="nav-logo">
+                <img src="colored_logo.png" alt="Datawarp Logo" style="width: 30px;">
+                Datawarp
+            </a>
+            
+            <div class="nav-links">
+                <div class="nav-item">
+                    <a href="index.html" class="nav-link active">Product</a>
+                </div>
+                
+                <!-- USE CASES DROPDOWN -->
+                <div class="nav-item">
+                    <a href="use_cases.html" class="nav-link">
+                        Use Cases <i class="fa-solid fa-chevron-down" style="font-size: 10px; margin-top: 2px;"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                            <!-- Left: Overview -->
+                            <div class="dropdown-left">
+                                <h3>Suitable for every security environment</h3>
+                                <p>See how Datawarp helps you work faster and more securely.</p>
+                                <a href="use_cases.html" class="overview-link">Read overview <i class="fa-solid fa-arrow-right" style="font-size: 10px;"></i></a>
+                            </div>
+                            
+                            <!-- Right: Use Case Links -->
+                            <div class="dropdown-right">
+                                <a href="use_cases.html" class="dropdown-item">
+                                    <i class="fa-solid fa-share-nodes icon-left"></i>
+                                    <span>Orchestration</span>
+                                    <i class="fa-solid fa-chevron-right arrow-right"></i>
+                                </a>
+                                <a href="use_cases.html" class="dropdown-item">
+                                    <i class="fa-solid fa-code icon-left"></i>
+                                    <span>Frontend</span>
+                                    <i class="fa-solid fa-chevron-right arrow-right"></i>
+                                </a>
+                                <a href="use_cases.html" class="dropdown-item">
+                                    <i class="fa-solid fa-layer-group icon-left"></i>
+                                    <span>Fullstack</span>
+                                    <i class="fa-solid fa-chevron-right arrow-right"></i>
+                                </a>
+                                <a href="use_cases.html" class="dropdown-item">
+                                    <i class="fa-solid fa-shield-halved icon-left"></i>
+                                    <span>Security</span>
+                                    <i class="fa-solid fa-chevron-right arrow-right"></i>
+                                </a>
+                                <a href="use_cases.html" class="dropdown-item">
+                                    <i class="fa-solid fa-building icon-left"></i>
+                                    <span>Enterprise</span>
+                                    <i class="fa-solid fa-chevron-right arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nav-item">
+                    <a href="features.html" class="nav-link">Features</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Desktop Button -->
+        <a href="contact.html" class="nav-btn desktop-only">Contact</a>
+
+        <!-- Mobile Button -->
+        <button class="mobile-menu-btn" aria-label="Open Menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <!-- Mobile Overlay -->
+        <div class="mobile-menu-overlay">
+            <div class="mobile-menu-content">
+                <a href="index.html" class="mobile-link">Home</a>
+                <a href="product.html" class="mobile-link">Product</a>
+                <a href="use_cases.html" class="mobile-link">Use Cases</a>
+                <a href="features.html" class="mobile-link">Features</a>
+                <a href="contact.html" class="mobile-btn">Contact Sales</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- SECTION 1: HERO -->
+    <section class="product-hero">
+        <canvas id="product-canvas"></canvas>
+        <div class="hero-content">
+            <h1>The data platform for high-security environments<span style="color:#4285F4">|</span></h1>
+            <div class="cta-group">
+                <a href="contact.html" class="btn-pill btn-dark">Contact Sales</a>
+                <a href="features.html" class="btn-pill btn-light">Explore Features</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: DOWNLOAD -->
+    <section class="download-section">
+        <div class="download-card" id="dl-card-container">
+            <canvas id="download-canvas"></canvas>
+            <div class="download-content">
+                <h2>Guaranteed compliance with<br>Data Sovereignty mandates<br>in 190+ jurisdictions</h2>
+                <div class="dl-btn-group">
+                    <a href="compliances.html" class="dl-btn dl-btn-dark" style="text-decoration: none;">Explores Compliances</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: FEATURE GALLERY -->
+    <section class="feature-gallery">
+        <div class="gallery-scroller" id="gallery-scroll">
+            <div class="gallery-item"><img src="img\product\img1-1.png"></div>
+            <div class="gallery-item"><img src="img\product\img1-2.png"></div>
+            <div class="gallery-item"><img src="img\product\img1-3.png"></div>
+            <div class="gallery-item"><img src="img\product\img1-4.png"></div>
+        </div>
+        <div class="gallery-controls">
+            <div class="control-label">Scroll to explore features</div>
+            <div class="control-btns">
+                <button class="ctrl-btn" onclick="scrollGallery(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="ctrl-btn" onclick="scrollGallery(1)"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+        <div class="feature-grid">
+            <div class="feature-col">
+                <div class="feature-tag">Security-first</div>
+                <h3>Absolute Data Sovereignty.</h3>
+                <p>A 100% air-gapped architecture. No API calls, no cloud uploads, and no external telemetry. Your data never leaves your physical perimeter.</p>
+            </div>
+            <div class="feature-col">
+                <div class="feature-tag">Device friendly</div>
+                <h3>No Hardware Upgrades Required.</h3>
+                <p>Transform legacy i3/4GB laptops into forensic powerhouses. Our proprietary engine optimizes every byte of RAM, saving you millions in infrastructure refresh costs.</p>
+            </div>
+            <div class="feature-col">
+                <div class="feature-tag">Self training</div>
+                <h3>Zero-Lag Adoption.</h3>
+                <p>Forget thick PDF manuals. The integrated DataWarp Academy guides your staff through live workflows step-by-step, turning junior analysts into forensic experts in minutes.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: SHOWCASE -->
+    <section class="showcase-section">
+        <div class="showcase-header">
+            <h2>Different worlds built<br><span class="text-muted">into 4 zones</span></h2>
+            <p>Datawarp integrates the core data workflow stages in a single user-friendly platform.</p>
+        </div>
+
+        <div class="showcase-scroller" id="showcase-scroller">
+            <!-- Rendered via JS -->
+        </div>
+
+        <div class="showcase-footer">
+            <div class="showcase-info" id="showcase-info">
+                <h3 id="sc-title">Title Loading...</h3>
+                <p id="sc-desc">Description Loading...</p>
+            </div>
+            <div class="showcase-nav">
+                <button class="nav-arrow" onclick="scrollShowcase(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="nav-arrow" onclick="scrollShowcase(1)"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-top">
+            <div class="footer-brand">Experience data sovereignty</div>
+            <div class="footer-nav">
+                <div class="nav-col">
+                    <h4>Product</h4>
+                    <a href="index.html">Home</a><a href="product.html">Product</a><a href="features.html">Features</a><a href="use_cases.html">Use Cases</a>
+                </div>
+                <div class="nav-col">
+                    <h4>Resources</h4>
+                    <a href="contact.html">Contact</a><a href="mailto:boruahpriyanuj2004@gmail.com">Email</a><a href="https://www.linkedin.com/in/priyanuj-boruah/">Founder</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-middle">
+            <h1 class="huge-text">
+                Dataw<span class="lift-letter">a</span><span class="lift-letter">r</span><span class="lift-letter">p</span>
+            </h1>
+        </div>
+        <div class="footer-bottom">
+            <div class="google-logo">©2026 Datawarp | All Rights Reserved</div>
+            <div class="legal-links">
+                <a href="#">About Datawarp</a><a href="#">Compliant Standards</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- LENIS SCRIPT -->
+    <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script> 
+
+    <!-- JS -->
+    <script>
+        // ============================================
+        // 1. SMOOTH SCROLL (LENIS)
+        // ============================================
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // ============================================
+        // 2. SETUP & OBSERVERS
+        // ============================================
+        const heroCanvas = document.getElementById('product-canvas');
+        const heroCtx = heroCanvas.getContext('2d');
+        const dlCanvas = document.getElementById('download-canvas');
+        const dlCtx = dlCanvas.getContext('2d');
+        const dlCard = document.getElementById('dl-card-container');
+        const navElement = document.querySelector('nav');
+        let lastScroll = 0;
+
+        let width, height, dlW, dlH;
+        let mouse = { x: null, y: null };
+        const hexColors = ['#4285F4', '#4285F4', '#4285F4', '#8AB4F8', '#FBBC04']; 
+        const dlConfig = { particleCount: 60, connectionDistance: 120, mouseRadius: 300, baseColor: '161, 66, 244' };
+
+        // Visibility Flags (Optimization)
+        let heroVisible = true;
+        let dlVisible = false;
+
+        // Observer for Hero
+        const observerHero = new IntersectionObserver((entries) => {
+            entries.forEach(e => heroVisible = e.isIntersecting);
+        });
+        observerHero.observe(document.querySelector('.product-hero'));
+
+        // Observer for Download
+        const observerDl = new IntersectionObserver((entries) => {
+            entries.forEach(e => dlVisible = e.isIntersecting);
+        });
+        observerDl.observe(dlCard);
+
+        // ============================================
+        // 3. MOBILE MENU LOGIC
+        // ============================================
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const mobileOverlay = document.querySelector('.mobile-menu-overlay');
+        const icon = mobileBtn.querySelector('i');
+        let isMenuOpen = false;
+
+        mobileBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if(isMenuOpen) {
+                mobileOverlay.classList.add('open');
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+                lenis.stop();
+            } else {
+                mobileOverlay.classList.remove('open');
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+                lenis.start();
+            }
+        });
+
+        document.querySelectorAll('.mobile-link, .mobile-btn').forEach(link => {
+            link.addEventListener('click', () => {
+                isMenuOpen = false;
+                mobileOverlay.classList.remove('open');
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+                lenis.start();
+            });
+        });
+
+        // ============================================
+        // 4. HERO PARTICLES (HEX)
+        // ============================================
+        class HexParticle {
+            constructor() { this.reset(true); this.angle = Math.random()*Math.PI*2; this.wobble=Math.random()*0.02+0.01; }
+            reset() {
+                this.size = Math.random()*2+1.5; this.color = hexColors[Math.floor(Math.random()*hexColors.length)];
+                const isMobile = width < 768; const centerX = isMobile ? width*0.5 : width*0.75; const centerY = height*0.5; const scale = Math.min(width,height)*0.45;
+                let valid=false, x, y;
+                while(!valid){
+                    x = (Math.random()-0.5)*2*scale; y = (Math.random()-0.5)*2*scale;
+                    if((Math.abs(x)<=(Math.sqrt(3)/2)*scale) && ((Math.abs(x)*Math.sqrt(3)) + Math.abs(y) <= Math.sqrt(3)*scale)) valid=true;
+                }
+                this.x = centerX+x; this.y = centerY+y; this.baseX=this.x; this.baseY=this.y;
+            }
+            update() {
+                this.angle+=this.wobble;
+                this.x = this.baseX + Math.cos(this.angle)*3; this.y = this.baseY + Math.sin(this.angle)*3;
+                
+                // AUTO HOVER FOR MOBILE
+                let simMouseX = mouse.x;
+                let simMouseY = mouse.y;
+                if(window.innerWidth < 768) {
+                    const time = Date.now() * 0.001;
+                    simMouseX = (width/2) + Math.sin(time) * 100;
+                    simMouseY = (height/2) + Math.cos(time*1.5) * 100;
+                }
+
+                if(simMouseX!=null){
+                    let dx=simMouseX-this.x, dy=simMouseY-this.y, dist=Math.sqrt(dx*dx+dy*dy);
+                    if(dist<200){ let f=(200-dist)/200; this.x-=(dx/dist)*f*20; this.y-=(dy/dist)*f*20; }
+                }
+                heroCtx.beginPath(); heroCtx.arc(this.x, this.y, this.size, 0, Math.PI*2); heroCtx.fillStyle=this.color; heroCtx.fill();
+            }
+        }
+
+        // ============================================
+        // 5. DOWNLOAD PARTICLES (NODES)
+        // ============================================
+        class NodeParticle {
+            constructor(w,h){ this.x=Math.random()*w; this.y=Math.random()*h; this.vx=(Math.random()-0.5)*1.5; this.vy=(Math.random()-0.5)*1.5; this.size=Math.random()*2+1; }
+            update(w,h,mx,my){
+                this.x+=this.vx; this.y+=this.vy;
+                if(this.x<0||this.x>w) this.vx*=-1; if(this.y<0||this.y>h) this.vy*=-1;
+                let alpha=0.1, size=this.size, blur=0;
+                if(mx!=null){
+                    let dist=Math.sqrt((mx-this.x)**2 + (my-this.y)**2);
+                    if(dist<dlConfig.mouseRadius){ let p=1-(dist/dlConfig.mouseRadius); alpha=0.1+(p*0.9); blur=p*20; size=this.size*(1+p); }
+                }
+                dlCtx.beginPath(); dlCtx.arc(this.x, this.y, size, 0, Math.PI*2);
+                dlCtx.fillStyle=`rgba(${dlConfig.baseColor}, ${alpha})`; dlCtx.shadowBlur=blur; dlCtx.shadowColor=`rgba(${dlConfig.baseColor},1)`;
+                dlCtx.fill(); dlCtx.shadowBlur=0;
+                return alpha;
+            }
+        }
+
+        let hexP=[], dlP=[];
+        function init(){
+            hexP=[]; for(let i=0;i<1600;i++) hexP.push(new HexParticle());
+            dlP=[]; for(let i=0;i<dlConfig.particleCount;i++) dlP.push(new NodeParticle(dlW, dlH));
+        }
+        function resize(){
+            width=heroCanvas.width=window.innerWidth; height=heroCanvas.height=window.innerHeight;
+            const r=dlCard.getBoundingClientRect(); dlW=dlCanvas.width=r.width; dlH=dlCanvas.height=r.height;
+            init();
+        }
+
+        function animate(){
+            // Navbar Logic
+            let st = window.scrollY;
+            if (st > lastScroll && st > 100) navElement.classList.add('nav-hidden');
+            else navElement.classList.remove('nav-hidden');
+            lastScroll = st;
+
+            // Hero Animation
+            if(heroVisible) {
+                heroCtx.clearRect(0,0,width,height);
+                hexP.forEach(p=>p.update());
+            }
+
+            // Download Animation
+            if(dlVisible) {
+                dlCtx.clearRect(0,0,dlW,dlH);
+                let dmx=null, dmy=null, r=dlCard.getBoundingClientRect();
+                
+                // AUTO HOVER FOR MOBILE
+                if(window.innerWidth < 768) {
+                    const time = Date.now() * 0.002;
+                    dmx = (dlW/2) + Math.sin(time) * 100;
+                    dmy = (dlH/2) + Math.cos(time*1.5) * 50;
+                } else if(mouse.x>=r.left && mouse.x<=r.right && mouse.y>=r.top && mouse.y<=r.bottom){ 
+                    dmx=mouse.x-r.left; dmy=mouse.y-r.top; 
+                }
+
+                for(let i=0;i<dlP.length;i++){
+                    let alpha=dlP[i].update(dlW,dlH,dmx,dmy);
+                    if(alpha>0.2){
+                        for(let j=i;j<dlP.length;j++){
+                            let d=Math.sqrt((dlP[i].x-dlP[j].x)**2 + (dlP[i].y-dlP[j].y)**2);
+                            if(d<dlConfig.connectionDistance){
+                                dlCtx.beginPath(); dlCtx.strokeStyle=`rgba(${dlConfig.baseColor},${alpha-(d/dlConfig.connectionDistance)})`;
+                                dlCtx.lineWidth=1; dlCtx.moveTo(dlP[i].x, dlP[i].y); dlCtx.lineTo(dlP[j].x, dlP[j].y); dlCtx.stroke();
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // Footer Lift Logic
+            const liftLetters = document.querySelectorAll('.lift-letter');
+            if(liftLetters.length > 0) {
+                const distFromBottom = document.documentElement.scrollHeight - (window.scrollY + window.innerHeight);
+                const liftRange = 400; const maxLift = -30;
+                if(distFromBottom < liftRange) {
+                    let progress = 1 - (distFromBottom / liftRange);
+                    progress = Math.pow(Math.max(0, progress), 1.5);
+                    liftLetters.forEach((l,i) => {
+                        let m = (i+1)/3;
+                        l.style.transform = `translateY(${progress * maxLift * m}px)`;
+                    });
+                } else {
+                    liftLetters.forEach(l => l.style.transform = `translateY(0px)`);
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        // ============================================
+        // 6. SHOWCASE LOGIC
+        // ============================================
+        const showcaseData = [
+            {
+                title: "ETL, Reconciliation, and Hygiene at Petabyte Scale.",
+                desc: "Bypass the constraints of Excel. Ingest highly fragmented 50GB+ datasets, CSV, Parquet, or Excel, and instantly sanitize them with our vectorized cleaning engine.",
+                img: "img\\product\\img2-1.png"
+            },
+            {
+                title: "Codeless Regulatory Compliance.",
+                desc: "Transform static regulatory PDFs into dynamic, executable logic. Define complex 'If-Then' audit rules once and broadcast them across millions of transaction rows to auto-flag violations.",
+                img: "img\\product\\img2-2.png"
+            },
+            {
+                title: "Predictive Link Analysis & Graph Theory.",
+                desc: "Move beyond rows and columns. Visualize hidden relationships between entities using 'The Spider', a network graph engine that detects syndicates sharing metadata across unconnected accounts.",
+                img: "img\\product\\img2-3.png"
+            },
+            {
+                title: "Heuristic Fraud Detection Algorithms.",
+                desc: "Deploy pre-built 'Hunter-Killer' engines designed to detect specific financial crime typologies like Smurfing, Round-Tripping, and Shell Company velocity patterns.",
+                img: "img\\product\\img2-4.png"
+            }
+        ];
+
+        const scContainer = document.getElementById('showcase-scroller');
+        const scTitle = document.getElementById('sc-title');
+        const scDesc = document.getElementById('sc-desc');
+        const scInfo = document.getElementById('showcase-info');
+
+        scContainer.innerHTML = showcaseData.map((slide, index) => `
+            <div class="showcase-card" data-index="${index}">
+                <img src="${slide.img}" alt="${slide.title}">
+                <div class="play-btn"><img src="black.png" style="padding: 10px;"></div>
+            </div>
+        `).join('');
+
+        let activeIndex = 0;
+
+        function updateShowcaseText(index) {
+            if(index === activeIndex && index !== 0) return;
+            scInfo.classList.add('fading');
+            setTimeout(() => {
+                scTitle.innerText = showcaseData[index].title;
+                scDesc.innerText = showcaseData[index].desc;
+                scInfo.classList.remove('fading');
+                activeIndex = index;
+            }, 300);
+        }
+
+        function scrollShowcase(dir) {
+            const cardWidth = window.innerWidth * 0.70 + 32; 
+            scContainer.scrollBy({ left: cardWidth * dir, behavior: 'smooth' });
+        }
+
+        scContainer.addEventListener('scroll', () => {
+            const scrollLeft = scContainer.scrollLeft;
+            const cardWidth = scContainer.children[0].offsetWidth + 32; 
+            const newIndex = Math.round(scrollLeft / cardWidth);
+            if (newIndex >= 0 && newIndex < showcaseData.length && newIndex !== activeIndex) {
+                updateShowcaseText(newIndex);
+            }
+        });
+
+        updateShowcaseText(0);
+
+        // ============================================
+        // 7. GALLERY SCROLL LOGIC
+        // ============================================
+        const galleryScroller = document.getElementById('gallery-scroll');
+        function scrollGallery(direction) {
+            galleryScroller.scrollBy({ left: window.innerWidth * 0.85 * direction, behavior: 'smooth' });
+        }
+
+        // ============================================
+        // 8. GLOBAL EVENTS
+        // ============================================
+        window.addEventListener('mousemove', e => { mouse.x=e.clientX; mouse.y=e.clientY; });
+        window.addEventListener('mouseout', () => { mouse.x=null; mouse.y=null; });
+        window.addEventListener('resize', resize);
+        setTimeout(() => { resize(); animate(); }, 100);
+
+    </script>
+</body>
+</html>

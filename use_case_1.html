@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datawarp - Banking & Finance</title>
+    <link rel="icon" type="image/png" href="colored_logo.png">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- LENIS CSS -->
+    <style>
+        html.lenis, html.lenis body { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+        .lenis.lenis-scrolling iframe { pointer-events: none; }
+    </style>
+
+    <style>
+        /* --- RESET & BASICS --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #202124;
+            overflow-x: clip; 
+            width: 100%;
+        }
+
+        /* --- CUSTOM NATIVE SCROLLBAR --- */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 10px; border: 3px solid transparent; background-clip: content-box; }
+        ::-webkit-scrollbar-thumb:hover { background-color: rgba(0,0,0,0.4); }
+
+        /* --- NAVIGATION --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            height: 70px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        nav.nav-hidden { transform: translateY(-100%); }
+
+        .nav-left { display: flex; align-items: center; height: 100%; gap: 10px; }
+        
+        .nav-logo { 
+            font-weight: 500; font-size: 18px; color: #5f6368; 
+            cursor: pointer; text-decoration: none; margin-right: 20px;
+            display: flex; align-items: center; gap: 8px;
+        }
+
+        .nav-links { display: flex; height: 100%; align-items: center; }
+        .nav-item { position: relative; height: 100%; display: flex; align-items: center; margin-right: 4px; }
+        
+        .nav-link {
+            text-decoration: none; color: #5f6368; font-size: 14px; font-weight: 500;
+            padding: 8px 12px; border-radius: 999px; transition: color 0.2s, background 0.2s;
+            display: flex; align-items: center; gap: 6px;
+        }
+        
+        .nav-link.active-parent { color: #202124; font-weight: 600; }
+        .nav-link:hover, .nav-item:hover .nav-link { color: #202124; background-color: #f1f3f4; }
+
+        .nav-btn { 
+            background-color: #000; color: #fff; padding: 10px 20px; 
+            border-radius: 999px; text-decoration: none; font-size: 14px; font-weight: 500; 
+            display: flex; align-items: center; gap: 8px; transition: transform 0.2s;
+        }
+        .nav-btn:hover { transform: scale(1.05); }
+
+        /* --- DROPDOWN MENU STYLES --- */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: -20px;
+            background: #fff;
+            border: 1px solid #eaeaea;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+            padding: 24px;
+            min-width: 550px;
+            cursor: default;
+        }
+
+        .nav-item:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .dropdown-content { display: flex; gap: 30px; }
+        .dropdown-left { width: 200px; flex-shrink: 0; padding-right: 20px; border-right: 1px solid #f1f3f4; }
+        .dropdown-left h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; color: #202124; line-height: 1.4; }
+        .dropdown-left p { font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 16px; }
+        .overview-link { font-size: 13px; color: #4285F4; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+        .overview-link:hover { text-decoration: underline; }
+        .dropdown-right { flex-grow: 1; display: flex; flex-direction: column; gap: 4px; }
+        .dropdown-item {
+            display: flex; align-items: center; gap: 12px; text-decoration: none;
+            padding: 8px 12px; border-radius: 8px; transition: background 0.2s;
+            color: #5f6368; font-size: 14px; font-weight: 500; cursor: pointer;
+        }
+        .dropdown-item:hover { background-color: #f8f9fa; color: #202124; }
+        .dropdown-item i.icon-left { width: 20px; text-align: center; color: #5f6368; font-size: 14px; }
+        .dropdown-item:hover i.icon-left { color: #202124; }
+        .dropdown-item .arrow-right { margin-left: auto; font-size: 10px; opacity: 0; transform: translateX(-5px); transition: all 0.2s; }
+        .dropdown-item:hover .arrow-right { opacity: 1; transform: translateX(0); }
+
+        /* --- MOBILE MENU STYLES --- */
+        .mobile-menu-btn { display: none; }
+        .mobile-menu-overlay { 
+            display: none; 
+            position: fixed; 
+            top: 70px; 
+            left: 0; 
+            width: 100%; 
+            height: calc(100vh - 70px); 
+            background: rgba(255, 255, 255, 0.98); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        /* --- PAGE CONTENT --- */
+        .page-wrapper {
+            padding-top: 160px; /* Increased top padding slightly */
+            max-width: 99%;
+            margin: 0 auto;
+            padding-left: 1%;
+            padding-right: 1%;
+        }
+
+        /* SECTION 1: HEADER SPLIT */
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            min-height: 400px;
+            margin-bottom: 100px;
+            margin-left: 4%;
+            margin-right: 4%;
+            border-bottom: 1px solid #eaeaea; 
+            padding-bottom: 80px;
+        }
+
+        .header-title h1 {
+            font-size: 84px; 
+            font-weight: 400; 
+            letter-spacing: -2px;
+            color: #202124;
+            line-height: 1;
+            margin-top: 0;
+        }
+
+        .header-desc {
+            max-width: 450px;
+            margin-top: 120px;
+        }
+
+        .header-desc p { 
+            font-size: 18px; 
+            line-height: 1.6; 
+            color: #5f6368; 
+        }
+
+        /* SECTION 2: WHY CHOOSE (STATIC GRID) */
+        .features-section {
+            margin-bottom: 120px;
+            padding-left: 4%;
+            padding-right: 4%;
+        }
+
+        .features-title {
+            max-width: 700px;
+            margin-bottom: 60px;
+        }
+
+        .features-title h2 {
+            font-size: 56px;
+            font-weight: 400;
+            line-height: 1.1;
+            letter-spacing: -1.5px;
+            color: #202124;
+        }
+
+        .features-grid-layout {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            width: 100%;
+        }
+
+        .feature-card {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            width: 100%;
+        }
+
+        .browser-frame {
+            width: 100%;
+            height: 320px; 
+            background: #fff;
+            border: 1px solid #eaeaea;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover .browser-frame {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .browser-header {
+            background: #f8f9fa;
+            padding: 10px 14px;
+            display: flex;
+            gap: 6px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: #dadce0; }
+        .dot.red { background: #ff5f57; }
+        .dot.yellow { background: #febc2e; }
+        .dot.green { background: #28c840; }
+
+        .browser-content {
+            flex-grow: 1;
+            background: #fff;
+            position: relative;
+        }
+        
+        .browser-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top left;
+        }
+
+        .feature-text h3 {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: #202124;
+        }
+
+        .feature-text p {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #5f6368;
+        }
+
+        /* --- SECTION 3: RELEVANT STORIES --- */
+        .stories-section {
+            margin-bottom: 140px;
+            text-align: center;
+        }
+
+        .stories-section h2 {
+            font-size: 48px;
+            font-weight: 400;
+            letter-spacing: -1px;
+            margin-bottom: 40px;
+            color: #202124;
+        }
+
+        .stories-nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .story-pill {
+            background-color: #fff;
+            border: 1px solid #dadce0;
+            padding: 10px 24px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #5f6368;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .story-pill:hover {
+            background-color: #f8f9fa;
+            border-color: #202124;
+            color: #202124;
+        }
+
+        .story-pill.active {
+            background-color: #202124;
+            color: #fff;
+            border-color: #202124;
+        }
+
+        .story-display {
+            width: 100%;
+            height: 600px;
+            background-color: #000;
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+
+        #stories-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .story-content {
+            position: relative;
+            z-index: 10;
+            max-width: 600px;
+            text-align: center;
+            padding: 40px;
+            background: rgba(0,0,0,0.0); 
+            backdrop-filter: blur(2px);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: opacity 0.3s ease;
+            opacity: 1;
+        }
+
+        .story-content.fading { opacity: 0; }
+
+        .story-content h3 {
+            font-size: 48px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+            line-height: 1.1;
+        }
+
+        .story-content p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #bdc1c6;
+        }
+
+        /* --- FOOTER SECTION --- */
+        .site-footer {
+            background-color: #fff;
+            color: #202124;
+            padding: 80px 40px 40px 40px;
+            position: relative;
+            z-index: 10;
+            border-top: 1px solid #eaeaea;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            max-width: 1400px;
+            margin: 0 auto 100px auto;
+        }
+
+        .footer-brand { font-size: 32px; font-weight: 400; letter-spacing: -0.5px; }
+        .footer-nav { display: flex; gap: 100px; }
+        .nav-col h4 { font-size: 16px; font-weight: 600; margin-bottom: 24px; color: #202124; }
+        .nav-col a { display: block; text-decoration: none; color: #5f6368; margin-bottom: 16px; font-size: 15px; transition: color 0.2s; }
+        .nav-col a:hover { color: #4285F4; }
+
+        .footer-middle {
+            text-align: left;
+            border-bottom: 1px solid #dadce0;
+            overflow: hidden;
+            padding-bottom: 30px;
+            padding-top: 30px;
+        }
+
+        .huge-text {
+            font-size: 10vw;
+            line-height: 0.8;
+            font-weight: 500;
+            letter-spacing: -0.04em;
+            margin: 0;
+            color: #1a1a1a;
+            user-select: none;
+        }
+
+        .lift-letter {
+            display: inline-block;
+            will-change: transform;
+            transition: transform 0.1s linear; 
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 40px auto 0 auto;
+            color: #5f6368;
+        }
+
+        .google-logo { font-size: 14px; font-weight: 500; color: #5f6368; letter-spacing: -0.5px; }
+        .legal-links { display: flex; gap: 30px; }
+        .legal-links a { text-decoration: none; color: #5f6368; font-size: 14px; }
+        .legal-links a:hover { color: #202124; }
+
+        /* --- MOBILE OVERRIDES --- */
+        @media (max-width: 900px) {
+            .header-section { flex-direction: column; align-items: flex-start; gap: 40px; min-height: auto; margin-top: 0; }
+            .header-title h1 { font-size: 56px; }
+            .header-desc { margin-top: 0; }
+            .features-title h2 { font-size: 42px; }
+            
+            /* Feature Grid Mobile */
+            .features-grid-layout { grid-template-columns: 1fr; gap: 60px; }
+            
+            /* Stories Mobile */
+            .stories-nav { 
+                flex-wrap: nowrap; 
+                overflow-x: auto; 
+                justify-content: flex-start; 
+                padding-bottom: 10px;
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .stories-nav::-webkit-scrollbar { display: none; }
+            .story-content h3 { font-size: 32px; }
+            .story-display { height: 450px; }
+
+            /* Navbar Mobile */
+            .nav-links, .desktop-only { display: none; }
+            .mobile-menu-btn { display: block; background: none; border: none; font-size: 24px; color: #202124; cursor: pointer; }
+            .mobile-menu-overlay { display: block; position: fixed; top: 70px; left: 0; width: 100%; height: calc(100vh - 70px); background: rgba(255,255,255,0.98); backdrop-filter: blur(20px); z-index: 999; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+            .mobile-menu-overlay.open { opacity: 1; pointer-events: all; }
+            .mobile-menu-content { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 30px; }
+            .mobile-link { font-size: 24px; font-weight: 500; color: #202124; text-decoration: none; }
+            .mobile-btn { background-color: #000; color: #fff; padding: 16px 40px; border-radius: 999px; font-size: 18px; font-weight: 600; text-decoration: none; margin-top: 20px; }
+
+            .footer-top { flex-direction: column; gap: 40px; }
+            .footer-nav { gap: 50px; }
+            .huge-text { font-size: 22vw; }
+            .footer-bottom { flex-direction: column; gap: 20px; align-items: flex-start; }
+            .legal-links { flex-wrap: wrap; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-left">
+            <a href="index.html" class="nav-logo">
+                <img src="colored_logo.png" alt="Datawarp Logo" style="width: 30px;">
+                Datawarp
+            </a>
+            
+            <div class="nav-links">
+                <div class="nav-item">
+                    <a href="product.html" class="nav-link">Product</a>
+                </div>
+                
+                <!-- USE CASES DROPDOWN -->
+                <div class="nav-item">
+                    <a href="use_cases.html" class="nav-link active-parent">
+                        Use Cases <i class="fa-solid fa-chevron-down" style="font-size: 10px; margin-top: 2px;"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                            <div class="dropdown-left">
+                                <h3>Effective for every type of builder</h3>
+                                <p>See how Google Antigravity helps you build faster and more securely.</p>
+                                <a href="use_cases.html" class="overview-link">Read overview <i class="fa-solid fa-arrow-right" style="font-size: 10px;"></i></a>
+                            </div>
+                            <div class="dropdown-right">
+                                <a href="use_case_1.html" class="dropdown-item"><i class="fa-solid fa-share-nodes icon-left"></i><span>Banking</span><i class="fa-solid fa-chevron-right arrow-right"></i></a>
+                                <a href="use_case_2.html" class="dropdown-item"><i class="fa-solid fa-code icon-left"></i><span>Insurance</span><i class="fa-solid fa-chevron-right arrow-right"></i></a>
+                                <a href="use_case_3.html" class="dropdown-item"><i class="fa-solid fa-layer-group icon-left"></i><span>Government</span><i class="fa-solid fa-chevron-right arrow-right"></i></a>
+                                <a href="use_case_4.html" class="dropdown-item"><i class="fa-solid fa-shield-halved icon-left"></i><span>Healthcare</span><i class="fa-solid fa-chevron-right arrow-right"></i></a>
+                                <a href="use_case_5.html" class="dropdown-item"><i class="fa-solid fa-building icon-left"></i><span>Supply Chain</span><i class="fa-solid fa-chevron-right arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nav-item"><a href="features.html" class="nav-link">Features</a></div>
+            </div>
+        </div>
+        
+        <!-- Desktop Button -->
+        <a href="contact.html" class="nav-btn desktop-only">Contact</a>
+
+        <!-- Mobile Button -->
+        <button class="mobile-menu-btn" aria-label="Open Menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <!-- Mobile Overlay -->
+        <div class="mobile-menu-overlay">
+            <div class="mobile-menu-content">
+                <a href="index.html" class="mobile-link">Home</a>
+                <a href="product.html" class="mobile-link">Product</a>
+                <a href="use_cases.html" class="mobile-link">Use Cases</a>
+                <a href="features.html" class="mobile-link">Features</a>
+                <a href="contact.html" class="mobile-btn">Contact Sales</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="page-wrapper">
+        
+        <!-- Section 1: Split Header -->
+        <section class="header-section">
+            <div class="header-title">
+                <h1>Banking & Finance</h1>
+            </div>
+            <div class="header-desc">
+                <p>Built for Speed. The vectorized engine allows you to process 50 million transactions locally, isolating forensic audits from your core banking latency.</p>
+            </div>
+        </section>
+
+        <!-- Section 2: Why Choose / Static Grid -->
+        <section class="features-section">
+            <div class="features-title">
+                <h2>Why banks and<br>financial institutions choose Datawarp</h2>
+            </div>
+
+            <div class="features-grid-layout">
+                <div class="feature-card">
+                    <div class="browser-frame">
+                        <div class="browser-header"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+                        <div class="browser-content">
+                            <img src="img\use_case_1\img1.png" alt="Code Interface">
+                        </div>
+                    </div>
+                    <div class="feature-text">
+                        <h3>High-Velocity Forensic Engine</h3>
+                        <p>Process 50M+ transaction rows locally on low-end budget laptops, eliminating the need for cloud uploads or waiting on Data Warehouse requests.</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="browser-frame">
+                        <div class="browser-header"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+                        <div class="browser-content">
+                            <img src="img\use_case_1\img2.png" alt="Dashboard">
+                        </div>
+                    </div>
+                    <div class="feature-text">
+                        <h3>Structuring & Smurfing Radar</h3>
+                        <p>Automated algorithms detect split transactions designed to bypass regulatory reporting limits and identify money mule velocity patterns.</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="browser-frame">
+                        <div class="browser-header"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+                        <div class="browser-content">
+                            <img src="img\use_case_1\img3.png" alt="Analytics">
+                        </div>
+                    </div>
+                    <div class="feature-text">
+                        <h3>Automated PII Shield</h3>
+                        <p>Instantly detects and masks sensitive columns upon ingestion, ensuring compliance with GDPR, DPDP, and banking secrecy laws during analysis.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: RELEVANT STORIES (Interactive) -->
+        <section class="stories-section">
+            <h2>Feature Highlights</h2>
+            
+            <div class="stories-nav">
+                <button class="story-pill active" onclick="switchStory('editor', this)">Ghost Prevention</button>
+                <button class="story-pill" onclick="switchStory('context', this)">No Code Execution</button>
+                <button class="story-pill" onclick="switchStory('trust', this)">Built-in Advanced ML</button>
+                <button class="story-pill" onclick="switchStory('speed', this)">Finance Forensics</button>
+            </div>
+
+            <div class="story-display">
+                <canvas id="stories-canvas"></canvas>
+                <div class="story-content" id="story-text">
+                    <h3 id="st-title">One-Click Ghost Prevention</h3>
+                    <p id="st-desc">Reconcile General Ledgers against Switch logs in seconds to identify 'Ghost' entries and missing cash.</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-top">
+            <div class="footer-brand">Experience data sovereignty</div>
+            <div class="footer-nav">
+                <div class="nav-col">
+                    <h4>Product</h4>
+                    <a href="index.html">Home</a><a href="product.html">Product</a><a href="features.html">Features</a><a href="use_cases.html">Use Cases</a>
+                </div>
+                <div class="nav-col">
+                    <h4>Resources</h4>
+                    <a href="contact.html">Contact</a><a href="mailto:boruahpriyanuj2004@gmail.com">Email</a><a href="https://www.linkedin.com/in/priyanuj-boruah/">Founder</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Middle: Big Text with "ity" lift -->
+        <div class="footer-middle">
+            <h1 class="huge-text">
+                Dataw<span class="lift-letter">a</span><span class="lift-letter">r</span><span class="lift-letter">p</span>
+            </h1>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="google-logo">©2026 Datawarp | All Rights Reserved</div>
+            <div class="legal-links">
+                <a href="#">About Datawarp</a><a href="compliances.html">Compliant Standards</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- LENIS SCRIPT -->
+    <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script> 
+
+    <!-- JS for Interactive Stories & Footer -->
+    <script>
+        // ============================================
+        // 1. SMOOTH SCROLL (LENIS)
+        // ============================================
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // ============================================
+        // 2. NAV & SETUP
+        // ============================================
+        const navElement = document.querySelector('nav');
+        let lastScroll = 0;
+
+        // DATA
+        const storiesData = {
+            editor: {
+                title: "One-Click Ghost Prevention",
+                desc: "Reconcile General Ledgers against Switch logs in seconds to identify 'Ghost' entries and missing cash."
+            },
+            context: {
+                title: "User Friendly Environment",
+                desc: "Automate NPA classification and regulatory exposure checks across millions of accounts without writing SQL."
+            },
+            trust: {
+                title: "Advanced ML Simplified",
+                desc: "Predict loan default risks and visualize credit exposure trends using offline machine learning."
+            },
+            speed: {
+                title: "Financial Forensics and Fraud",
+                desc: "Detect money laundering patterns like Structuring, Smurfing, and Mule accounts using the heuristic fraud engine."
+            }
+        };
+
+        // DOM ELEMENTS
+        const canvas = document.getElementById('stories-canvas');
+        const ctx = canvas.getContext('2d');
+        const stTitle = document.getElementById('st-title');
+        const stDesc = document.getElementById('st-desc');
+        const stContent = document.getElementById('story-text');
+        const pills = document.querySelectorAll('.story-pill');
+        const liftLetters = document.querySelectorAll('.lift-letter');
+
+        // OPTIMIZATION (Intersection Observer)
+        let isCanvasVisible = false;
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => isCanvasVisible = entry.isIntersecting);
+        });
+        observer.observe(document.querySelector('.stories-section'));
+
+        let width, height;
+        let particles = [];
+        const numParticles = 600;
+        let currentMode = 'editor';
+
+        // --- UPDATED PARTICLE CLASS (Wobble) ---
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.tx = this.x; // Target X
+                this.ty = this.y; // Target Y
+                
+                this.size = Math.random() * 2 + 1;
+                this.lerpSpeed = Math.random() * 0.05 + 0.02; 
+                
+                this.color = Math.random() > 0.8 ? '#4285F4' : '#ffffff';
+                this.alpha = Math.random() * 0.5 + 0.3;
+
+                // Floating Animation Props
+                this.angle = Math.random() * Math.PI * 2; 
+                this.wobbleSpeed = Math.random() * 0.02 + 0.01; 
+                this.wobbleRadius = Math.random() * 5 + 2; 
+            }
+
+            update() {
+                // 1. Move Anchor
+                this.x += (this.tx - this.x) * this.lerpSpeed;
+                this.y += (this.ty - this.y) * this.lerpSpeed;
+                
+                // 2. Wobble
+                this.angle += this.wobbleSpeed;
+                const renderX = this.x + Math.cos(this.angle) * this.wobbleRadius;
+                const renderY = this.y + Math.sin(this.angle) * this.wobbleRadius;
+
+                // 3. Draw
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(renderX, renderY, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // Shape Logic
+        function getTarget(mode, i) {
+            const t = i / numParticles; 
+            const cx = width / 2;
+            const cy = height / 2;
+            const scale = Math.min(width, height) * 0.35;
+
+            let x, y;
+
+            if (mode === 'editor') { // Rectangle
+                // Linear X, Sine Y
+                x = (t * width) - (width/2); 
+                y = Math.sin(x * 0.02) * scale * 0.5;
+                
+                // Add thickness/volume to the wave
+                y += (Math.random() - 0.5) * 40;
+            } 
+            else if (mode === 'context') { // Sine Waves
+                const xPos = (t * width) - (width/2); 
+                x = xPos;
+                if (i % 2 === 0) y = Math.sin(xPos * 0.015) * 50 - 30;
+                else y = Math.sin(xPos * 0.015 + 1) * 50 + 30;
+            }
+            else if (mode === 'trust') { // Triangle
+                const spread = width * 0.9;
+                x = (t - 0.5) * spread;
+                
+                // Amplitude is high in the center, low at edges (Bell curve envelope)
+                const distanceFromCenter = Math.abs(t - 0.5) * 2; // 0 (center) to 1 (edge)
+                const envelope = 1 - distanceFromCenter; // 1 (center) to 0 (edge)
+                
+                // High frequency noise modulated by envelope
+                // We use Math.sin with a very high multiplier to simulate noise
+                const noise = Math.sin(i * 132.5); 
+                y = noise * (scale * 0.8) * envelope;
+            }
+            else { // Checkmark
+                const xPos = (t * width) - (width/2); 
+                x = xPos;
+                if (i % 2 === 0) y = Math.sin(xPos * 0.015) * 50 - 30;
+                else y = Math.tan(xPos * 0.015 + 1) * 50 + 30;
+            }
+
+            return { x: cx + x + (Math.random()-0.5)*15, y: cy + y + (Math.random()-0.5)*15 };
+        }
+
+        function updateTargets() {
+            for(let i=0; i<numParticles; i++) {
+                const pos = getTarget(currentMode, i);
+                particles[i].tx = pos.x;
+                particles[i].ty = pos.y;
+            }
+        }
+
+        function switchStory(mode, btn) {
+            if(currentMode === mode) return;
+            currentMode = mode;
+            pills.forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            stContent.classList.add('fading');
+            setTimeout(() => {
+                stTitle.innerText = storiesData[mode].title;
+                stDesc.innerText = storiesData[mode].desc;
+                stContent.classList.remove('fading');
+            }, 300);
+            updateTargets();
+        }
+
+        function init() {
+            const display = document.querySelector('.story-display');
+            width = canvas.width = display.offsetWidth;
+            height = canvas.height = display.offsetHeight;
+            particles = [];
+            for(let i=0; i<numParticles; i++) particles.push(new Particle());
+            updateTargets();
+        }
+
+        function animate() {
+            // Navbar Logic
+            let st = window.scrollY;
+            if (st > lastScroll && st > 100) navElement.classList.add('nav-hidden');
+            else navElement.classList.remove('nav-hidden');
+            lastScroll = st;
+
+            // Canvas Animation (Only when visible)
+            if (isCanvasVisible) {
+                ctx.clearRect(0,0,width,height);
+                particles.forEach(p => p.update());
+            }
+
+            // Footer Animation
+            if (liftLetters.length > 0) {
+                const scrollPosition = window.scrollY + window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight;
+                const distFromBottom = documentHeight - scrollPosition;
+                
+                let liftRange = 400; 
+                let maxLift = -30;   
+
+                if (distFromBottom < liftRange) {
+                    let progress = 1 - (distFromBottom / liftRange);
+                    progress = Math.pow(Math.max(0, progress), 1.5);
+                    
+                    liftLetters.forEach((letter, index) => {
+                        let multiplier = (index + 1) / liftLetters.length; 
+                        let liftY = progress * maxLift * multiplier;
+                        letter.style.transform = `translateY(${liftY}px)`;
+                    });
+                } else {
+                    liftLetters.forEach(letter => letter.style.transform = `translateY(0px)`);
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', init);
+        setTimeout(() => { init(); animate(); }, 100);
+
+        // 3. MOBILE MENU LOGIC
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const mobileOverlay = document.querySelector('.mobile-menu-overlay');
+        const icon = mobileBtn.querySelector('i');
+        let isMenuOpen = false;
+
+        mobileBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if(isMenuOpen) {
+                mobileOverlay.classList.add('open');
+                icon.classList.remove('fa-bars'); icon.classList.add('fa-xmark');
+                lenis.stop();
+            } else {
+                mobileOverlay.classList.remove('open');
+                icon.classList.remove('fa-xmark'); icon.classList.add('fa-bars');
+                lenis.start();
+            }
+        });
+
+        document.querySelectorAll('.mobile-link, .mobile-btn').forEach(link => {
+            link.addEventListener('click', () => {
+                isMenuOpen = false; mobileOverlay.classList.remove('open');
+                icon.classList.remove('fa-xmark'); icon.classList.add('fa-bars');
+                lenis.start();
+            });
+        });
+
+    </script>
+</body>
+</html>

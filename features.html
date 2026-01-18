@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datawarp - Platform Capabilities</title>
+    <link rel="icon" type="image/png" href="colored_logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- LENIS SMOOTH SCROLL CSS -->
+    <style>
+        html.lenis, html.lenis body { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+        .lenis.lenis-scrolling iframe { pointer-events: none; }
+    </style>
+
+    <style>
+        /* --- RESET & BASICS --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa; 
+            color: #202124;
+            overflow-x: clip;
+            width: 100%;
+        }
+
+        /* --- CUSTOM NATIVE SCROLLBAR --- */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 10px; border: 3px solid transparent; background-clip: content-box; }
+        ::-webkit-scrollbar-thumb:hover { background-color: rgba(0,0,0,0.4); }
+
+        /* --- FIXED BACKGROUND CANVAS --- */
+        #background-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; 
+            pointer-events: none;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            height: 70px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        nav.nav-hidden { transform: translateY(-100%); }
+        .nav-left { display: flex; align-items: center; height: 100%; gap: 10px; }
+        .nav-logo { font-weight: 500; font-size: 18px; color: #5f6368; text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .nav-links { display: flex; height: 100%; align-items: center; }
+        .nav-item { position: relative; height: 100%; display: flex; align-items: center; margin-right: 4px; }
+        .nav-link { text-decoration: none; color: #5f6368; font-size: 14px; font-weight: 500; padding: 8px 12px; border-radius: 999px; transition: color 0.2s, background 0.2s; display: flex; align-items: center; gap: 6px; }
+        .nav-link:hover, .nav-item:hover .nav-link { color: #202124; background-color: rgba(0,0,0,0.05); }
+        .nav-link.active { color: #202124; font-weight: 600; }
+        .nav-btn { background-color: #000; color: #fff; padding: 10px 20px; border-radius: 999px; text-decoration: none; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 8px; transition: transform 0.2s; }
+        .nav-btn:hover { transform: scale(1.05); }
+
+        /* MEGA MENU */
+        .dropdown-menu { position: absolute; top: 100%; left: -20px; background: #fff; border: 1px solid #eaeaea; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1); padding: 24px; min-width: 550px; cursor: default; }
+        .nav-item:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .dropdown-content { display: flex; gap: 30px; }
+        .dropdown-left { width: 200px; flex-shrink: 0; padding-right: 20px; border-right: 1px solid #f1f3f4; }
+        .dropdown-left h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; color: #202124; line-height: 1.4; }
+        .dropdown-left p { font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 16px; }
+        .overview-link { font-size: 13px; color: #4285F4; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+        .dropdown-right { flex-grow: 1; display: flex; flex-direction: column; gap: 4px; }
+        .dropdown-item { display: flex; align-items: center; gap: 12px; text-decoration: none; padding: 8px 12px; border-radius: 8px; transition: background 0.2s; color: #5f6368; font-size: 14px; font-weight: 500; cursor: pointer; }
+        .dropdown-item:hover { background-color: #f8f9fa; color: #202124; }
+        .dropdown-item i.icon-left { width: 20px; text-align: center; color: #5f6368; font-size: 14px; }
+        .dropdown-item .arrow-right { margin-left: auto; font-size: 10px; opacity: 0; transform: translateX(-5px); transition: all 0.2s; }
+        .dropdown-item:hover .arrow-right { opacity: 1; transform: translateX(0); }
+
+        /* --- MOBILE MENU STYLES --- */
+        .mobile-menu-btn { display: none; }
+        .mobile-menu-overlay { 
+            display: none; 
+            position: fixed; 
+            top: 70px; 
+            left: 0; 
+            width: 100%; 
+            height: calc(100vh - 70px); 
+            background: rgba(255, 255, 255, 0.98); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        /* --- HERO HEADER --- */
+        .spec-hero {
+            position: relative;
+            padding-top: 200px; 
+            padding-bottom: 120px;
+            text-align: center;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        .spec-hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            font-size: 72px;
+            font-weight: 500;
+            letter-spacing: -2px;
+            line-height: 1.05;
+            color: #202124;
+            margin-bottom: 30px;
+        }
+
+        .hero-desc {
+            font-size: 20px;
+            color: #5f6368;
+            max-width: 600px;
+            margin: 0 auto 40px auto;
+            line-height: 1.6;
+        }
+
+        .contact-btn {
+            background-color: #000;
+            color: #fff;
+            padding: 16px 32px;
+            border-radius: 999px;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        .contact-btn:hover { transform: scale(1.05); }
+
+        /* --- SPEC TABLE (GLASSMORPHISM) --- */
+        .spec-container {
+            max-width: 1200px;
+            margin: 0 auto 120px auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .spec-zone { margin-bottom: 80px; }
+
+        .zone-header {
+            padding-bottom: 30px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #202124;
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+        }
+
+        .zone-number {
+            font-size: 14px;
+            font-weight: 700;
+            color: #4285F4;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .zone-title {
+            font-size: 32px;
+            font-weight: 500;
+            color: #202124;
+            letter-spacing: -1px;
+        }
+
+        .spec-row {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            padding: 32px;
+            margin-bottom: 8px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            transition: all 0.3s ease;
+        }
+
+        .spec-row:hover {
+            background: rgba(255, 255, 255, 0.85);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        .spec-name { font-size: 18px; font-weight: 600; color: #202124; padding-right: 40px; }
+        .spec-desc { font-size: 16px; line-height: 1.6; color: #5f6368; }
+
+        /* --- FOOTER CTA --- */
+        .bottom-cta-section {
+            text-align: center;
+            padding: 120px 20px;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid #eaeaea;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .bottom-cta-section h2 { font-size: 42px; margin-bottom: 24px; color: #202124; letter-spacing: -1px; }
+
+        /* --- FOOTER --- */
+        .site-footer { background-color: #fff; color: #202124; padding: 80px 40px 40px 40px; border-top: 1px solid #eaeaea; position: relative; z-index: 10; }
+        .footer-top { display: flex; justify-content: space-between; max-width: 1400px; margin: 0 auto 100px auto; }
+        .footer-brand { font-size: 32px; letter-spacing: -0.5px; }
+        .footer-nav { display: flex; gap: 100px; }
+        .nav-col h4 { font-size: 16px; font-weight: 600; margin-bottom: 24px; }
+        .nav-col a { display: block; text-decoration: none; color: #5f6368; margin-bottom: 16px; font-size: 15px; }
+        .nav-col a:hover { color: #4285F4; }
+        .footer-middle { text-align: left; border-bottom: 1px solid #dadce0; padding-bottom: 30px; }
+        .huge-text { font-size: 10vw; line-height: 0.8; font-weight: 500; letter-spacing: -0.04em; color: #1a1a1a; }
+        .lift-letter { display: inline-block; will-change: transform; transition: transform 0.1s linear; }
+        .footer-bottom { display: flex; justify-content: space-between; max-width: 1400px; margin: 40px auto 0 auto; color: #5f6368; }
+        .legal-links { display: flex; gap: 30px; }
+        .legal-links a { text-decoration: none; color: #5f6368; font-size: 14px; }
+
+        /* --- MOBILE OVERRIDES --- */
+        @media (max-width: 768px) {
+            h1 { font-size: 48px; }
+            .spec-hero { padding-top: 140px; padding-bottom: 80px; }
+            .hero-desc { font-size: 18px; }
+            
+            /* Navbar Mobile */
+            .nav-links, .desktop-only { display: none; }
+            .mobile-menu-btn { display: block; background: none; border: none; font-size: 24px; color: #202124; cursor: pointer; }
+            .mobile-menu-overlay { display: block; }
+            .mobile-menu-overlay.open { opacity: 1; pointer-events: all; }
+            .mobile-menu-content { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 30px; }
+            .mobile-link { font-size: 24px; font-weight: 500; color: #202124; text-decoration: none; }
+            .mobile-btn { background-color: #000; color: #fff; padding: 16px 40px; border-radius: 999px; font-size: 18px; font-weight: 600; text-decoration: none; margin-top: 20px; }
+
+            /* Spec Table Mobile */
+            .spec-row { grid-template-columns: 1fr; gap: 12px; padding: 24px; }
+            .spec-name { padding-right: 0; margin-bottom: 8px; font-size: 18px; color: #4285F4; /* Highlight name on mobile */ }
+            .spec-desc { font-size: 15px; }
+            
+            /* Footer Mobile */
+            .footer-top { flex-direction: column; gap: 40px; }
+            .footer-nav { gap: 50px; }
+            .huge-text { font-size: 22vw; }
+            .footer-bottom { flex-direction: column; gap: 20px; align-items: flex-start; }
+            .legal-links { flex-wrap: wrap; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ANIMATED BACKGROUND -->
+    <canvas id="background-canvas"></canvas>
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="nav-left">
+            <a href="index.html" class="nav-logo">
+                <img src="colored_logo.png" alt="Datawarp Logo" style="width: 30px;">
+                Datawarp
+            </a>
+            <div class="nav-links">
+                <div class="nav-item">
+                    <a href="product.html" class="nav-link">Product</a>
+                </div>
+                <!-- Mega Menu -->
+                <div class="nav-item">
+                    <a href="use_cases.html" class="nav-link">
+                        Use Cases <i class="fa-solid fa-chevron-down" style="font-size: 10px; margin-top: 2px;"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                            <div class="dropdown-left">
+                                <h3>Suitable for every security environment</h3>
+                                <p>See how Datawarp helps you work faster and more securely.</p>
+                                <a href="use_cases.html" class="overview-link">Read overview <i class="fa-solid fa-arrow-right" style="font-size: 10px;"></i></a>
+                            </div>
+                            <div class="dropdown-right">
+                                <a href="use_case_1.html" class="dropdown-item"><i class="fa-solid fa-share-nodes icon-left"></i><span>Banking</span><i class="fa-solid fa-chevron-right arrow-right"></i></a>
+                                <a href="use_case_2.html" class="dropdown-item"><i class="fa-solid fa-code icon-left"></i><span>Insurance</span><i class="fa-solid fa-chevron-right arrow-right"></i></a>
+                                <a href="use_case_3.html" class="dropdown-item"><i class="fa-solid fa-layer-group icon-left"></i><span>Government</span><i class="fa-solid fa-chevron-right arrow-right"></i></a>
+                                <a href="use_case_4.html" class="dropdown-item"><i class="fa-solid fa-shield-halved icon-left"></i><span>Healthcare</span><i class="fa-solid fa-chevron-right arrow-right"></i></a>
+                                <a href="use_case_5.html" class="dropdown-item"><i class="fa-solid fa-building icon-left"></i><span>Supply Chain</span><i class="fa-solid fa-chevron-right arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-item"><a href="features.html" class="nav-link active">Features</a></div>
+            </div>
+        </div>
+        
+        <!-- Desktop Button -->
+        <a href="contact.html" class="nav-btn desktop-only">Contact</a>
+
+        <!-- Mobile Button -->
+        <button class="mobile-menu-btn" aria-label="Open Menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <!-- Mobile Overlay -->
+        <div class="mobile-menu-overlay">
+            <div class="mobile-menu-content">
+                <a href="index.html" class="mobile-link">Home</a>
+                <a href="product.html" class="mobile-link">Product</a>
+                <a href="use_cases.html" class="mobile-link">Use Cases</a>
+                <a href="features.html" class="mobile-link">Features</a>
+                <a href="contact.html" class="mobile-btn">Contact Sales</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="spec-hero">
+        <div class="spec-hero-content">
+            <h1>The complete <br>Datawarp platform</h1>
+            <p class="hero-desc">Datawarp is sold as a comprehensive enterprise license. No per-user limits, no row caps, just pure sovereign performance.</p>
+            <a href="contact.html" class="contact-btn">Contact Sales</a>
+        </div>
+    </section>
+
+    <!-- SPEC TABLE -->
+    <div class="spec-container">
+        
+        <!-- ZONE 1 -->
+        <div class="spec-zone">
+            <div class="zone-header">
+                <div class="zone-number">1.</div>
+                <div class="zone-title">Visual Analytics & Reporting</div>
+            </div>
+            
+            <div class="spec-row">
+                <div class="spec-name">Viz Studio Pro</div>
+                <div class="spec-desc">A comprehensive visual builder that generates Bar, Line, Area, Scatter, and Heatmaps instantly. Includes advanced customization for colors, trendlines, and aggregations without exporting to Excel.</div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-name">Pivot Studio</div>
+                <div class="spec-desc">An aggregator that rivals enterprise BI tools. Perform cross-tabulation (Pivots) on 50GB datasets to calculate Sums, Averages, and Counts across millions of groups in seconds.</div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-name">The Analyst Notebook</div>
+                <div class="spec-desc">"Pin" charts, tables, and insights from any module into a central canvas. Add persistent notes and export the entire session as a PDF report for management review.</div>
+            </div>
+        </div>
+
+        <!-- ZONE 2 -->
+        <div class="spec-zone">
+            <div class="zone-header">
+                <div class="zone-number">2.</div>
+                <div class="zone-title">Data Engineering & Manipulation</div>
+            </div>
+            
+            <div class="spec-row">
+                <div class="spec-name">Interactive Spreadsheet Editor</div>
+                <div class="spec-desc">A revolutionary "Windowed Slicing" interface. Load and edit specific chunks (e.g., rows 10,000,000 to 10,005,000) of a massive file manually, then merge changes back to the master dataset without crashing RAM.</div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-name">Delta Analysis Engine</div>
+                <div class="spec-desc">Compare two datasets (e.g., "This Month" vs. "Last Month") side-by-side. Automatically identifies New Entries, Dropped Entries (Churn), and Variance % across millions of rows.</div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-name">Transformation Studio</div>
+                <div class="spec-desc">A suite of specialized transformers to merge similar text, extract patterns like Emails or Tax IDs from unstructured text or break timestamps into Fiscal Quarters, Weeks, and Days.</div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-name">Smart Auto-Clean</div>
+                <div class="spec-desc">Deterministic cleaning algorithms that instantly trim whitespace, fix casing, and impute missing values using statistical medians or modes.</div>
+            </div>
+        </div>
+
+        <!-- ZONE 3 -->
+        <div class="spec-zone">
+            <div class="zone-header">
+                <div class="zone-number">3.</div>
+                <div class="zone-title">Intelligence & AI</div>
+            </div>
+            
+            <div class="spec-row">
+                <div class="spec-name">AI Studio: Prediction & Clustering</div>
+                <div class="spec-desc">Train AI models locally to predict outcomes (like Loan Defaults) or run K-Means Clustering to segment customers based on behavior—all without cloud GPUs.</div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-name">"The Spider" (Link Analysis)</div>
+                <div class="spec-desc">A Force-Directed Graph engine. Visualizes hidden connections between distinct entities sharing metadata (e.g., 50 borrowers sharing 1 mobile number).</div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-name">NLP Text Miner</div>
+                <div class="spec-desc">Scans unstructured text columns (Remarks, Feedback) to extract top keywords and score sentiment (Positive/Negative) using a local dictionary-based engine.</div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-name">Time-Series Forecasting</div>
+                <div class="spec-desc">Projects future trends (Sales, Inventory, Cashflow) based on historical data using statistical forecasting models.</div>
+            </div>
+        </div>
+
+        <!-- ZONE 4 -->
+        <div class="spec-zone">
+            <div class="zone-header">
+                <div class="zone-number">4.</div>
+                <div class="zone-title">Forensic & Fraud Capabilities</div>
+            </div>
+            
+            <div class="spec-row">
+                <div class="spec-name">The Fraud Detection Engine</div>
+                <div class="spec-desc">A heuristic scanner pre-loaded with algorithms to detect Structuring (Smurfing: Transactions just below reporting limits.), Ghost Accounts (Active status but Zero volume), Mule Accounts (High velocity In/Out with negative float) and more.</div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-name">Manipulated Numbers Scanner</div>
+                <div class="spec-desc">Analyzes the leading digit distribution of financial figures to scientifically detect manually fabricated ("cooked") invoices or balances.</div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-name">Impact Assessor</div>
+                <div class="spec-desc">Quantifies the financial exposure of detected fraud. Calculates potential recovery amounts based on penalty rates and flagged transaction volumes.</div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-name">Risk Matrix</div>
+                <div class="spec-desc">A Scatter Plot visualization mapping Financial Impact (X) vs. Risk Probability (Y), helping auditors focus on the "High Value, High Risk" quadrant.</div>
+            </div>
+        </div>
+
+        <!-- ZONE 5 -->
+        <div class="spec-zone">
+            <div class="zone-header">
+                <div class="zone-number">5.</div>
+                <div class="zone-title">Power User Utilities</div>
+            </div>
+            
+            <div class="spec-row">
+                <div class="spec-name">SQL Console</div>
+                <div class="spec-desc">A raw SQL terminal allowing power users to write complex ANSI SQL queries. Supports uploading "Auxiliary Files" (e.g., Branch Master) to perform multi-table JOINs in memory.</div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-name">Rule Book Engine</div>
+                <div class="spec-desc">Define complex "If-This-Then-That" logic (e.g., Loan > 50k AND Score < 600) and save them as reusable Audit Rule Sets for continuous monitoring.</div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-name">Logic Tagger & Formula Builder</div>
+                <div class="spec-desc">Create new data points derived from existing ones (e.g., calculating Tax_Amount or Risk_Ratio) using a guided formula interface.</div>
+            </div>
+        </div>
+
+        <!-- ZONE 6 -->
+        <div class="spec-zone">
+            <div class="zone-header">
+                <div class="zone-number">6.</div>
+                <div class="zone-title">Governance & Architecture</div>
+            </div>
+            
+            <div class="spec-row">
+                <div class="spec-name">Air-Gapped Architecture</div>
+                <div class="spec-desc">Zero network I/O. The application runs entirely offline, ensuring sensitive data never leaves the physical device.</div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-name">Automated PII Shield</div>
+                <div class="spec-desc">Automatically detects and masks sensitive columns (Credit Cards, IDs) upon load, enabling "Blind Analysis" without exposing raw customer data.</div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-name">Reproducible Audit Trail</div>
+                <div class="spec-desc">Generates a Python script recording every step of the analysis. Ensures findings are scientifically reproducible and legally defensible.</div>
+            </div>
+            <div class="spec-row">
+                <div class="spec-name">DataWarp Academy</div>
+                <div class="spec-desc">An interactive, on-screen tutorial system that guides users through complex forensic workflows step-by-step.</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- BOTTOM CTA -->
+    <section class="bottom-cta-section">
+        <h2>Ready to secure your data workflow?</h2>
+        <div style="margin-top: 30px;">
+            <a href="contact.html" class="contact-btn">Request Enterprise Demo</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-top">
+            <div class="footer-brand">Experience data sovereignty</div>
+            <div class="footer-nav">
+                <div class="nav-col">
+                    <h4>Product</h4>
+                    <a href="index.html">Home</a><a href="product.html">Product</a><a href="features.html">Features</a><a href="use_cases.html">Use Cases</a>
+                </div>
+                <div class="nav-col">
+                    <h4>Resources</h4>
+                    <a href="contact.html">Contact</a><a href="mailto:boruahpriyanuj2004@gmail.com">Email</a><a href="https://www.linkedin.com/in/priyanuj-boruah/">Founder</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-middle">
+            <h1 class="huge-text">
+                Dataw<span class="lift-letter">a</span><span class="lift-letter">r</span><span class="lift-letter">p</span>
+            </h1>
+        </div>
+        <div class="footer-bottom">
+            <div class="google-logo">©2026 Datawarp | All Rights Reserved</div>
+            <div class="legal-links">
+                <a href="#">About Datawarp</a><a href="compliances.html">Compliant Standards</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- LENIS SCROLL -->
+    <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
+
+    <!-- LOGIC -->
+    <script>
+        // 1. SMOOTH SCROLL
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // 2. NAVBAR LOGIC
+        const navElement = document.querySelector('nav');
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            let st = window.scrollY;
+            if (st > lastScroll && st > 100) navElement.classList.add('nav-hidden');
+            else navElement.classList.remove('nav-hidden');
+            lastScroll = st;
+        });
+
+        // 3. BACKGROUND PARTICLES (AUTO-ANIMATE ON MOBILE)
+        const canvas = document.getElementById('background-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+        
+        const config = {
+            count: 70, distance: 180, radius: 150,
+            baseColor: 'rgba(66, 133, 244, 0.15)', dotColor: 'rgba(32, 33, 36, 0.2)'
+        };
+
+        let mouse = { x: null, y: null };
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width; this.y = Math.random() * height;
+                this.vx = (Math.random()-0.5)*0.5; this.vy = (Math.random()-0.5)*0.5;
+                this.size = Math.random()*2+1;
+            }
+            update() {
+                this.x+=this.vx; this.y+=this.vy;
+                if(this.x<0||this.x>width) this.vx*=-1; if(this.y<0||this.y>height) this.vy*=-1;
+
+                // MOBILE AUTO-ANIMATION LOGIC
+                let interactX = mouse.x;
+                let interactY = mouse.y;
+
+                if (window.innerWidth < 768) {
+                    const time = Date.now() * 0.001;
+                    interactX = (width/2) + Math.sin(time) * (width/3);
+                    interactY = (height/2) + Math.cos(time*1.3) * (height/4);
+                }
+
+                if(interactX != null){
+                    let dx=interactX-this.x, dy=interactY-this.y;
+                    let dist=Math.sqrt(dx*dx+dy*dy);
+                    if(dist<config.radius){
+                        let force=(config.radius-dist)/config.radius;
+                        this.x -= (dx/dist)*force*0.5; this.y -= (dy/dist)*force*0.5;
+                    }
+                }
+            }
+            draw() { ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2); ctx.fillStyle=config.dotColor; ctx.fill(); }
+        }
+
+        function initParticles() { particles=[]; for(let i=0;i<config.count;i++) particles.push(new Particle()); }
+        function resize() { width=canvas.width=window.innerWidth; height=canvas.height=window.innerHeight; initParticles(); }
+        
+        function animateCanvas() {
+            ctx.clearRect(0,0,width,height);
+            for(let i=0;i<particles.length;i++){
+                particles[i].update(); particles[i].draw();
+                for(let j=i;j<particles.length;j++){
+                    let dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y;
+                    let dist=Math.sqrt(dx*dx+dy*dy);
+                    if(dist<config.distance){
+                        ctx.beginPath();
+                        ctx.strokeStyle=`rgba(66, 133, 244, ${ (1-dist/config.distance)*0.2 })`;
+                        ctx.lineWidth=1; ctx.moveTo(particles[i].x,particles[i].y); ctx.lineTo(particles[j].x,particles[j].y); ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateCanvas);
+        }
+
+        window.addEventListener('mousemove', e => { mouse.x=e.clientX; mouse.y=e.clientY; });
+        window.addEventListener('resize', resize);
+        resize(); animateCanvas();
+
+        // 4. MOBILE MENU LOGIC
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const mobileOverlay = document.querySelector('.mobile-menu-overlay');
+        const icon = mobileBtn.querySelector('i');
+        let isMenuOpen = false;
+
+        mobileBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if(isMenuOpen) {
+                mobileOverlay.classList.add('open');
+                icon.classList.remove('fa-bars'); icon.classList.add('fa-xmark');
+                lenis.stop();
+            } else {
+                mobileOverlay.classList.remove('open');
+                icon.classList.remove('fa-xmark'); icon.classList.add('fa-bars');
+                lenis.start();
+            }
+        });
+
+        document.querySelectorAll('.mobile-link, .mobile-btn').forEach(link => {
+            link.addEventListener('click', () => {
+                isMenuOpen = false; mobileOverlay.classList.remove('open');
+                icon.classList.remove('fa-xmark'); icon.classList.add('fa-bars');
+                lenis.start();
+            });
+        });
+
+        // 5. FOOTER LIFT
+        const liftLetters = document.querySelectorAll('.lift-letter');
+        window.addEventListener('scroll', () => {
+            const sp = window.scrollY + window.innerHeight;
+            const dh = document.documentElement.scrollHeight;
+            if (dh - sp < 400) {
+                let p = Math.pow(1 - (dh - sp) / 400, 1.5);
+                liftLetters.forEach((l, i) => l.style.transform = `translateY(${p * -30 * ((i+1)/3)}px)`);
+            } else liftLetters.forEach(l => l.style.transform = `translateY(0px)`);
+        });
+
+    </script>
+</body>
+</html>

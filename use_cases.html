@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datawarp - Use Cases</title>
+    <link rel="icon" type="image/png" href="colored_logo.png">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- LENIS CSS -->
+    <style>
+        html.lenis, html.lenis body { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+        .lenis.lenis-scrolling iframe { pointer-events: none; }
+    </style>
+
+    <style>
+        /* --- RESET & BASICS --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #202124;
+            overflow-x: clip;
+            width: 100%;
+        }
+
+        /* --- CUSTOM NATIVE SCROLLBAR --- */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 10px; border: 3px solid transparent; background-clip: content-box; }
+        ::-webkit-scrollbar-thumb:hover { background-color: rgba(0,0,0,0.4); }
+
+        /* --- NAVIGATION --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            height: 70px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        nav.nav-hidden { transform: translateY(-100%); }
+
+        .nav-left { display: flex; align-items: center; height: 100%; gap: 10px; }
+        
+        .nav-logo { 
+            font-weight: 500; font-size: 18px; color: #5f6368; 
+            cursor: pointer; text-decoration: none; margin-right: 20px;
+            display: flex; align-items: center; gap: 8px;
+        }
+
+        .nav-links { display: flex; height: 100%; align-items: center; }
+        .nav-item { position: relative; height: 100%; display: flex; align-items: center; margin-right: 4px; }
+        
+        .nav-link {
+            text-decoration: none; color: #5f6368; font-size: 14px; font-weight: 500;
+            padding: 8px 12px; border-radius: 999px; transition: color 0.2s, background 0.2s;
+            display: flex; align-items: center; gap: 6px;
+        }
+        
+        .nav-link.active-parent { color: #202124; font-weight: 600; }
+        .nav-link:hover, .nav-item:hover .nav-link { color: #202124; background-color: #f1f3f4; }
+
+        .nav-btn { 
+            background-color: #000; color: #fff; padding: 10px 20px; 
+            border-radius: 999px; text-decoration: none; font-size: 14px; font-weight: 500; 
+            display: flex; align-items: center; gap: 8px; transition: transform 0.2s;
+        }
+        .nav-btn:hover { transform: scale(1.05); }
+
+        /* --- DROPDOWN MENU STYLES --- */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: -20px;
+            background: #fff;
+            border: 1px solid #eaeaea;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+            padding: 24px;
+            min-width: 550px;
+            cursor: default;
+        }
+
+        .nav-item:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .dropdown-content { display: flex; gap: 30px; }
+        .dropdown-left { width: 200px; flex-shrink: 0; padding-right: 20px; border-right: 1px solid #f1f3f4; }
+        .dropdown-left h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; color: #202124; line-height: 1.4; }
+        .dropdown-left p { font-size: 13px; color: #5f6368; line-height: 1.5; margin-bottom: 16px; }
+        .overview-link { font-size: 13px; color: #4285F4; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+        .overview-link:hover { text-decoration: underline; }
+        .dropdown-right { flex-grow: 1; display: flex; flex-direction: column; gap: 4px; }
+        .dropdown-item {
+            display: flex; align-items: center; gap: 12px; text-decoration: none;
+            padding: 8px 12px; border-radius: 8px; transition: background 0.2s;
+            color: #5f6368; font-size: 14px; font-weight: 500; cursor: pointer;
+        }
+        .dropdown-item:hover { background-color: #f8f9fa; color: #202124; }
+        .dropdown-item i.icon-left { width: 20px; text-align: center; color: #5f6368; font-size: 14px; }
+        .dropdown-item:hover i.icon-left { color: #202124; }
+        .dropdown-item .arrow-right { margin-left: auto; font-size: 10px; opacity: 0; transform: translateX(-5px); transition: all 0.2s; }
+        .dropdown-item:hover .arrow-right { opacity: 1; transform: translateX(0); }
+
+        /* --- MOBILE MENU STYLES --- */
+        .mobile-menu-btn { display: none; }
+        .mobile-menu-overlay { 
+            display: none; 
+            position: fixed; 
+            top: 70px; 
+            left: 0; 
+            width: 100%; 
+            height: calc(100vh - 70px); 
+            background: rgba(255, 255, 255, 0.98); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        /* --- HERO SECTION --- */
+        .usecase-hero {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        /* CANVAS */
+        #morph-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* CONTENT */
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 600px;
+            padding: 0 20px;
+            transition: opacity 0.3s ease;
+            opacity: 1;
+            /* Subtle radial gradient to ensure text readability over particles */
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%); 
+        }
+
+        .hero-content.fading { opacity: 0; }
+
+        h1 {
+            font-size: 56px;
+            font-weight: 500;
+            letter-spacing: -1.5px;
+            margin-bottom: 24px;
+            color: #202124;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #5f6368;
+            margin-bottom: 40px;
+        }
+
+        .explore-btn {
+            background-color: #000;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .explore-btn:hover { transform: scale(1.05); }
+
+        /* --- SWITCHER (BOTTOM) --- */
+        .switcher-container {
+            position: absolute;
+            bottom: 50px;
+            z-index: 20;
+            background: #fff;
+            padding: 6px;
+            border: 1px solid #dadce0;
+            border-radius: 100px;
+            display: flex;
+            gap: 5px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            max-width: 90%;
+            overflow-x: auto; /* Enable horizontal scroll on mobile */
+            -ms-overflow-style: none; scrollbar-width: none;
+        }
+        .switcher-container::-webkit-scrollbar { display: none; }
+
+        .switch-btn {
+            background: transparent;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #5f6368;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            white-space: nowrap; /* Keep buttons on one line */
+        }
+
+        .switch-btn i { font-size: 12px; }
+        .switch-btn:hover { background-color: #f1f3f4; }
+        .switch-btn.active { background-color: #202124; color: #fff; }
+
+
+        /* --- FOOTER SECTION --- */
+        .site-footer {
+            background-color: #fff;
+            color: #202124;
+            padding: 80px 40px 40px 40px;
+            position: relative;
+            z-index: 10;
+            border-top: 1px solid #eaeaea;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            max-width: 1400px;
+            margin: 0 auto 100px auto;
+        }
+
+        .footer-brand { font-size: 32px; font-weight: 400; letter-spacing: -0.5px; }
+        .footer-nav { display: flex; gap: 100px; }
+        .nav-col h4 { font-size: 16px; font-weight: 600; margin-bottom: 24px; color: #202124; }
+        .nav-col a { display: block; text-decoration: none; color: #5f6368; margin-bottom: 16px; font-size: 15px; transition: color 0.2s; }
+        .nav-col a:hover { color: #4285F4; }
+
+        .footer-middle {
+            text-align: left;
+            border-bottom: 1px solid #dadce0;
+            overflow: hidden;
+            padding-bottom: 30px;
+            padding-top: 30px;
+        }
+
+        .huge-text {
+            font-size: 10vw;
+            line-height: 0.8;
+            font-weight: 500;
+            letter-spacing: -0.04em;
+            margin: 0;
+            color: #1a1a1a;
+            user-select: none;
+        }
+
+        .lift-letter {
+            display: inline-block;
+            will-change: transform;
+            transition: transform 0.1s linear; 
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 40px auto 0 auto;
+            color: #5f6368;
+        }
+
+        .google-logo { font-size: 14px; font-weight: 500; color: #5f6368; letter-spacing: -0.5px; }
+        .legal-links { display: flex; gap: 30px; }
+        .legal-links a { text-decoration: none; color: #5f6368; font-size: 14px; }
+        .legal-links a:hover { color: #202124; }
+
+        /* --- MOBILE OVERRIDES --- */
+        @media (max-width: 768px) {
+            h1 { font-size: 48px; }
+            .switcher-container { bottom: 20px; padding: 4px; width: 95%; }
+            .switch-btn { padding: 8px 16px; font-size: 13px; }
+            
+            /* Navbar Mobile */
+            .nav-links, .desktop-only { display: none; }
+            .mobile-menu-btn { display: block; background: none; border: none; font-size: 24px; color: #202124; cursor: pointer; }
+            .mobile-menu-overlay { display: block; }
+            .mobile-menu-overlay.open { opacity: 1; pointer-events: all; }
+            .mobile-menu-content { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 30px; }
+            .mobile-link { font-size: 24px; font-weight: 500; color: #202124; text-decoration: none; }
+            .mobile-btn { background-color: #000; color: #fff; padding: 16px 40px; border-radius: 999px; font-size: 18px; font-weight: 600; text-decoration: none; margin-top: 20px; }
+
+            /* Footer Mobile */
+            .footer-top { flex-direction: column; gap: 40px; }
+            .footer-nav { gap: 50px; }
+            .huge-text { font-size: 22vw; }
+            .footer-bottom { flex-direction: column; gap: 20px; align-items: flex-start; }
+            .legal-links { flex-wrap: wrap; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-left">
+            <a href="index.html" class="nav-logo">
+                <img src="colored_logo.png" alt="Datawarp Logo" style="width: 30px;">
+                Datawarp
+            </a>
+            
+            <div class="nav-links">
+                <div class="nav-item">
+                    <a href="product.html" class="nav-link">Product</a>
+                </div>
+                
+                <!-- USE CASES DROPDOWN -->
+                <div class="nav-item">
+                    <a href="use_cases.html" class="nav-link active-parent">
+                        Use Cases <i class="fa-solid fa-chevron-down" style="font-size: 10px; margin-top: 2px;"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                            <div class="dropdown-left">
+                                <h3>Effective for every type of builder</h3>
+                                <p>See how Datawarp helps you build faster and more securely.</p>
+                                <a href="use_cases.html" class="overview-link">Read overview <i class="fa-solid fa-arrow-right" style="font-size: 10px;"></i></a>
+                            </div>
+                            <div class="dropdown-right">
+                                <a href="use_case_1.html" class="dropdown-item">
+                                    <i class="fa-solid fa-share-nodes icon-left"></i><span>Banking</span><i class="fa-solid fa-chevron-right arrow-right"></i>
+                                </a>
+                                <a href="use_case_2.html" class="dropdown-item">
+                                    <i class="fa-solid fa-code icon-left"></i><span>Insurance</span><i class="fa-solid fa-chevron-right arrow-right"></i>
+                                </a>
+                                <a href="use_case_3.html" class="dropdown-item">
+                                    <i class="fa-solid fa-layer-group icon-left"></i><span>Government</span><i class="fa-solid fa-chevron-right arrow-right"></i>
+                                </a>
+                                <a href="use_case_4.html" class="dropdown-item">
+                                    <i class="fa-solid fa-shield-halved icon-left"></i><span>Healthcare</span><i class="fa-solid fa-chevron-right arrow-right"></i>
+                                </a>
+                                <a href="use_case_5.html" class="dropdown-item">
+                                    <i class="fa-solid fa-building icon-left"></i><span>Supply Chain</span><i class="fa-solid fa-chevron-right arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nav-item"><a href="features.html" class="nav-link">Features</a></div>
+            </div>
+        </div>
+        
+        <!-- Desktop Button -->
+        <a href="contact.html" class="nav-btn desktop-only">Contact</a>
+
+        <!-- Mobile Button -->
+        <button class="mobile-menu-btn" aria-label="Open Menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <!-- Mobile Overlay -->
+        <div class="mobile-menu-overlay">
+            <div class="mobile-menu-content">
+                <a href="index.html" class="mobile-link">Home</a>
+                <a href="product.html" class="mobile-link">Product</a>
+                <a href="use_cases.html" class="mobile-link">Use Cases</a>
+                <a href="features.html" class="mobile-link">Features</a>
+                <a href="contact.html" class="mobile-btn">Contact Sales</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="usecase-hero">
+        
+        <!-- Morphing Background -->
+        <canvas id="morph-canvas"></canvas>
+
+        <!-- Dynamic Content -->
+        <div class="hero-content" id="text-container">
+            <h1 id="uc-title">Banking & Finance</h1>
+            <p id="uc-desc">Built for Financial Integrity. The zero-trust architecture creates a secure, air-gapped perimeter for analyzing high-velocity transaction logs without network exposure.</p>
+            
+            <!-- Link to specific use case -->
+            <a id="explore-link" href="use_case_1.html" class="explore-btn">Explore use case</a>
+        </div>
+
+        <!-- Switcher (5 Items) -->
+        <div class="switcher-container">
+            <button class="switch-btn active" onclick="switchMode('orchestration', this)">
+                <i class="fa-solid fa-share-nodes"></i> Banking
+            </button>
+            <button class="switch-btn" onclick="switchMode('frontend', this)">
+                <i class="fa-solid fa-code"></i> Insurance
+            </button>
+            <button class="switch-btn" onclick="switchMode('fullstack', this)">
+                <i class="fa-solid fa-layer-group"></i> Government
+            </button>
+            <button class="switch-btn" onclick="switchMode('security', this)">
+                <i class="fa-solid fa-shield-halved"></i> Healthcare
+            </button>
+            <button class="switch-btn" onclick="switchMode('enterprise', this)">
+                <i class="fa-solid fa-building"></i> Supply Chain
+            </button>
+        </div>
+
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-top">
+            <div class="footer-brand">Experience data sovereignty</div>
+            <div class="footer-nav">
+                <div class="nav-col">
+                    <h4>Product</h4>
+                    <a href="index.html">Home</a><a href="product.html">Product</a><a href="features.html">Features</a><a href="use_cases.html">Use Cases</a>
+                </div>
+                <div class="nav-col">
+                    <h4>Resources</h4>
+                    <a href="contact.html">Contact</a><a href="mailto:boruahpriyanuj2004@gmail.com">Email</a><a href="https://www.linkedin.com/in/priyanuj-boruah/">Founder</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-middle">
+            <h1 class="huge-text">
+                Dataw<span class="lift-letter">a</span><span class="lift-letter">r</span><span class="lift-letter">p</span>
+            </h1>
+        </div>
+        <div class="footer-bottom">
+            <div class="google-logo">©2026 Datawarp | All Rights Reserved</div>
+            <div class="legal-links">
+                <a href="#">About Datawarp</a><a href="compliances.html">Compliant Standards</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- LENIS SCRIPT -->
+    <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script> 
+
+    <!-- JS Logic -->
+    <script>
+        // ============================================
+        // 1. SMOOTH SCROLL (LENIS)
+        // ============================================
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // ============================================
+        // 2. NAV & SETUP
+        // ============================================
+        const navElement = document.querySelector('nav');
+        let lastScroll = 0;
+
+        // --- DATA ---
+        const contentData = {
+            orchestration: { 
+                title: "Banking & Finance",
+                desc: "Built for Financial Integrity. The zero-trust architecture creates a secure, air-gapped perimeter for analyzing high-velocity transaction logs without network exposure.",
+                link: "use_case_1.html"
+            },
+            frontend: { 
+                title: "Insurance & Claims",
+                desc: "Built for Detection. The graph-native architecture allows you to isolate and expose complex fraud syndicates across millions of claims without compromising PII.",
+                link: "use_case_2.html"
+            },
+            fullstack: { 
+                title: "Government & Tax",
+                desc: "Built for Sovereignty. The offline-first design guarantees citizen data never leaves government hardware while auditing massive tax ledgers for revenue leakage.",
+                link: "use_case_3.html"
+            },
+            security: { 
+                title: "Healthcare & Pharma",
+                desc: "Built for Privacy. The automatic PII Shield creates a secure, HIPAA-compliant enclave for revenue integrity auditing without exposing raw patient identities.",
+                link: "use_case_4.html"
+            },
+            enterprise: { 
+                title: "Retail & Supply Chain",
+                desc: "Built for Volume. The memory-efficient architecture allows you to reconcile millions of SKU movements against invoices within a strictly isolated audit environment.",
+                link: "use_case_5.html"
+            }
+        };
+
+        // --- ELEMENTS ---
+        const canvas = document.getElementById('morph-canvas');
+        const ctx = canvas.getContext('2d');
+        const titleEl = document.getElementById('uc-title');
+        const descEl = document.getElementById('uc-desc');
+        const exploreLink = document.getElementById('explore-link');
+        const textContainer = document.getElementById('text-container');
+        const switchBtns = document.querySelectorAll('.switch-btn');
+        const liftLetters = document.querySelectorAll('.lift-letter');
+
+        // OPTIMIZATION (Intersection Observer)
+        let isHeroVisible = true;
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => isHeroVisible = entry.isIntersecting);
+        });
+        observer.observe(document.querySelector('.usecase-hero'));
+
+        let width, height;
+        let particles = [];
+        const numParticles = 1000;
+        const particleColor = '#4285F4'; 
+        let currentMode = 'orchestration';
+
+        // --- PARTICLE CLASS ---
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.tx = this.x;
+                this.ty = this.y;
+                this.size = Math.random() * 2 + 1;
+                this.ease = Math.random() * 0.05 + 0.02;
+                this.angle = Math.random() * Math.PI * 2;
+                this.noiseRadius = Math.random() * 5 + 2;
+                this.noiseSpeed = Math.random() * 0.02 + 0.01;
+            }
+
+            update() {
+                this.x += (this.tx - this.x) * this.ease;
+                this.y += (this.ty - this.y) * this.ease;
+                
+                // Add noise/float
+                this.angle += this.noiseSpeed;
+                
+                // On mobile, increase movement slightly so it's visible without interaction
+                const mobileFactor = (window.innerWidth < 768) ? 2 : 1; 
+                
+                const nx = Math.cos(this.angle) * (this.noiseRadius * mobileFactor);
+                const ny = Math.sin(this.angle) * (this.noiseRadius * mobileFactor);
+                
+                ctx.beginPath();
+                ctx.arc(this.x + nx, this.y + ny, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = particleColor;
+                ctx.fill();
+            }
+        }
+
+        // --- SHAPE LOGIC ---
+        function getSquarePerimeterPoint(radius, progress) {
+            let sx, sy;
+            if (progress < 0.25) { // Top
+                let p = progress / 0.25; 
+                sx = -radius + (p * 2 * radius); sy = -radius;
+            } else if (progress < 0.5) { // Right
+                let p = (progress - 0.25) / 0.25;
+                sx = radius; sy = -radius + (p * 2 * radius);
+            } else if (progress < 0.75) { // Bottom
+                let p = (progress - 0.5) / 0.25;
+                sx = radius - (p * 2 * radius); sy = radius;
+            } else { // Left
+                let p = (progress - 0.75) / 0.25;
+                sx = -radius; sy = radius - (p * 2 * radius);
+            }
+            return { x: sx, y: sy };
+        }
+
+        function getShapePosition(type, t) {
+            const scale = Math.min(width, height) * (window.innerWidth < 768 ? 0.30 : 0.35); // Smaller on mobile
+            const angle = t * Math.PI * 2;
+            let x = 0, y = 0;
+
+            if (type === 'orchestration') { // 3 Circles
+                const rSmall = scale * 0.25; 
+                const offset = scale * 0.45; 
+                let cx, cy;
+                if (t < 0.33) { cx = 0; cy = -offset; } 
+                else if (t < 0.66) { cx = offset * Math.cos(Math.PI/6); cy = offset * Math.sin(Math.PI/6); } 
+                else { cx = -offset * Math.cos(Math.PI/6); cy = offset * Math.sin(Math.PI/6); }
+                const localAngle = (t * 3) * Math.PI * 2;
+                x = cx + rSmall * Math.cos(localAngle); y = cy + rSmall * Math.sin(localAngle);
+            }
+            else if (type === 'frontend') { // Ring
+                const r = scale * 0.8 + (Math.random() * 30); 
+                x = r * Math.cos(angle); y = r * Math.sin(angle);
+            } 
+            else if (type === 'fullstack') { // Infinity
+                const a = scale * 1.5; const denom = 1 + Math.pow(Math.sin(angle), 2);
+                x = (a * Math.cos(angle)) / denom; y = (a * Math.sin(angle) * Math.cos(angle)) / denom;
+            }
+            else if (type === 'security') { // Plus
+                const armLength = scale * 0.9; const thickness = 40; 
+                if (t < 0.5) { let p = t * 2; x = -armLength + (p * 2 * armLength); y = (Math.random() - 0.5) * thickness; } 
+                else { let p = (t - 0.5) * 2; x = (Math.random() - 0.5) * thickness; y = -armLength + (p * 2 * armLength); }
+            }
+            else if (type === 'enterprise') { // Two Squares
+                const outerR = scale * 0.7; const innerR = scale * 0.3;
+                if (t < 0.6) {
+                    let p = t / 0.6; const point = getSquarePerimeterPoint(outerR, p); x = point.x; y = point.y;
+                } else {
+                    let p = (t - 0.6) / 0.4; const point = getSquarePerimeterPoint(innerR, p); x = point.x; y = point.y;
+                }
+                x += (Math.random() - 0.5) * 5; y += (Math.random() - 0.5) * 5;
+            }
+            return { x: width/2 + x, y: height/2 + y };
+        }
+
+        // --- CORE FUNCTIONS ---
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < numParticles; i++) particles.push(new Particle());
+            updateTargets(currentMode);
+        }
+
+        function updateTargets(mode) {
+            for (let i = 0; i < numParticles; i++) {
+                const t = i / numParticles; 
+                const pos = getShapePosition(mode, t);
+                let scatter = 15;
+                if (mode === 'enterprise' || mode === 'security') scatter = 5;
+                particles[i].tx = pos.x + (Math.random() - 0.5) * scatter;
+                particles[i].ty = pos.y + (Math.random() - 0.5) * scatter;
+            }
+        }
+
+        function switchMode(mode, btnElement) {
+            if (currentMode === mode) return;
+            currentMode = mode;
+
+            switchBtns.forEach(btn => btn.classList.remove('active'));
+            if (btnElement) btnElement.classList.add('active');
+
+            textContainer.classList.add('fading');
+            
+            setTimeout(() => {
+                // Update Text
+                titleEl.textContent = contentData[mode].title;
+                descEl.textContent = contentData[mode].desc;
+                
+                // Update Link HREF dynamically
+                exploreLink.href = contentData[mode].link;
+
+                textContainer.classList.remove('fading');
+            }, 300);
+
+            updateTargets(mode);
+        }
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            updateTargets(currentMode);
+        }
+
+        // --- ANIMATION LOOP ---
+        function animate() {
+            // Navbar Logic
+            let st = window.scrollY;
+            if (st > lastScroll && st > 100) navElement.classList.add('nav-hidden');
+            else navElement.classList.remove('nav-hidden');
+            lastScroll = st;
+
+            // Canvas Logic
+            if (isHeroVisible) {
+                ctx.clearRect(0, 0, width, height);
+                particles.forEach(p => p.update());
+            }
+
+            // Footer Lift Logic
+            if (liftLetters.length > 0) {
+                const scrollPosition = window.scrollY + window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight;
+                const distFromBottom = documentHeight - scrollPosition;
+                
+                let liftRange = 400; 
+                let maxLift = -60;   
+
+                if (distFromBottom < liftRange) {
+                    let progress = 1 - (distFromBottom / liftRange);
+                    progress = Math.pow(Math.max(0, progress), 1.5);
+                    
+                    liftLetters.forEach((letter, index) => {
+                        let multiplier = (index + 1) / liftLetters.length; 
+                        let liftY = progress * maxLift * multiplier;
+                        letter.style.transform = `translateY(${liftY}px)`;
+                    });
+                } else {
+                    liftLetters.forEach(letter => letter.style.transform = `translateY(0px)`);
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        // --- INIT ---
+        window.addEventListener('resize', resize);
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        initParticles();
+        animate();
+
+        // 3. MOBILE MENU LOGIC
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const mobileOverlay = document.querySelector('.mobile-menu-overlay');
+        const icon = mobileBtn.querySelector('i');
+        let isMenuOpen = false;
+
+        mobileBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if(isMenuOpen) {
+                mobileOverlay.classList.add('open');
+                icon.classList.remove('fa-bars'); icon.classList.add('fa-xmark');
+                lenis.stop();
+            } else {
+                mobileOverlay.classList.remove('open');
+                icon.classList.remove('fa-xmark'); icon.classList.add('fa-bars');
+                lenis.start();
+            }
+        });
+
+        document.querySelectorAll('.mobile-link, .mobile-btn').forEach(link => {
+            link.addEventListener('click', () => {
+                isMenuOpen = false; mobileOverlay.classList.remove('open');
+                icon.classList.remove('fa-xmark'); icon.classList.add('fa-bars');
+                lenis.start();
+            });
+        });
+
+    </script>
+</body>
+</html>
